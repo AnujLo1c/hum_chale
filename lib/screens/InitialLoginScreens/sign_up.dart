@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 class SignUp extends StatefulWidget {
+  static var routeName;
   const SignUp({super.key});
 
   @override
@@ -13,7 +14,7 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         title: Text("Hum Chale",style: TextStyle(fontSize: 24),),
       ),
-      body: Placeholder(),
+      body: Container(),
     ));
   }
 }

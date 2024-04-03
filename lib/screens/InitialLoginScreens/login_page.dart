@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
 import 'package:flutter/widgets.dart';
+import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:rive/rive.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -323,7 +324,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(
                     height: 36,
-                    child: TextButton(onPressed: (){},
+                    child: TextButton(onPressed: ()=> Navigator.pushNamed(context,LoginPage.routeName),
                         child: Text("Sign Up",style: TextStyle(color: Colors.grey,fontSize: 16,),)
                     ),
                   )
@@ -338,29 +339,3 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-/////
-// Future<bool> Checkuserclass()async{
-//   print("checking user class");
-//   CollectionReference cref = FirebaseFirestore.instance.collection(
-//       "studentids");
-//   bool ds = await cref.doc(_controlleremail.text).get().then((value){
-//     if(value.exists){
-//       var dsdata = value.get("ClassName");
-//
-//       String cname=Provider.of<Classname_provider>(context,listen: false).classname;
-//       print(cname);
-//       print(dsdata);
-//       if(dsdata != cname){
-//         return false;
-//       }
-//       else{
-//         return true;
-//       }
-//     }else{
-//       return false;
-//     }
-//   }
-//   );
-//   return ds;
-}

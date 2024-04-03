@@ -10,7 +10,7 @@
 .svn/
 migrate_working_dir/
 #restrict files
-/firebase/firebase_options.dart
+lib/firebase/firebase_options.dart
 # IntelliJ related
 *.iml
 *.ipr

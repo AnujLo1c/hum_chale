@@ -41,6 +41,7 @@ dependencies:
   rive: ^0.13.1
   gradient_borders: ^1.0.0
   google_fonts: ^6.2.1
+  gap: ^3.0.1
 
 dev_dependencies:
   flutter_test:

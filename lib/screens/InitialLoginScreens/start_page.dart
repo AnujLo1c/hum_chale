@@ -9,9 +9,9 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  // precacheImage(AssetImage("assets/start-page.jpg"), context);
   @override
   Widget build(BuildContext context) {
+  precacheImage(AssetImage("assets/images/start-page.jpg"), context);
     final Size screenSize = MediaQuery.of(context).size;
 
     return SafeArea(

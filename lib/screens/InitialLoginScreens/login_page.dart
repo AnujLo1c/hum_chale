@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
 import 'package:flutter/widgets.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
+import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:rive/rive.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
@@ -107,7 +108,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size=MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       backgroundColor: const Color(0xFF4FC3DC),
       resizeToAvoidBottomInset: true,
@@ -131,27 +134,27 @@ class _LoginPageState extends State<LoginPage> {
                               fontFamily: 'Playfair Display',
                             ),
                             children: [
-                          TextSpan(
-                              text: "Let's enjoy the\n",
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                              )),
-                          TextSpan(
-                              text: "Beautiful\nWorld",
-                              style: TextStyle(fontSize: 45))
-                        ])),
+                              TextSpan(
+                                  text: "Let's enjoy the\n",
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                  )),
+                              TextSpan(
+                                  text: "Beautiful\nWorld",
+                                  style: TextStyle(fontSize: 45))
+                            ])),
                   ),
 
                   SizedBox(
-                    width: size.width-225,
+                    width: size.width - 225,
                     height: 150,
                     child: Align(
                       alignment: Alignment.topRight,
                       child: Container(
                         height: 50,
                         width: 50,
-                    margin: const EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         padding: const EdgeInsets.all(3),
                         decoration: const BoxDecoration(
                             color: Colors.white, shape: BoxShape.circle),
@@ -215,11 +218,14 @@ class _LoginPageState extends State<LoginPage> {
                       focusNode: emailFocusNode,
                       controller: _controlleremail,
                       decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Email",
+                          border: InputBorder.none,
+                          hintText: "Email",
                           hintStyle: TextStyle(fontSize: 18)
                       ),
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium,
                       onChanged: (value) {
                         numLook?.change(value.length.toDouble());
                       },
@@ -247,12 +253,15 @@ class _LoginPageState extends State<LoginPage> {
                       focusNode: passwordFocusNode,
                       controller: _controllerpass,
                       decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Password",
+                          border: InputBorder.none,
+                          hintText: "Password",
                           hintStyle: TextStyle(fontSize: 18)
                       ),
                       obscureText: true,
-                      style: Theme.of(context).textTheme.bodyMedium,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium,
                       onChanged: (value) {},
                     ),
                   ),
@@ -272,7 +281,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width,
                     height: 54,
                     child: ElevatedButton(
                       onPressed: () {
@@ -280,6 +292,7 @@ class _LoginPageState extends State<LoginPage> {
                         emailFocusNode.unfocus();
                         passwordFocusNode.unfocus();
                         // isLogin? signInWithEandP() : createUserWithEandP();
+                        Navigator.pushNamed(context, Explore.routeName);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4FC3DC),
@@ -304,38 +317,40 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       children: [
                         SizedBox(
-                          width: (size.width/3)-10,
+                          width: (size.width / 3) - 10,
                         ),
                         const SizedBox(
                             width: 20,
-                            child: Divider(thickness: 3,color: Colors.black,)
+                            child: Divider(thickness: 3, color: Colors.black,)
                         ),
                         Container(
                           alignment: Alignment.center,
                           width: 40,
-                          child: const Text("or",style: TextStyle(fontSize: 18,),),
+                          child: const Text("or", style: TextStyle(
+                            fontSize: 18,),),
                         ),
                         const SizedBox(
                             width: 20,
-                            child: Divider(thickness: 3,color: Colors.black,)
+                            child: Divider(thickness: 3, color: Colors.black,)
                         ),
                       ],
                     ),
                   ),
                   SizedBox(
                     height: 36,
-                    child: TextButton(onPressed: ()=> Navigator.pushNamed(context,LoginPage.routeName),
-                        child: Text("Sign Up",style: TextStyle(color: Colors.grey,fontSize: 16,),)
+                    child: TextButton(onPressed: () =>
+                        Navigator.pushNamed(context, SignUp.routeName),
+                        child: Text("Sign Up",
+                          style: TextStyle(color: Colors.grey, fontSize: 16,),)
                     ),
                   )
                 ],
 
 
-                
               ),
             ),
           ],
         ),
       ),
     );
-  }
+  }}

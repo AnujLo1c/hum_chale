@@ -3,7 +3,8 @@ class AppTheme{
    static ThemeData get MyThemeData=>ThemeData(
     useMaterial3: true,
     primaryColor: const Color(0xFF4FC3DC),
-   scaffoldBackgroundColor: Color(0xFFD3F7FF),
+   // scaffoldBackgroundColor: Color(0xFFD3F7FF),
+   scaffoldBackgroundColor: const Color(0xFFFFFFFF),
 
     buttonTheme: const ButtonThemeData(
       buttonColor: Colors.white,

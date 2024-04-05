@@ -5,6 +5,7 @@ import 'package:hum_chale/screens/InitialLoginScreens/splash_screen.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/screens/trip_booking/trip_booking_home.dart';
+import 'package:hum_chale/ui/app_theme.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -20,10 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hum Chale',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.MyThemeData,
       routes: {
     SplashScreen.routeName:(context)=>const SplashScreen(),
     StartPage.routeName:(context)=>const StartPage(),

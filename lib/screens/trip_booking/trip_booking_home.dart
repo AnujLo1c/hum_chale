@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hum_chale/widget/custom_bottom_nav.dart';
 import 'package:hum_chale/models/menu.dart';
+import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:rive/rive.dart';
 class TripBookingHome extends StatefulWidget {
   static var routeName = "trip-booking-home";
@@ -25,58 +25,59 @@ class _TripBookingHomeState extends State<TripBookingHome> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      bottomNavigationBar: Container(
-        height: 75,
-        padding: const EdgeInsets.all(16),
-        margin: const EdgeInsets.symmetric(horizontal: 30,vertical: 5),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white,width: 2),
-            color: const Color(0xFFD3F7FF).withOpacity(0.5),
-            borderRadius: const BorderRadius.all(Radius.circular(24)),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0xFF4FC3DC).withOpacity(0.3),
-                offset: const Offset(0,20),
-                blurRadius: 20,
-              )
-            ]
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(bottomNavItems.length,
-                  (index) {
-            final riveIcon=bottomNavItems[index].rive;
-            return GestureDetector(
-             onTap: (){
-              animatedTheIcon(index);
-              setState(() {
-                selectedNavIndex=index;
-              });
-             }
-             , child: Column(
-              mainAxisSize: MainAxisSize.min,
-               children: [
-                 AnimatedBar(isActive: index==selectedNavIndex),
-                 SizedBox(
-                  height: 32,
-                  width: 34,
-                  child: Opacity(
-                    opacity: selectedNavIndex==index?1:0.5,
-                    child: RiveAnimation.asset(
-                      riveIcon.src,
-                      artboard: riveIcon.artboard,
-                      onInit: (artboard){
-                       riveOnInit(artboard,stateMachineName: riveIcon.stateMachineName);},
-                    ),
-                  ),
-                ),
-              ]
-             ),
-            );
-                  }
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   height: 75,
+      //   padding: const EdgeInsets.all(16),
+      //   margin: const EdgeInsets.symmetric(horizontal: 30,vertical: 5),
+      //   decoration: BoxDecoration(
+      //     border: Border.all(color: Colors.white,width: 2),
+      //       color: const Color(0xFFD3F7FF).withOpacity(0.5),
+      //       borderRadius: const BorderRadius.all(Radius.circular(24)),
+      //       boxShadow: [
+      //         BoxShadow(
+      //             color: const Color(0xFF4FC3DC).withOpacity(0.3),
+      //           offset: const Offset(0,20),
+      //           blurRadius: 20,
+      //         )
+      //       ]
+      //   ),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //     children: List.generate(bottomNavItems.length,
+      //             (index) {
+      //       final riveIcon=bottomNavItems[index].rive;
+      //       return GestureDetector(
+      //        onTap: (){
+      //         animatedTheIcon(index);
+      //         setState(() {
+      //           selectedNavIndex=index;
+      //         });
+      //        }
+      //        , child: Column(
+      //         mainAxisSize: MainAxisSize.min,
+      //          children: [
+      //            AnimatedBar(isActive: index==selectedNavIndex),
+      //            SizedBox(
+      //             height: 32,
+      //             width: 34,
+      //             child: Opacity(
+      //               opacity: selectedNavIndex==index?1:0.5,
+      //               child: RiveAnimation.asset(
+      //                 riveIcon.src,
+      //                 artboard: riveIcon.artboard,
+      //                 onInit: (artboard){
+      //                  riveOnInit(artboard,stateMachineName: riveIcon.stateMachineName);},
+      //               ),
+      //             ),
+      //           ),
+      //         ]
+      //        ),
+      //       );
+      //             }
+      //     ),
+      //   ),
+      // ),
+      bottomNavigationBar: CustomBottomNav(),
     ));
   }
 void animatedTheIcon(int index) {

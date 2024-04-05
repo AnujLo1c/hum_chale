@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/screens/trip_booking/trip_booking_home.dart';
 import 'package:hum_chale/ui/app_style.dart';
 class Explore extends StatelessWidget {
@@ -98,7 +99,7 @@ class Explore extends StatelessWidget {
               side: const BorderSide(color: Colors.white,width: 2,),
               shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
           onPressed: () {
-            Navigator.pushNamed(context,TripBookingHome.routeName);
+            Navigator.pushNamed(context,CustomBottomNav.routeName);
           },
           child: const Text(
             'Explore',

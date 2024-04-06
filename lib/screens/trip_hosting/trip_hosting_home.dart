@@ -33,9 +33,7 @@ class TripHostingHome extends StatelessWidget {
               Text("Price",style:  TextStyle(fontSize: 28,color: Colors.black,fontWeight: FontWeight.w600),
               ),Gap(10),
               CustomTextField2(textEditingController: TECprice, hintText: "PP",w: 150,size: size.width/2-100),
-
             ],
-
           ),
           Gap(15),
           CustomTextField2(textEditingController: TECactivities, hintText: "Activities included", w: 200,height: 5),

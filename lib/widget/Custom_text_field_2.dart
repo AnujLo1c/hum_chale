@@ -9,15 +9,15 @@ class CustomTextField2 extends StatelessWidget {
 
   CustomTextField2({
     Key? key, // Key parameter added
+    this.height,
+    this.size,
     required this.textEditingController,
     required this.hintText,
     required this.w,
-    this.height,
-    this.size,
   }) : super(key: key); // super(key: key) added
 
-  final int? height; // Corrected parameter name
-  final double? size; // Added parameter for width control
+  final  height; // Corrected parameter name
+  final  size; // Added parameter for width control
 
 
   @override

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hum_chale/models/menu.dart';
 import 'package:hum_chale/screens/trip_booking/trip_booking_home.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_hosting_home.dart';
+import 'package:hum_chale/screens/profile/profile_home.dart';
 import 'package:rive/rive.dart';
 import '../widget/CustomAppBar.dart';
 class CustomBottomNav extends StatefulWidget {
@@ -14,7 +15,7 @@ class CustomBottomNav extends StatefulWidget {
 class _CustomBottomNavState extends State<CustomBottomNav> {
   static List<SMIBool> riveIconInput = [];
   static List<StateMachineController> controllers = [];
-  static List<String> screens=[TripBookingHome.routeName,TripHostingHome.routeName,"profile"];
+  static List<dynamic> screens=[const TripBookingHome(),TripHostingHome(),const ProfileHome()];
   static int selectedNavIndex = 0;
   @override
   void dispose() {
@@ -31,8 +32,12 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
       // appBar: AppBar(
       //   backgroundColor: Colors.blue,
       //   title: Text("Hum Chale"),
+
+
+
       // ),
-      appBar: CustomAppBar()
+      appBar: CustomAppBar(),
+      body: screens[selectedNavIndex]
       ,bottomNavigationBar: Container(
         height: 75,
         padding: const EdgeInsets.all(16),

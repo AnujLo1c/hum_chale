@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     SignUp.routeName:(context)=>const SignUp(),
     Explore.routeName:(context)=>const Explore(),
         TripBookingHome.routeName:(context)=>const TripBookingHome(),
-        TripHostingHome.routeName:(context)=>const TripHostingHome(),
+        TripHostingHome.routeName:(context)=> TripHostingHome(),
         CustomBottomNav.routeName:(context)=>const CustomBottomNav(),
     },
       initialRoute: SplashScreen.routeName,

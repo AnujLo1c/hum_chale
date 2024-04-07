@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hum_chale/models/menu.dart';
 import 'package:hum_chale/screens/trip_booking/trip_booking_home.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_hosting_home.dart';
@@ -15,6 +17,8 @@ class CustomBottomNav extends StatefulWidget {
 class _CustomBottomNavState extends State<CustomBottomNav> {
   static List<SMIBool> riveIconInput = [];
   static List<StateMachineController> controllers = [];
+  static var pages=[const TripBookingHome(),TripHostingHome(),const ProfileHome()];
+  PageController pageController=PageController(initialPage: 0);
   static List<dynamic> screens=[const TripBookingHome(),TripHostingHome(),const ProfileHome()];
   static int selectedNavIndex = 0;
   @override
@@ -29,16 +33,16 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.blue,
-      //   title: Text("Hum Chale"),
-
-
-
-      // ),
       appBar: CustomAppBar(),
-      body: screens[selectedNavIndex]
-      ,bottomNavigationBar: Container(
+      // body: screens[selectedNavIndex],
+      body: PageView(children: pages,controller: pageController,
+        onPageChanged: (value) {
+          setState(() {
+            selectedNavIndex=value;
+          });
+        },
+      ),
+      bottomNavigationBar: Container(
         height: 75,
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -66,6 +70,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                 // }
                 setState(() {
                   selectedNavIndex = index;
+                  pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.linear);
                 });
 
               },

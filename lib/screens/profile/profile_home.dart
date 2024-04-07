@@ -22,9 +22,10 @@ Size? size;
         Text("Profile",style: TextStyle(fontSize: 34),),
 Gap(10),
         SizedBox(
-height: 200,
+height: 150,
 width: size?.width
 ,child: Image.asset("assets/images/default-img.png")),
+        Gap(10),
         Text("User Name",style: TextStyle(fontSize: 24),),
         Gap(20),
         ProfileTile("Booking Updates", (){}, Icons.bookmark_add_outlined),
@@ -55,9 +56,13 @@ Widget ProfileTile(String text,dynamic onTap,IconData icon){
     
       ),
       child: Row(
-        children: [Icon(icon),
+        children: [Gap(10),
+          Icon(icon),
+          Gap(10),
           Text(text),
-          Icon(Icons.chevron_right)
+          Spacer(),
+          Icon(Icons.chevron_right),
+          Gap(10)
         ],
       ),
     ),

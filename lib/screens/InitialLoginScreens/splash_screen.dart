@@ -5,7 +5,7 @@ import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
-  static String routeName="/splash-screen";
+  static String routeName="splash-screen";
   const SplashScreen({super.key});
 
   @override

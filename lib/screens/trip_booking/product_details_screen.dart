@@ -31,24 +31,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         backgroundColor: Colors.white,
         context: ctx,
         builder: (ctx) =>
-          //   PopScope(
-          // canPop: true,
-          // onPopInvoked: (didPop) {
-          //   print("poped");
-          //   // back();
-          //   Navigator.of(ctx).pop();
-          // },
-          // child:
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 400,
-            // color: Colors.white54,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.only(topRight: Radius.circular(25),topLeft: Radius.circular(25))
+          WillPopScope(
+            onWillPop: () async{
+              Navigator.of(ctx).pop();
+              Navigator.of(context).pop();
+              return false;
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 400,
+              // color: Colors.white54,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.only(topRight: Radius.circular(25),topLeft: Radius.circular(25))
+              ),
+              child: const Text('Breathe in... Breathe out......................'),
             ),
-            child: const Text('Breathe in... Breathe out......................'),
           ),
         // )
     )
@@ -64,7 +63,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             children: [
               Hero(
                 transitionOnUserGestures: true,
-                tag: "hello" + widget.trip.index.toString(),
+                tag: "hello${widget.trip.index}",
                 child: ClipRRect(
                   child: Container(
                     height: 400,

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
 
 import 'package:hum_chale/widget/CustomButton.dart';
 import 'package:hum_chale/widget/Custom_text_field_2.dart';
+import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
 class TripHostingHome extends StatelessWidget {
   static var routeName= "trip-hosting-home";
    TripHostingHome({super.key});
@@ -38,7 +40,7 @@ class TripHostingHome extends StatelessWidget {
           Gap(15),
           CustomTextField2(textEditingController: TECactivities, hintText: "Activities included", w: 200,height: 5),
           Gap(30),
-          CustomButton(onTap: (){},text: "Next",)
+          CustomButton(onTap: ()=>Navigator.pushNamed(context,TripItinerary.routeName ),text: "Next",)
         ],
       ),
     );

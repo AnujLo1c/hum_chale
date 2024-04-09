@@ -26,7 +26,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     showModalBottomSheet(
       barrierColor: Colors.transparent,
         isDismissible: false,
-
         elevation: 10,
         backgroundColor: Colors.white,
         context: ctx,

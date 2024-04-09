@@ -23,6 +23,11 @@ class AppTheme{
        backgroundColor: Colors.white,
        elevation: 5,
        shadowColor: Colors.black,
+       contentTextStyle: TextStyle(
+         fontSize: 24,
+         color: Colors.black45,
+
+       )
      )
 
   );

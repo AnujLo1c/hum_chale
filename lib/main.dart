@@ -4,6 +4,7 @@ import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/splash_screen.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
+import 'package:hum_chale/screens/trip_booking/add_members.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/app_theme.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         TripItinerary.routeName:(context)=>const TripItinerary(),
         TripTransit.routeName:(context)=>const TripTransit(),
         TripLodging.routeName:(context)=>const TripLodging(),
+        AddMembers.routeName:(context)=>const AddMembers(),
       },
       // initialRoute: SplashScreen.routeName,
       initialRoute: SplashScreen.routeName,

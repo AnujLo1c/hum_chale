@@ -24,6 +24,7 @@ class _TripItineraryState extends State<TripItinerary> {
       appBar: CustomAppBar(),
       body: Column(
         children: [
+          Gap(20),
           Expanded(
             child: ListView.builder(
               itemCount: itineraries.length,
@@ -56,7 +57,8 @@ class _TripItineraryState extends State<TripItinerary> {
           color: Colors.white,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      // floatingActionButtonLocation: FloatingActionButtonLocation.end,
     ));
   }
 

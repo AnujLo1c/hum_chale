@@ -11,6 +11,7 @@ class AppTheme{
       buttonColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(15)),
+
       )
     ),
        floatingActionButtonTheme: FloatingActionButtonThemeData(

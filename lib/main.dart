@@ -7,6 +7,8 @@ import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/app_theme.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
+import 'package:hum_chale/screens/trip_hosting/trip_transit.dart';
+import 'package:hum_chale/screens/trip_hosting/trip_lodging.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +33,8 @@ class MyApp extends StatelessWidget {
         Explore.routeName: (context) => const Explore(),
         CustomBottomNav.routeName: (context) => const CustomBottomNav(),
         TripItinerary.routeName:(context)=>const TripItinerary(),
+        TripTransit.routeName:(context)=>const TripTransit(),
+        TripLodging.routeName:(context)=>const TripLodging(),
       },
       // initialRoute: SplashScreen.routeName,
       initialRoute: SplashScreen.routeName,

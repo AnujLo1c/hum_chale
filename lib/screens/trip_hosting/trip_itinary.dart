@@ -1,36 +1,53 @@
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/screens/trip_hosting/trip_transit.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
-
+import 'package:intl/intl.dart';
 class TripItinerary extends StatefulWidget {
   static var routeName = "trip-itinerary";
   const TripItinerary({super.key});
-
   @override
   State<TripItinerary> createState() => _TripItineraryState();
 }
-
 class _TripItineraryState extends State<TripItinerary> {
   List<dynamic> itineraries = [];
   TextEditingController textEditingControllerStart = TextEditingController();
   TextEditingController textEditingControllerDest = TextEditingController();
   TextEditingController textEditingControllerTime = TextEditingController();
-  // TextEditingController textEditingControllerdate=TextEditingController();
-  late DateTime? _selectedDate = null;
+  late DateTime? _selectedDate=null;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
       appBar: CustomAppBar(),
-      body: ElevatedButton(
-        child: Text("sadfas"),
-        onPressed: () {
-          Route t=itineraries.elementAt(0);
-          print(t.start);
-          // itineraries.clear();
-        },
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: itineraries.length,
+              itemBuilder: (context, index) {
+                return itineraryTile(index);
+              },
+            ),
+          ),
+          Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width-90,
+            margin: EdgeInsets.only(bottom: 17),
+            child: ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, TripTransit.routeName),
+              style: ElevatedButton.styleFrom(
+                elevation: 5,
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
+                backgroundColor: CustomColors.primaryColor,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Next',style: TextStyle(fontSize: 22),),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => AddItem(),
@@ -73,7 +90,9 @@ class _TripItineraryState extends State<TripItinerary> {
                     ),
                     Gap(35),
                     GestureDetector(
-                      onTap: () => _selectDate(context),
+                      onTap: () {
+                        _selectDate(context);
+                      },
                       child: Text(
                         _selectedDate == null
                             ? 'No date selected'
@@ -132,7 +151,7 @@ class _TripItineraryState extends State<TripItinerary> {
     );
     // DateTime t=new DateTime.now();
     if (picked != null && picked != _selectedDate) {
-      print("sadfsadfg");
+      // print("sadfsadfg");
       setState(() {
         _selectedDate = picked;
       });
@@ -158,6 +177,37 @@ class _TripItineraryState extends State<TripItinerary> {
               )),
             )),
       ],
+    );
+  }
+
+  Widget itineraryTile(int index) {
+    Route r = itineraries.elementAt(index);
+    return Container(
+        margin: EdgeInsets.only(right: 20,left: 20,top: 10,bottom: 10),
+        padding: EdgeInsets.symmetric(vertical: 5,horizontal: 20),
+        height: 70,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            border: Border.all(width: 2, color: CustomColors.primaryColor)),
+        child: Column(
+          children: [
+            Row(children: [
+              Text(r.start.toString(),style: TextStyle(fontSize: 20),),
+              Spacer(),
+              Icon(Icons.arrow_right_alt),
+              Spacer(),
+              Text(r.dest.toString(),style: TextStyle(fontSize: 20)),
+            ]),Gap(5),
+            Row(
+              children: [
+                Text(DateFormat('yyyy-MM-dd').format(r.date!)),
+    Spacer(),
+    Text(r.time)
+    // String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+              ],
+            )
+          ],
+        )
     );
   }
 }

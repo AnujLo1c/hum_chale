@@ -8,6 +8,7 @@ class AppStyles{
     // color: Color(0xFF4FC3DC),
     color: Colors.white,
   );
+
   //
   // static const TextStyle bodyTextStyle = TextStyle(
   //   fontSize: 16,

@@ -14,25 +14,6 @@ class TripBookingHome extends StatefulWidget {
 }
 
 class _TripBookingHomeState extends State<TripBookingHome> {
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Center(
-  //     child: Hero(
-  //       transitionOnUserGestures: true,
-  //       tag: "hello",
-  //       child: ClipRect(
-  //         child: GestureDetector(
-  //         onTap: () =>  Navigator.pushNamed(context,ProductDetailsScreen.routeName),
-  //         child: SizedBox(
-  //               height: 100
-  //               ,child: Image.asset("assets/images/temptrip1.jpg")),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-  // This holds a list of fiction users
-  // You can use data fetched from a database or a server as well
   final List<Map<String, dynamic>> _allUsers = [
     {"id": 1, "name": "Andy", "age": 29},
     {"id": 2, "name": "Aragon", "age": 40},
@@ -46,27 +27,22 @@ class _TripBookingHomeState extends State<TripBookingHome> {
     {"id": 10, "name": "Becky", "age": 32},
   ];
 
-  // This list holds the data for the list view
   List<Map<String, dynamic>> _foundUsers = [];
   @override
   initState() {
-    // at the beginning, all users are shown
     _foundUsers = _allUsers;
     super.initState();
   }
 
-  // This function is called whenever the text field changes
   void _runFilter(String enteredKeyword) {
     List<Map<String, dynamic>> results = [];
     if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
       results = _allUsers;
     } else {
       results = _allUsers
           .where((user) =>
           user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
-      // we use the toLowerCase() method to make it case-insensitive
     }
     setState(() {
       _foundUsers = results;
@@ -176,13 +152,5 @@ child: Center(
   ),
 ),
   );
-  // return Container(
-  //   height: 100,
-  //   width: 150,
-  //   margin: EdgeInsets.symmetric(vertical: 5,horizontal: 5),
-  //   decoration:BoxDecoration(border: Border.all(color: Colors.black)),
-  //   child: Center(
-  //     child: Text("data"),
-  //   ),
-  // );
+
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:hum_chale/screens/list_screen/Expense_list.dart';
-import 'package:hum_chale/screens/list_screen/packing_list.dart';
-import 'package:hum_chale/screens/list_screen/todo_list.dart';
+import 'package:hum_chale/screens/after_confirmation/list_screen/Expense_list.dart';
+import 'package:hum_chale/screens/after_confirmation/list_screen/packing_list.dart';
+import 'package:hum_chale/screens/after_confirmation/list_screen/todo_list.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
 class ProfileHome extends StatefulWidget {
@@ -37,6 +37,7 @@ Size? size;
           ProfileTile("Booking Updates", (){}, Icons.bookmark_add_outlined),
           ProfileTile("Trip History", (){}, Icons.history),
           ProfileTile("Help", (){}, Icons.help_outline),
+          ProfileTile("Settings", (){}, Icons.settings),
           ProfileTile("Packing List", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> packingList()));}, Icons.list),
           ProfileTile("ToDo List", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ToDo()));}, Icons.list_alt_sharp),
           ProfileTile("Expenses", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ExpenseList()));}, Icons.monetization_on_rounded),

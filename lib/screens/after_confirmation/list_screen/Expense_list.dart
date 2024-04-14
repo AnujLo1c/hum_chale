@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/ui/CustomColors.dart';
 
-import '../../ui/CustomColors.dart';
+
 
 class ExpenseList extends StatefulWidget {
   const ExpenseList({super.key});

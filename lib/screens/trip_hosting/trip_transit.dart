@@ -21,8 +21,8 @@ class _TripTransitState extends State<TripTransit> {
       body: Column(
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Gap(20),
-          Center(
+          const Gap(20),
+          const Center(
               child: Text(
             "Select Transit",
             style: TextStyle(
@@ -30,7 +30,7 @@ class _TripTransitState extends State<TripTransit> {
                 fontSize: 22,
                 fontWeight: FontWeight.bold),
           )),
-          Gap(20),
+          const Gap(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -39,18 +39,18 @@ class _TripTransitState extends State<TripTransit> {
               transitTile(Icons.airplanemode_active_rounded,2),
             ],
           ),
-          Gap(15),
+          const Gap(15),
           Row(
             children: [
-          Gap(20),
+          const Gap(20),
               transitTile(Icons.bus_alert,3),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Container(
             height: 50,
             width: MediaQuery.of(context).size.width-50,
-            margin: EdgeInsets.only(bottom: 17),
+            margin: const EdgeInsets.only(bottom: 17),
             child: ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, TripLodging.routeName),
               style: ElevatedButton.styleFrom(
@@ -62,7 +62,7 @@ class _TripTransitState extends State<TripTransit> {
               child: const Text('Next',style: TextStyle(fontSize: 22),),
             ),
           ),
-          Gap(5)
+          const Gap(5)
           // transitTile(Icons.bus_alert)
         ],
       ),
@@ -80,10 +80,10 @@ class _TripTransitState extends State<TripTransit> {
       child: Container(
         height: 80,
         width: 80,
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
             color: transit[i]==false?CustomColors.primaryColor:Colors.white70,
-            borderRadius: BorderRadius.all(Radius.circular(15))),
+            borderRadius: const BorderRadius.all(Radius.circular(15))),
         child: Center(
           child: Icon(
             icon,

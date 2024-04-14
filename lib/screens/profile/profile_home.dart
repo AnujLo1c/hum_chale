@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
+import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
 class ProfileHome extends StatefulWidget {
   const ProfileHome({super.key});
 
@@ -31,7 +32,8 @@ width: size?.width
         ProfileTile("Booking Updates", (){}, Icons.bookmark_add_outlined),
         ProfileTile("Trip History", (){}, Icons.history),
         ProfileTile("Help", (){}, Icons.help_outline),
-        ProfileTile("Log Out", (){}, Icons.logout),
+        ProfileTile("Setting", (){}, Icons.settings),
+        ProfileTile("Log Out", ()=>Navigator.pushNamed(context, Achome.routeName), Icons.logout),
 
       ],
     );

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hum_chale/models/trip.dart';
-import 'package:hum_chale/screens/custom_bottom_nav.dart';
+// import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/screens/trip_booking/add_members.dart';
 import 'package:hum_chale/ui/CustomColors.dart'; // Import the trip.dart file only once
 
@@ -26,38 +26,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     super.initState();
   Timer(Duration(milliseconds: 100),() => _show(context),);
   }
-  // void _show(BuildContext ctx, Trip trip) {
-  //   showModalBottomSheet(
-  //
-  //     barrierColor: Colors.transparent,
-  //       isDismissible: false,
-  //       elevation: 10,
-  //       backgroundColor: Colors.white,
-  //       context: ctx,
-  //       builder: (ctx) =>
-  //         WillPopScope(
-  //           onWillPop: () async{
-  //             Navigator.of(ctx).pop();
-  //             Navigator.of(context).pop();
-  //             return false;
-  //           },
-  //           child: Container(
-  //             width: MediaQuery.of(context).size.width,
-  //             height: 400,
-  //             padding: EdgeInsets.symmetric(vertical: 20,horizontal: 20),
-  //             // color: Colors.white54,
-  //             // alignment: Alignment.center,
-  //             decoration: BoxDecoration(
-  //               border: Border.all(color: Colors.black),
-  //               borderRadius: BorderRadius.only(topRight: Radius.circular(25),topLeft: Radius.circular(25))
-  //             ),
-  //             child: const Text(),
-  //           ),
-  //         ),
-  //       // )
-  //   )
-  //   ;
-  // }
+
   void _show(BuildContext ctx) {
     showModalBottomSheet(
       barrierColor: Colors.transparent,
@@ -73,7 +42,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         },
         child: Container(
           width: MediaQuery.of(context).size.width,
-          height: 400,
+          height: MediaQuery.of(context).size.height/2,
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),

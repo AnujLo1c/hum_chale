@@ -5,8 +5,10 @@ import 'package:hum_chale/screens/trip_hosting/trip_transit.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
 import 'package:intl/intl.dart';
+import 'package:hum_chale/models/TravelRoute.dart';
 class TripItinerary extends StatefulWidget {
   static var routeName = "trip-itinerary";
+
   const TripItinerary({super.key});
   @override
   State<TripItinerary> createState() => _TripItineraryState();
@@ -114,7 +116,7 @@ class _TripItineraryState extends State<TripItinerary> {
                           s != "" &&
                           t != "" &&
                           d != "") {
-                        Route temp = new Route(
+                        TravelRoute temp = new TravelRoute(
                             start: s, dest: d, time: t, date: _selectedDate);
                         itineraries.add(temp);
                         setState(() {});
@@ -183,7 +185,7 @@ class _TripItineraryState extends State<TripItinerary> {
   }
 
   Widget itineraryTile(int index) {
-    Route r = itineraries.elementAt(index);
+    TravelRoute r = itineraries.elementAt(index);
     return Container(
         margin: EdgeInsets.only(right: 20,left: 20,top: 10,bottom: 10),
         padding: EdgeInsets.symmetric(vertical: 5,horizontal: 20),
@@ -214,13 +216,4 @@ class _TripItineraryState extends State<TripItinerary> {
   }
 }
 
-class Route {
-  final String start, dest, time;
-  final DateTime? date;
 
-  Route(
-      {required this.start,
-      required this.dest,
-      required this.time,
-      required this.date});
-}

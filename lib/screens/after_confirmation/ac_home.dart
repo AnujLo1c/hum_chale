@@ -8,6 +8,9 @@ import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_booking.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_itinerary.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_transit.dart';
+import 'package:hum_chale/screens/after_confirmation/Expense_list.dart';
+import 'package:hum_chale/screens/after_confirmation/packing_list.dart';
+import 'package:hum_chale/screens/after_confirmation/todo_list.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 class Achome extends StatelessWidget {
@@ -112,15 +115,15 @@ precacheImage(const AssetImage("assets/images/aAfter-confirm.jpeg"), context);
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ItemTile(Icons.mode_of_travel,"Itinerary",ACItinerary(itineraries:[temp,temp2]),context),
-                ItemTile(Icons.luggage,"Packing List",ACTransit(transits:transit),context),
-                ItemTile(Icons.list_alt,"To-do",ACBooking(lodging:lodging),context)
+                ItemTile(Icons.luggage,"Packing List",const packingList(),context),
+                ItemTile(Icons.list_alt,"To-do",const ToDo(),context)
               ],
             ),
             const Gap(30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ItemTile(Icons.wallet,"Expenses",ACBooking(lodging:lodging),context),
+                ItemTile(Icons.wallet,"Expenses",const ExpenseList(),context),
                 ItemTile(Icons.house,"Lodging",ACBooking(lodging:lodging),context),
                 ItemTile(Icons.airplanemode_active_rounded,"Transit",ACTransit(transits: transit),context)
               ],
@@ -166,10 +169,10 @@ precacheImage(const AssetImage("assets/images/aAfter-confirm.jpeg"), context);
         backgroundColor: Colors.white,
         child: Container(
           height: 300, // Adjust the height of the dialog
-          padding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
           decoration: BoxDecoration(
             // color: Colors.black54,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
               border: Border.all(color: CustomColors.primaryColor,width: 3)
           ),
           child: Column(
@@ -193,16 +196,16 @@ precacheImage(const AssetImage("assets/images/aAfter-confirm.jpeg"), context);
 
   membertile(int index) {
 return Container(
-  margin: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-  padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+  margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
   decoration: BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(10),)
+    borderRadius: const BorderRadius.all(Radius.circular(10),)
         ,color: Colors.grey.shade300,
       border: Border.all(color: Colors.black54,width: 3)
   ),
   // child: RichText(tempMember[index],style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20),),
-child: RichText(text: TextSpan(text:tempMember[index],style: TextStyle(letterSpacing: 2,fontWeight: FontWeight.w700,fontSize: 20,color: Colors.black87),
-children: [TextSpan(text: "\nAge: 21",style: TextStyle(letterSpacing:1,fontSize: 18,color: Colors.black54))]
+child: RichText(text: TextSpan(text:tempMember[index],style: const TextStyle(letterSpacing: 2,fontWeight: FontWeight.w700,fontSize: 20,color: Colors.black87),
+children: [const TextSpan(text: "\nAge: 21",style: TextStyle(letterSpacing:1,fontSize: 18,color: Colors.black54))]
 )),
 );
   }

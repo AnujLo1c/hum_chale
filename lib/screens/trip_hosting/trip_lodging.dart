@@ -46,7 +46,7 @@ class _TripLodgingState extends State<TripLodging> {
                 width: MediaQuery.of(context).size.width-50,
                 margin: EdgeInsets.only(bottom: 17),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, CustomBottomNav.routeName),
+                  onPressed: () => Navigator.popUntil(context, (route) => route.settings.name==CustomBottomNav.routeName),
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),

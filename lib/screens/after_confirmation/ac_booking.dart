@@ -19,7 +19,6 @@ class ACBooking extends StatelessWidget {
         ),
         body: Column(
           children: [
-            ElevatedButton(onPressed: ()=>GoogleLogin().logOutFromGoogle(context), child: Text("sdf")),
             Divider(color: CustomColors.primaryColor,),
             Gap(40),
             Row(

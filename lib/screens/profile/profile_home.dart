@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/screens/after_confirmation/list_screen/Expense_list.dart';
 import 'package:hum_chale/screens/after_confirmation/list_screen/packing_list.dart';
 import 'package:hum_chale/screens/after_confirmation/list_screen/todo_list.dart';
@@ -34,15 +35,15 @@ Size? size;
           Gap(10),
           Text("User Name",style: TextStyle(fontSize: 24),),
           Gap(20),
-          ProfileTile("Booking Updates", (){}, Icons.bookmark_add_outlined),
+          ProfileTile("Booking Updates", ()=>Navigator.pushNamed(context, Achome.routeName), Icons.bookmark_add_outlined),
           ProfileTile("Trip History", (){}, Icons.history),
           ProfileTile("Help", (){}, Icons.help_outline),
           ProfileTile("Settings", (){}, Icons.settings),
-          ProfileTile("Packing List", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> packingList()));}, Icons.list),
-          ProfileTile("ToDo List", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ToDo()));}, Icons.list_alt_sharp),
-          ProfileTile("Expenses", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ExpenseList()));}, Icons.monetization_on_rounded),
-          ProfileTile("Log Out", (){}, Icons.logout),
-          ElevatedButton(onPressed: ()=>Navigator.pushNamed(context, Achome.routeName), child: Text("data"))
+          // ProfileTile("Packing List", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> packingList()));}, Icons.list),
+          // ProfileTile("ToDo List", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ToDo()));}, Icons.list_alt_sharp),
+          // ProfileTile("Expenses", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ExpenseList()));}, Icons.monetization_on_rounded),
+          ProfileTile("Log Out", (){GoogleLogin().logOutFromGoogle(context);}, Icons.logout),
+          // ElevatedButton(onPressed: ()=>Navigator.pushNamed(context, Achome.routeName), child: Text("data"))
         ],
       ),
     );

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
-import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
-import 'package:hum_chale/screens/after_confirmation/ac_booking.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
+import 'package:hum_chale/widget/loading-dialog.dart';
 
 class GoogleLogin {
   Future<void> signInWithGoogle(BuildContext context) async {
@@ -18,16 +17,18 @@ class GoogleLogin {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        
+        LoadingDialog().loadingDialog(context);
         final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
         if(userCredential.additionalUserInfo!.isNewUser&& userCredential.user != null){
           // Navigator.pushReplacement(context, SignUp.routeName);
+          Navigator.pop(context);
           Navigator.pushNamed(context, SignUp.routeName);
           print("new user");
         }
         else if(userCredential.user != null){
           // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const ACBooking(lodging: [])));
+          Navigator.pop(context);
           Navigator.pushNamed(context, Explore.routeName);
           print("old user");
         }

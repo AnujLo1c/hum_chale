@@ -21,14 +21,13 @@ class _packingListState extends State<packingList> {
           child: Divider(color: Colors.black), // Add a Divider widget with a color
         ),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image(image: AssetImage("assets/images/packing_list.png")),
             Text("Start Packing", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),),
-            Text("All  trip member get there\nown packing list with the\nability to view others in\nthe  trip", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),textAlign: TextAlign.center,)
-          ],
+            ],
         ),
       ),
       floatingActionButton: FloatingActionButton(

@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 class ACBooking extends StatelessWidget {
   static var routeName = "ac-booking";
@@ -17,6 +19,7 @@ class ACBooking extends StatelessWidget {
         ),
         body: Column(
           children: [
+            ElevatedButton(onPressed: ()=>GoogleLogin().logOutFromGoogle(context), child: Text("sdf")),
             Divider(color: CustomColors.primaryColor,),
             Gap(40),
             Row(

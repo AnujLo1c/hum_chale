@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
 import 'package:flutter/widgets.dart';
+import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:rive/rive.dart';
@@ -18,7 +18,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String errormsg = "";
-// input form controller
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
@@ -105,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
     // Fluttertoast.showToast(msg: errormsg!,fontSize: 16,textColor: Colors.red,backgroundColor: Colors.transparent);
     errormsg = '';
   }
-
+// GoogleLogin gl=GoogleLogin();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -151,14 +150,17 @@ class _LoginPageState extends State<LoginPage> {
                     height: 150,
                     child: Align(
                       alignment: Alignment.topRight,
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.all(3),
-                        decoration: const BoxDecoration(
-                            color: Colors.white, shape: BoxShape.circle),
-                        child: Image.asset("assets/images/google.png"),
+                      child: GestureDetector(
+                        onTap: ()=>GoogleLogin().signInWithGoogle(context),
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          margin: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.all(3),
+                          decoration: const BoxDecoration(
+                              color: Colors.white, shape: BoxShape.circle),
+                          child: Image.asset("assets/images/google.png"),
+                        ),
                       ),
                     ),
                   )
@@ -340,7 +342,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 36,
                     child: TextButton(onPressed: () =>
                         Navigator.pushNamed(context, SignUp.routeName),
-                        child: Text("Sign Up",
+                        child: const Text("Sign Up",
                           style: TextStyle(color: Colors.grey, fontSize: 16,),)
                     ),
                   )

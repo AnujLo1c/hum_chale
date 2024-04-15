@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hum_chale/firebase/firebase_options.dart';
 import 'package:hum_chale/models/TravelRoute.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
@@ -12,11 +14,13 @@ import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_transit.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_lodging.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
-import 'package:hum_chale/screens/after_confirmation/ac_booking.dart';
-import 'package:hum_chale/screens/after_confirmation/ac_itinerary.dart';
-import 'package:hum_chale/screens/after_confirmation/ac_transit.dart';
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

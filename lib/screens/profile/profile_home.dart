@@ -42,7 +42,7 @@ Size? size;
           ProfileTile("ToDo List", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ToDo()));}, Icons.list_alt_sharp),
           ProfileTile("Expenses", (){Navigator.push(context,MaterialPageRoute(builder: (context)=> ExpenseList()));}, Icons.monetization_on_rounded),
           ProfileTile("Log Out", (){}, Icons.logout),
-
+          ElevatedButton(onPressed: ()=>Navigator.pushNamed(context, Achome.routeName), child: Text("data"))
         ],
       ),
     );

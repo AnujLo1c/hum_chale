@@ -27,7 +27,7 @@ class _SignUpState extends State<SignUp> {
   final String HTemailAddress = "Password";
 
   //width
-  var width;
+  late double width;
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -107,7 +107,6 @@ class _SignUpState extends State<SignUp> {
       width: width - 30,
       child: ElevatedButton(
         onPressed: ()=>Navigator.pushNamed(context, Explore.routeName),
-        child: const Text("Sign Up",style: TextStyle(fontSize: 22),),
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.grey,
             elevation: 10,
@@ -115,6 +114,7 @@ class _SignUpState extends State<SignUp> {
               borderRadius: BorderRadius.all(
                   Radius.circular(10)),
             )),
+        child: const Text("Sign Up",style: TextStyle(fontSize: 22),),
       ),
     );
   }

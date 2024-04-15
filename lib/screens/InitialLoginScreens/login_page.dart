@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
-import 'package:flutter/widgets.dart';
 import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';

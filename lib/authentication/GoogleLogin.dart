@@ -18,16 +18,17 @@ class GoogleLogin {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
+        
         final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
         if(userCredential.additionalUserInfo!.isNewUser&& userCredential.user != null){
           // Navigator.pushReplacement(context, SignUp.routeName);
-          Navigator.pushReplacementNamed(context, SignUp.routeName);
+          Navigator.pushNamed(context, SignUp.routeName);
           print("new user");
         }
         else if(userCredential.user != null){
           // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const ACBooking(lodging: [])));
-          Navigator.pushReplacementNamed(context, Explore.routeName);
+          Navigator.pushNamed(context, Explore.routeName);
           print("old user");
         }
         else{

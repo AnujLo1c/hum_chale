@@ -1,17 +1,13 @@
+
 import 'package:flutter/material.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
-class StartPage extends StatefulWidget {
+class StartPage extends StatelessWidget {
   static String routeName="/start-page";
    const StartPage({super.key});
 
   @override
-  State<StartPage> createState() => _StartPageState();
-}
-
-class _StartPageState extends State<StartPage> {
-  @override
   Widget build(BuildContext context) {
-  precacheImage(AssetImage("assets/images/start-page.jpg"), context);
+  precacheImage(const AssetImage("assets/images/start-page.jpg"), context);
     final Size screenSize = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -23,7 +19,7 @@ class _StartPageState extends State<StartPage> {
             children: [
               _buildBackgroundImage(),
               _buildHeaderText(screenSize),
-              _buildButton(screenSize),
+              _buildButton(screenSize,context),
             ],
           ),
         ),
@@ -73,7 +69,7 @@ class _StartPageState extends State<StartPage> {
     );
   }
 
-  Widget _buildButton(Size size) {
+  Widget _buildButton(Size size, BuildContext context) {
     MaterialStateProperty<Color> bg=MaterialStateProperty.resolveWith((states) => const Color(0xFFFFFFFF).withOpacity(.05));
     MaterialStateProperty<BorderSide> border=MaterialStateProperty.resolveWith((states) => const BorderSide(color: Colors.white,width: 2,));
     return  Positioned(

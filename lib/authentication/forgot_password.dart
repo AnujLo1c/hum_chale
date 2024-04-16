@@ -1,6 +1,9 @@
+import 'package:gap/gap.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hum_chale/ui/CustomColors.dart';
+import 'package:hum_chale/widget/CustomAppBar.dart';
 
 class ForgotPassword extends StatefulWidget {
   static var routeName="forgot-password";
@@ -39,33 +42,35 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
+      backgroundColor: Colors.white,
+      appBar: CustomAppBar(),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 70.0,
+              height: 40.0,
             ),
             Container(
               alignment: Alignment.topCenter,
               child: const Text(
                 "Password Recovery",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30.0,
+                    color: Colors.black,
+                    fontSize: 28.0,
                     fontWeight: FontWeight.bold),
               ),
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
+            const Gap(20),
             const Text(
-              "Enter your mail",
+              "   Enter your mail",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black45,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
+            Gap(5),
             Expanded(
                 child: Form(
                     key: _formkey,
@@ -77,8 +82,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             padding: const EdgeInsets.only(left: 10.0),
                             decoration: BoxDecoration(
                               border:
-                              Border.all(color: Colors.white70, width: 2.0),
-                              borderRadius: BorderRadius.circular(30),
+                              Border.all(color: CustomColors.primaryColor, width: 2.0),
+                              borderRadius: BorderRadius.circular(15),
                             ),
                             child: TextFormField(
                               validator: (value) {
@@ -88,14 +93,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 return null;
                               },
                               controller: mailcontroller,
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.black54),
                               decoration: const InputDecoration(
                                   hintText: "Email",
                                   hintStyle: TextStyle(
-                                      fontSize: 18.0, color: Colors.white),
+                                      fontSize: 18.0, color: Colors.black26),
                                   prefixIcon: Icon(
                                     Icons.person,
-                                    color: Colors.white70,
+                                    color: Colors.black38,
                                     size: 30.0,
                                   ),
                                   border: InputBorder.none),
@@ -117,13 +122,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               width: 140,
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: CustomColors.primaryColor,
                                   borderRadius: BorderRadius.circular(10)),
                               child: const Center(
                                 child: Text(
                                   "Send Email",
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontSize: 18.0,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -131,7 +136,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             ),
                           ),
                           const SizedBox(
-                            height: 50.0,
+                            height: 30.0,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +144,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               const Text(
                                 "Don't have an account?",
                                 style: TextStyle(
-                                    fontSize: 18.0, color: Colors.white),
+                                    fontSize: 18.0, color: Colors.black54),
                               ),
                               const SizedBox(
                                 width: 5.0,

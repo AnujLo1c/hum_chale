@@ -5,4 +5,5 @@ class CustomColors {
   static const Color accentColor = Color(0xFFD3F7FF);
   static const Color shadowColor = Color(0x334FC3DC);
   static const Color tileColor = Color(0xFFD3F7FF);
+  static const Color deleteColor = Color(0xFFff5349);
 }

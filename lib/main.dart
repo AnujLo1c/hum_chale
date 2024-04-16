@@ -51,10 +51,8 @@ class MyApp extends StatelessWidget {
         AddMembers.routeName:(context)=>const AddMembers(),
         Achome.routeName:(context) => Achome(),
         EmailVerificationScreen.routeName:(context) => const EmailVerificationScreen(),
-        ForgotPassword.routeName:(context) => ForgotPassword(),
-
+        ForgotPassword.routeName:(context) => const ForgotPassword(),
       },
-      // initialRoute: SplashScreen.routeName,
       initialRoute: SplashScreen.routeName,
     );
   }

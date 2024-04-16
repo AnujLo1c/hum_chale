@@ -13,28 +13,28 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-@override
+  @override
   void initState() {
     // TODO: implement initState
-  Timer(const Duration(
-    seconds: 3
-  ), (){Navigator.pushNamed(context, StartPage.routeName);});
+    Timer(const Duration(
+        seconds: 3
+    ), (){Navigator.pushNamed(context, StartPage.routeName);});
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-  final Size size=MediaQuery.of(context).size;
-  return Container(
-      height: size.height,
-    width: size.width,
-    color: Colors.white,
-    child: Center(
-      child: SizedBox(
-        height: 350,
-        width: 350,
-        child:Lottie.asset("assets/lotti_animations/splash.json"),
-      ),
-    )
+    final Size size=MediaQuery.of(context).size;
+    return Container(
+        height: size.height,
+        width: size.width,
+        color: Colors.white,
+        child: Center(
+          child: SizedBox(
+            height: 350,
+            width: 350,
+            child:Lottie.asset("assets/lotti_animations/splash.json"),
+          ),
+        )
     );
   }
 }

@@ -348,7 +348,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text("Sign Up",
                           style: TextStyle(color: Colors.grey, fontSize: 16,),)
                     ),
-                  )
+                  ),
+                  // ElevatedButton(onPressed: ()=>push, child: child)
                 ],
 
 

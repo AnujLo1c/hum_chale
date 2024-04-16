@@ -2,10 +2,14 @@ import 'dart:async';
 // import 'package:email_auth/utils/constants/firebase_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
+import 'package:hum_chale/ui/CustomColors.dart';
+import 'package:hum_chale/widget/CustomAppBar.dart';
+
 class EmailVerificationScreen extends StatefulWidget {
-  static var routeName="email-verification";
+  static var routeName = "email-verification";
   const EmailVerificationScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,30 +19,49 @@ class EmailVerificationScreen extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   bool isEmailVerified = false;
-   Timer? timer;
+  Timer? timer;
   @override
   void initState() {
 // TODO: implement initState
-  isEmailVerified=false;
+    isEmailVerified = false;
     super.initState();
     FirebaseAuth.instance.currentUser?.sendEmailVerification();
     timer =
         Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
   }
 
+//   checkEmailVerified() async {
+//     await FirebaseAuth.instance.currentUser?.reload();
+//
+//     setState(() {
+//       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+//     });
+//
+//     if (isEmailVerified) {
+// // TODO: implement your code after email verification
+//       ScaffoldMessenger.of(context)
+//           .showSnackBar(const SnackBar(content: Text("Email Successfully Verified")));
+//       Navigator.popUntil(context, (route) => route.settings.name==LoginPage.routeName);
+//       timer?.cancel();
+//     }
+//   }
+
   checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser?.reload();
+    // Check if currentUser is not null before reloading
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseAuth.instance.currentUser!.reload();
 
-    setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    });
+      setState(() {
+        isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      });
 
-    if (isEmailVerified) {
-// TODO: implement your code after email verification
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Email Successfully Verified")));
-      Navigator.popUntil(context, (route) => route.settings.name==LoginPage.routeName);
-      timer?.cancel();
+      if (isEmailVerified) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Email Successfully Verified")));
+        Navigator.popUntil(
+            context, (route) => route.settings.name == LoginPage.routeName);
+        timer?.cancel();
+      }
     }
   }
 
@@ -52,19 +75,20 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false
-      ,child: SafeArea(
+      canPop: false,
+      child: SafeArea(
         child: Scaffold(
+          appBar: CustomAppBar(),
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 35),
-                const SizedBox(height: 30),
+                Gap(20),
                 const Center(
                   child: Text(
-                    'Check your \n Email',
+                    'Verify Email',
                     textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -81,48 +105,60 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 const Center(child: CircularProgressIndicator()),
                 const SizedBox(height: 8),
                 const Padding(
-                  padding: EdgeInsets
-                      .symmetric(horizontal: 32.0),
+                  padding: EdgeInsets.symmetric(horizontal: 32.0),
                   child: Center(
                     child: Text(
-                      'Verifying email....',
+                      '\nVerifying email....',
                       textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-                const SizedBox(height: 57),
-                Padding(
-                  padding: const EdgeInsets
-                      .symmetric(horizontal: 32.0),
-                  child: ElevatedButton(
-                    child: const Text('Resend'),
-                    onPressed: () {
-                      try {
-                        FirebaseAuth.instance.currentUser
-                            ?.sendEmailVerification();
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
 
-                      } catch (e) {
-                        debugPrint('$e');
-                      }
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets
-                      .symmetric(horizontal: 32.0),
-                  child: ElevatedButton(
-                    child: const Text('Cancel Sign-Up'),
-                    onPressed: () {
-                      try {
-                        FirebaseAuth.instance.currentUser
-                            ?.delete();
-                        Navigator.pop(context);
-
-                      } catch (e) {
-                        debugPrint('$e');
-                      }
-                    },
-                  ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomColors.deleteColor,
+                          elevation: 5,
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5)))),
+                      child: const Text('Cancel',style: TextStyle(fontSize: 16),),
+                      onPressed: () {
+                        try {
+                          FirebaseAuth.instance.currentUser?.delete();
+                          Navigator.pop(context);
+                        } catch (e) {
+                          debugPrint('$e');
+                        }
+                      },
+                    ),
+                    Gap(10),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomColors.primaryColor,
+                          elevation: 5,
+                          foregroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5)))),
+                      child: const Text(
+                        'Resend',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      onPressed: () {
+                        try {
+                          FirebaseAuth.instance.currentUser
+                              ?.sendEmailVerification();
+                        } catch (e) {
+                          debugPrint('$e');
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

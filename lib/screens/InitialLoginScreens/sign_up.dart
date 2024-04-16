@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
+import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/ui/app_style.dart';
 import 'package:hum_chale/widget/custom_text_field.dart';
 
@@ -35,8 +36,9 @@ class _SignUpState extends State<SignUp> {
 
     return SafeArea(
           child: Scaffold(
+
             resizeToAvoidBottomInset: true,
-              backgroundColor: Colors.white70,
+              backgroundColor: Colors.white,
               appBar: AppBar(
                 backgroundColor: const Color(0xFF4FC3DC),
                 title: const Text("Hum Chale"),
@@ -44,6 +46,7 @@ class _SignUpState extends State<SignUp> {
                 titleTextStyle: AppStyles.titleStyle,
               ),
               body: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 // color: const Color(0xFF4FC3DC),
                 child: Column(
                   children: [
@@ -72,7 +75,7 @@ class _SignUpState extends State<SignUp> {
                         CustomTextField(
                             textEditingController: TECfullName,
                             hintText: HTfullName,
-                            w: width - 20 - 60),
+                            w: width - 20 - 60-20),
                         const Gap(5),
                         CustomTextField(
                             textEditingController: TECage,
@@ -130,13 +133,13 @@ class _SignUpState extends State<SignUp> {
           }
           },
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey,
+            backgroundColor: CustomColors.primaryColor,
             elevation: 10,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                   Radius.circular(10)),
             )),
-        child: const Text("Sign Up",style: TextStyle(fontSize: 22),),
+        child: const Text("Sign Up",style: TextStyle(color: Colors.white,fontSize: 28),),
       ),
     );
   }

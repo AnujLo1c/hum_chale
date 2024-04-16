@@ -7,7 +7,7 @@ class EmailPassLogin{
   final _auth=FirebaseAuth.instance;
   userLogin(BuildContext context,String email,String password) async {
     try {
-      var userInstance=await _auth
+      await _auth
           .signInWithEmailAndPassword(email: email, password: password);
       Navigator.pushNamed(context, Explore.routeName);
     } on FirebaseAuthException catch (e) {
@@ -24,6 +24,14 @@ class EmailPassLogin{
             content: Text(
               "Wrong Password Provided by User",
               style: TextStyle(fontSize: 18.0),
+            )));
+      }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+            backgroundColor: Colors.orangeAccent,
+            content: Text(
+              e.message.toString(),
+              style: const TextStyle(fontSize: 18.0),
             )));
       }
     }
@@ -57,6 +65,14 @@ class EmailPassLogin{
               content: Text(
                 "Account Already exists",
                 style: TextStyle(fontSize: 18.0),
+              )));
+        }
+        else {
+          ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                e.message.toString(),
+                style: const TextStyle(fontSize: 18.0),
               )));
         }
       }

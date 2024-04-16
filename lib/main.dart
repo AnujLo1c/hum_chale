@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hum_chale/authentication/email_verification_screen.dart';
 import 'package:hum_chale/firebase/firebase_options.dart';
 import 'package:hum_chale/models/TravelRoute.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
@@ -14,6 +15,8 @@ import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_transit.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_lodging.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
+import 'package:hum_chale/authentication/email_verification_screen.dart';
+import 'package:hum_chale/authentication/forgot_password.dart';
 
 
 void main() async{
@@ -30,6 +33,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     precacheImage(const AssetImage("assets/images/start-page.jpg"), context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hum Chale',
@@ -46,9 +50,9 @@ class MyApp extends StatelessWidget {
         TripLodging.routeName:(context)=>const TripLodging(),
         AddMembers.routeName:(context)=>const AddMembers(),
         Achome.routeName:(context) => Achome(),
-        // ACBooking.routeName:(context) =>const ACBooking(),
-        // ACTransit.routeName:(context) =>const ACTransit(),
-        // ACItinerary.routeName:(context) => ACItinerary(List<TravelRoute> tr),
+        EmailVerificationScreen.routeName:(context) => const EmailVerificationScreen(),
+        ForgotPassword.routeName:(context) => ForgotPassword(),
+
       },
       // initialRoute: SplashScreen.routeName,
       initialRoute: SplashScreen.routeName,

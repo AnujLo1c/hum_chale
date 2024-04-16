@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
 import 'package:hum_chale/authentication/GoogleLogin.dart';
+import 'package:hum_chale/authentication/email_pass_login.dart';
+import 'package:hum_chale/authentication/forgot_password.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:rive/rive.dart';
@@ -272,9 +274,10 @@ class _LoginPageState extends State<LoginPage> {
                       height: 38,
                       child: TextButton(
                         onPressed: () {
-                          setState(() {
+                          Navigator.pushNamed(context, ForgotPassword.routeName);
+                          // setState(() {
                             // isLogin=!isLogin;
-                          });
+                          // });
                         },
                         // child:  Text(isLogin ? 'Register ' : 'Login'),
                         child: const Text('Forget Password?'),
@@ -293,7 +296,8 @@ class _LoginPageState extends State<LoginPage> {
                         emailFocusNode.unfocus();
                         passwordFocusNode.unfocus();
                         // isLogin? signInWithEandP() : createUserWithEandP();
-                        Navigator.pushNamed(context, Explore.routeName);
+                        EmailPassLogin().userLogin(context, _controlleremail.text, _controllerpass.text);
+                        // Navigator.pushNamed(context, Explore.routeName);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4FC3DC),

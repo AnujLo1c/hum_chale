@@ -1,18 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
+import 'package:hum_chale/authentication/email_verification_screen.dart';
 
 class EmailPassLogin{
   final _auth=FirebaseAuth.instance;
   userLogin(BuildContext context,String email,String password) async {
     try {
-
       var userInstance=await _auth
           .signInWithEmailAndPassword(email: email, password: password);
-      if(userInstance.additionalUserInfo!.isNewUser){
-
-      }
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const Explore()));
+      Navigator.pushNamed(context, Explore.routeName);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -30,8 +27,43 @@ class EmailPassLogin{
             )));
       }
     }
+    catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
+  registration(BuildContext context , String email,String password) async {
+    // if (password != null&& namecontroller.text!=""&& mailcontroller.text!="") {
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+              "Registered Successfully",
+              style: TextStyle(fontSize: 20.0),
+            )));
+        Navigator.pushNamed(context, EmailVerificationScreen.routeName);
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Password Provided is too Weak",
+                style: TextStyle(fontSize: 18.0),
+              )));
+        } else if (e.code == "email-already-in-use") {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              backgroundColor: Colors.orangeAccent,
+              content: Text(
+                "Account Already exists",
+                style: TextStyle(fontSize: 18.0),
+              )));
+        }
+      }
+      catch (e) {
+        debugPrint(e.toString());
+      }
 
+  }
   
 }

@@ -5,6 +5,7 @@ import 'package:hum_chale/firebase/firebase_options.dart';
 import 'package:hum_chale/models/TravelRoute.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
+import 'package:hum_chale/screens/InitialLoginScreens/sign_up_google.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/splash_screen.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         StartPage.routeName: (context) => const StartPage(),
         LoginPage.routeName: (context) => const LoginPage(),
         SignUp.routeName: (context) => const SignUp(),
+        SignUpG.routeName: (context) => const SignUpG(),
         Explore.routeName: (context) => const Explore(),
         CustomBottomNav.routeName: (context) => const CustomBottomNav(),
         TripItinerary.routeName:(context)=>const TripItinerary(),

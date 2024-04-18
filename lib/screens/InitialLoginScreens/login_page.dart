@@ -2,12 +2,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
 import 'package:hum_chale/authentication/GoogleLogin.dart';
+import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
 import 'package:hum_chale/authentication/forgot_password.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:rive/rive.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   static String routeName = "login-page";
@@ -56,51 +58,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controlleremail = TextEditingController();
   final TextEditingController _controllerpass = TextEditingController();
 
-  Future<void> signInWithEandP() async {
-    // print("login");
-    // if(await Checkuserclass()) {
-    //
-    //   // print(await Checkuserclass());
-    //   try {
-    //     trigSuccess?.change(true);
-    //     // context.read<Username_provider>().setusername(Auth().currentUser?.email, context);
-    //
-    //     // await Auth().signInWithEandP(_controlleremail.text, _controllerpass.text);
-    //     // Auth().signInWithEandP(_controlleremail.text, _controllerpass.text);
-    //     // checkuserexits = false;
-    //   } catch (e) {
-    //
-    //     setState(() {
-    //       errormsg = e.toString();
-    //       error();
-    //     });
-    //   }
-    // }
-    // else{
-    //   trigFail?.change(true);
-    //   setState(() {
-    //
-    //     errormsg="Users already exits in other class or not registered.";
-    //     error();
-    //
-    //   });
-    // }
-  }
-
-  Future<void> createUserWithEandP() async {
-    // try{
-    //   trigSuccess?.change(true);
-    //   context.read<Username_provider>().setusername(Auth().currentUser?.email, context);
-    //
-    //   await Auth().signUpWithEandP(_controlleremail.text, _controllerpass.text);
-    //   checkuserexits=true;
-    // }on FirebaseAuthException catch(e){
-    //   setState(() {
-    //     errormsg=e.message;
-    //     error();
-    //   });
-    // }
-  }
   void error() {
     // Fluttertoast.showToast(msg: errormsg!,fontSize: 16,textColor: Colors.red,backgroundColor: Colors.transparent);
     errormsg = '';
@@ -298,6 +255,8 @@ class _LoginPageState extends State<LoginPage> {
                         // isLogin? signInWithEandP() : createUserWithEandP();
                         EmailPassLogin().userLogin(context, _controlleremail.text, _controllerpass.text);
                         // Navigator.pushNamed(context, Explore.routeName);
+
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF4FC3DC),

@@ -3,6 +3,7 @@ import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hum_chale/screens/InitialLoginScreens/sign_up_google.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/widget/loading-dialog.dart';
 
@@ -18,21 +19,20 @@ class GoogleLogin {
           idToken: googleAuth.idToken,
         );
         LoadingDialog().loadingDialog(context);
+        // print(googleUser.email);
         final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
 
         if(userCredential.additionalUserInfo!.isNewUser&& userCredential.user != null){
-          // Navigator.pushReplacement(context, SignUp.routeName);
-          Navigator.pop(context);
-          Navigator.pushNamed(context, SignUp.routeName);
+          Navigator.pushReplacementNamed(context, SignUpG.routeName);
           print("new user");
         }
         else if(userCredential.user != null){
-          // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const ACBooking(lodging: [])));
-          Navigator.pop(context);
-          Navigator.pushNamed(context, Explore.routeName);
+
+          Navigator.pushReplacementNamed(context, Explore.routeName);
           print("old user");
         }
         else{
+          Navigator.pop(context);
           Navigator.pop(context);
 
         }

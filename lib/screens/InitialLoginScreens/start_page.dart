@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 class StartPage extends StatelessWidget {
   static String routeName="/start-page";
@@ -82,6 +83,7 @@ class StartPage extends StatelessWidget {
 
           style: ButtonStyle(backgroundColor: bg,side: border),
           onPressed: () {
+            SharedPref().isLoggedinSP(context);
          Navigator.pushNamed(context,LoginPage.routeName);
         },
           child: const Row(

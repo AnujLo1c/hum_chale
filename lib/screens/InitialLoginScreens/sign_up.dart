@@ -126,7 +126,7 @@ class _SignUpState extends State<SignUp> {
           else{
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text(
-                  "Email and Password field must be filled.",
+                  "Please fill in both the email and password fields correctly",
                   style: TextStyle(fontSize: 20.0),
                 )
             ));

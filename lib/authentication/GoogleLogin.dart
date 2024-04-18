@@ -4,6 +4,7 @@ import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up_google.dart';
+import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/widget/loading-dialog.dart';
 
@@ -51,7 +52,9 @@ class GoogleLogin {
       await FirebaseAuth.instance.signOut();
       await GoogleSignIn().signOut(); // Sign out from Google
 
-      Navigator.popUntil(context, (route) => route.settings.name == LoginPage.routeName);
+      // Navigator.popUntil(context, (route) => route.settings.name == LoginPage.routeName);
+
+      Navigator.pushReplacementNamed(context, StartPage.routeName);
     } catch (e) {
       print('Error signing out: $e');
     }

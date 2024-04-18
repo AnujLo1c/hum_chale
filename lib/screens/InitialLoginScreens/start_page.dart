@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
@@ -11,17 +13,23 @@ class StartPage extends StatelessWidget {
   precacheImage(const AssetImage("assets/images/start-page.jpg"), context);
     final Size screenSize = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Scaffold(
-        body: SizedBox(
-          width: screenSize.width,
-          height: screenSize.height,
-          child: Stack(
-            children: [
-              _buildBackgroundImage(),
-              _buildHeaderText(screenSize),
-              _buildButton(screenSize,context),
-            ],
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (onPop){
+        exit(0);
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: SizedBox(
+            width: screenSize.width,
+            height: screenSize.height,
+            child: Stack(
+              children: [
+                _buildBackgroundImage(),
+                _buildHeaderText(screenSize),
+                _buildButton(screenSize,context),
+              ],
+            ),
           ),
         ),
       ),

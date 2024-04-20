@@ -28,10 +28,19 @@ var fs=FirebaseStorage.instance;
     });
 
   }
-  fetchdata(String? doc)async{
-    print("helap");
-var data=ff.collection("userData").doc(doc).get();
-print(data);
-return  data;
+Future<void> fetchUserData() async {
+  final currentUser = FirebaseAuth.instance.currentUser;
+  // print(currentUser?.email);
+  if (currentUser != null) {
+    DocumentSnapshot userDataSnapshot = await FirebaseFirestore.instance.collection("userData").doc("anujlowanshi3@gmail.com").get();
+    if (userDataSnapshot.exists) {
+      print("object");
+      print(userDataSnapshot.data());
+      return Future.delayed(const Duration(milliseconds: 100)).then((value) => userDataSnapshot.data());
+    } else {
+      print('User data does not exist');
+      return;
+    }
   }
+}
 }

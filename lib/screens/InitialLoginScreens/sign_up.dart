@@ -12,7 +12,7 @@ import 'package:hum_chale/ui/app_style.dart';
 import 'package:hum_chale/widget/custom_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
-import 'package:hum_chale/firebase/user_firestore_storage.dart';
+import 'package:hum_chale/models/tuser.dart';
 class SignUp extends StatefulWidget {
   static var routeName = "/sign-up";
   const SignUp({super.key});
@@ -129,9 +129,10 @@ class _SignUpState extends State<SignUp> {
           if(
           EmailValidator.validate(email)&&
               TECemailAddress.text!="" && TECpassword.text!="" ){
-            print("sign up");
+            // print("sign up");
+            Tuser user=Tuser(fullName: TECfullName.text, phoneNo: TECphoneNo.text, email: email, age: int.parse(TECage.text));
             // UserFirestore().createUserData(email,pickedImage);
-            EmailPassLogin().registration(context, email, password,pickedImage!);
+            EmailPassLogin().registration(context, user, password,pickedImage!);
           }
           else{
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

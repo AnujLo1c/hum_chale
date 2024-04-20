@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
+import 'package:hum_chale/firebase/user_firestore_storage.dart';
 // import 'package:hum_chale/screens/after_confirmation/list_screen/Expense_list.dart';
 // import 'package:hum_chale/screens/after_confirmation/list_screen/packing_list.dart';
 // import 'package:hum_chale/screens/after_confirmation/list_screen/todo_list.dart';
@@ -9,14 +11,22 @@ import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
 class ProfileHome extends StatefulWidget {
   const ProfileHome({super.key});
-
   @override
   State<ProfileHome> createState() => _ProfileHomeState();
 }
 
 class _ProfileHomeState extends State<ProfileHome> {
-Size? size;
+static Size? size;
+static var userData;
+@override
+  void initState(){
+    // TODO: implement initState
 
+    super.initState();
+  }
+  fetchUserData()async{
+    userData=await UserFirestore().fetchdata(FirebaseAuth.instance.currentUser?.email);
+  }
   @override
   Widget build(BuildContext context) {
     size=MediaQuery.of(context).size;
@@ -37,7 +47,7 @@ Size? size;
           const Text("User Name",style: TextStyle(fontSize: 24),),
           const Gap(20),
           ProfileTile("Booking Updates", ()=>Navigator.pushNamed(context, Achome.routeName), Icons.bookmark_add_outlined),
-          ProfileTile("Trip History", (){}, Icons.history),
+          ProfileTile("Trip History", (){print(userData);}, Icons.history),
           ProfileTile("Help", (){}, Icons.help_outline),
           ProfileTile("Settings", (){}, Icons.settings),
           ProfileTile("Log Out", (){GoogleLogin().logOutFromGoogle(context);

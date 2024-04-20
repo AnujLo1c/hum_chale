@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
+import 'package:hum_chale/firebase/user_firestore_storage.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/authentication/email_verification_screen.dart';
 
@@ -44,16 +47,18 @@ class EmailPassLogin{
     }
   }
 
-  registration(BuildContext context , String email,String password) async {
+  registration(BuildContext context , String email,String password, File? pickedImage) async {
     // if (password != null&& namecontroller.text!=""&& mailcontroller.text!="") {
       try {
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text(
-              "Registered Successfully",
-              style: TextStyle(fontSize: 20.0),
-            )));
+        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        //     content: Text(
+        //       "Registered Successfully",
+        //       style: TextStyle(fontSize: 20.0),
+        //     )));
+        UserFirestore().createUserData(email,pickedImage);
+        // UserFirestore().uploadUserData();
         Navigator.pushNamed(context, EmailVerificationScreen.routeName);
       } on FirebaseAuthException catch (e) {
         if (e.code == "email-already-in-use") {

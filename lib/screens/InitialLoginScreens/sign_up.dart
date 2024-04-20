@@ -1,11 +1,18 @@
+
+import 'dart:io';
+
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
+import 'package:hum_chale/firebase/user_firestore_storage.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/ui/app_style.dart';
 import 'package:hum_chale/widget/custom_text_field.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
+import 'package:hum_chale/firebase/user_firestore_storage.dart';
 class SignUp extends StatefulWidget {
   static var routeName = "/sign-up";
   const SignUp({super.key});
@@ -30,6 +37,8 @@ class _SignUpState extends State<SignUp> {
 
   //width
   late double width;
+
+  File? pickedImage;
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -46,27 +55,27 @@ class _SignUpState extends State<SignUp> {
                 titleTextStyle: AppStyles.titleStyle,
               ),
               body: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 // color: const Color(0xFF4FC3DC),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Gap(30),
-                    Center(
-                      child: Container(
-                        height: 200,
-                        width: 260,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.black, width: 2),
-                        ),
-                        child: ClipOval(
-                          child: FittedBox(
-                            fit: BoxFit.fill,
-                            child:
-                                Image.asset("assets/images/sign-up-screen.jpg"),
-                          ),
-                        ),
-                      ),
+                    const Gap(40),
+                    InkWell(
+                      onTap: () => showdialog(),
+                      child: pickedImage==null?const CircleAvatar(
+                      radius: 60,
+                        backgroundColor: CustomColors.primaryColor,
+                        child: Icon(Icons.person,color: Colors.white,size: 70,),
+
+                      ):
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundColor: CustomColors.primaryColor,
+                        backgroundImage: FileImage(pickedImage!),
+
+                      )
+                      ,
                     ),
                     const Gap(30),
                     Row(
@@ -116,12 +125,13 @@ class _SignUpState extends State<SignUp> {
         // onPressed: ()=>Navigator.pushNamed(context, Explore.routeName),
         onPressed: (){
           String password=TECemailAddress.text,email=TECpassword.text.trim();
-          debugPrint(   EmailValidator.validate(TECemailAddress.text).toString());
+          // debugPrint(   EmailValidator.validate(TECemailAddress.text).toString());
           if(
           EmailValidator.validate(email)&&
-              TECemailAddress.text!="" && TECpassword.text!=""){
+              TECemailAddress.text!="" && TECpassword.text!="" ){
             print("sign up");
-            EmailPassLogin().registration(context, email, password);
+            // UserFirestore().createUserData(email,pickedImage);
+            EmailPassLogin().registration(context, email, password,pickedImage!);
           }
           else{
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -142,5 +152,43 @@ class _SignUpState extends State<SignUp> {
         child: const Text("Sign Up",style: TextStyle(color: Colors.white,fontSize: 28),),
       ),
     );
+  }
+  showdialog(){
+    return  showDialog(context: context,
+      builder: (context) =>  AlertDialog(
+        title: const Text("Pick Image from"),
+        content:Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              onTap:(){ pickImage(ImageSource.camera);
+                Navigator.pop(context);
+                },
+              leading: const Icon(Icons.camera),
+              title: const Text("Camera"),
+            ),
+            ListTile(
+              onTap:(){ pickImage(ImageSource.gallery);
+                Navigator.pop(context);},
+              leading: const Icon(Icons.image),
+              title: const Text("Gallery"),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+  pickImage(ImageSource imageSource) async {
+try {
+  final image = await ImagePicker().pickImage(source: imageSource);
+  if (image == null) return;
+  final tempImage = File(image.path);
+  setState(() {
+    pickedImage = tempImage;
+  });
+}
+catch (ex){
+  print(ex.toString());
+}
   }
 }

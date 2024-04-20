@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
+ import 'package:hum_chale/firebase/trip_firestore_storage.dart';
 class StartPage extends StatelessWidget {
   static String routeName="/start-page";
    const StartPage({super.key});
@@ -93,6 +94,7 @@ class StartPage extends StatelessWidget {
           onPressed: () {
             SharedPref().isLoggedinSP(context);
          Navigator.pushNamed(context,LoginPage.routeName);
+         //    tripFirestore().fetchTripsFromFirestore();
         },
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween

@@ -53,11 +53,7 @@ class EmailPassLogin{
       try {
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: user.email, password: password);
-        // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        //     content: Text(
-        //       "Registered Successfully",
-        //       style: TextStyle(fontSize: 20.0),
-        //     )));
+
         UserFirestore().createUserData(user,pickedImage);
         // UserFirestore().uploadUserData();
         Navigator.pushNamed(context, EmailVerificationScreen.routeName);

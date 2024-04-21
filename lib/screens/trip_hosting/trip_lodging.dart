@@ -4,6 +4,7 @@ import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
+import 'package:hum_chale/firebase/trip_firestore_storage.dart';
 class TripLodging extends StatefulWidget {
   static var routeName = "trip-lodging";
   final Trip trip;
@@ -51,6 +52,7 @@ class _TripLodgingState extends State<TripLodging> {
                   onPressed: () {
                     widget.trip.setLodgings(lodging);
                     ////////////////////////////////////////////////////////////////////crete trip on firebase
+                    tripFirestore().createTrip(widget.trip);
                     Navigator.popUntil(
                         context, (route) => route.settings.name ==
                         CustomBottomNav.routeName);

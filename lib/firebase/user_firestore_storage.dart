@@ -24,7 +24,8 @@ var fa=FirebaseAuth.instance;
       "Age":user.age,
       "Phone":user.phoneNo,
       "Email":user.email,
-      "ImageURL":imageurl
+      "ImageURL":imageurl,
+      "uToken":user.uToken
     }).then((value){
       print("upload done");
     });

@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hum_chale/models/trip.dart';
 class tripFirestore {
-
+var ff=FirebaseFirestore.instance;
+var fs=FirebaseFirestore.instance;
+var fa=FirebaseAuth.instance;
   String timestampToString(Timestamp timestamp) {
     // Convert Timestamp to DateTime
     DateTime dateTime = timestamp.toDate();
@@ -50,5 +54,23 @@ class tripFirestore {
       return [];
     }
   }
+  createTrip(Trip trip) async {
+    var userColl = await ff.collection("userData").doc(trip.host);
+   var uToken= userColl.get().then((doc) {
+      if (doc.exists) {
+        return doc.data()?["uToken"];
+      } else {
+        return -1;
+      }
+    });
+if(uToken!=-1){
+ff.collection("trips").doc(trip.host+uToken.toString()).set(trip.toMap());
+}
+else{
+  print("trip data not uploaded");
+}
+
+  }
+
 }
 

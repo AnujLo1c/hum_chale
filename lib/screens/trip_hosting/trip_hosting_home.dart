@@ -42,7 +42,7 @@ class TripHostingHome extends StatelessWidget {
           CustomTextField2(textEditingController: TECactivities, hintText: "Activities included", w: 200,height: 5),
           Gap(30),
           CustomButton(onTap: (){
-            Trip trip =Trip(host:"a",activities: TECactivities.text, pickUpPoint: TECpickUpPoint.text, title: TECtitle.text, price: TECprice.text, imageurl: "my trip image", index: 99);
+            Trip trip =Trip(startDate:DateTime.now(),endDate:DateTime.now(),host:"a",activities: TECactivities.text, pickUpPoint: TECpickUpPoint.text, title: TECtitle.text, price: TECprice.text, imageurl: "my trip image", index: 99);
             Navigator.pushNamed(context,TripItinerary.routeName,arguments: trip);},text: "Next",)
         ],
       ),

@@ -16,7 +16,7 @@ import 'package:hum_chale/ui/CustomColors.dart';
 class Achome extends StatelessWidget {
   static var routeName = "ac-home";
    Achome({super.key});
-final Trip trip= Trip(host:"anuj",title: "Goa Tour", price: "12000", index: 5, imageurl: 'sadfdsaf',pickUpPoint:"vijay nagar",activities:"activity1",);
+final Trip trip= Trip(startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",title: "Goa Tour", price: "12000", index: 5, imageurl: 'sadfdsaf',pickUpPoint:"vijay nagar",activities:"activity1");
   final TravelRoute temp= TravelRoute(start: "A", dest: "N", time: "17:30", date: DateTime.now());
 
   final TravelRoute temp2=TravelRoute(start: "C", dest: "Na", time: "15:30", date: DateTime.now());

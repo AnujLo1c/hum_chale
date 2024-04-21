@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/trip_booking/product_details_screen.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
+
 class TripBookingHome extends StatefulWidget {
   static var routeName = "trip-booking-home";
   const TripBookingHome({super.key});
@@ -41,7 +42,7 @@ class _TripBookingHomeState extends State<TripBookingHome> {
     } else {
       results = _allUsers
           .where((user) =>
-          user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+              user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
     }
     setState(() {
@@ -52,105 +53,130 @@ class _TripBookingHomeState extends State<TripBookingHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            TextField(
-              onChanged: (value) => _runFilter(value),
-              decoration: const InputDecoration(
-                  labelText: 'Search', suffixIcon: Icon(Icons.search)),
-            ),
-            const SizedBox(
-              height: 60,
-            ),
-            SizedBox(
-              // height: 350,
-              child: _foundUsers.isNotEmpty
-                  ? SizedBox(
-                width: double.infinity,
-                    height: 400,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _foundUsers.length,
-                      itemBuilder: (context, index) => GestureDetector(
-                        onTap: (){
-                          Trip t=new Trip(title: "Goa",price: "15000",imageurl: "assets/images/temptrip${index%2}.jpg",index :index%2);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsScreen(trip: t),));
-                        },
-                        child: itemTile(index),
-                      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              const Gap(20),
+              TextField(
+                onChanged: (value) => _runFilter(value),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      borderSide: BorderSide(
+                          color: CustomColors.primaryColor, width: 3),
                     ),
-                  )
-                  : const Text(
-                'No results found',
-                style: TextStyle(fontSize: 24),
+                    enabled: true,
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: CustomColors.primaryColor, width: 3),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: CustomColors.primaryColor, width: 3),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    labelText: 'Search',
+                    suffixIcon: Icon(Icons.search)),
               ),
-            ),
-
-          ],
+              const Gap(40),
+              SizedBox(
+                // height: 350,
+                child: _foundUsers.isNotEmpty
+                    ? SizedBox(
+                        width: double.infinity,
+                        height: 400,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _foundUsers.length,
+                          itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              Trip t = Trip(host:"anuj",
+                                  title: "Goa",
+                                  price: "15000",
+                                  imageurl:
+                                      "assets/images/temptrip${index % 2}.jpg",
+                                  index: index % 2,
+                                  pickUpPoint: "vijay nagar",
+                                  activities: "activity1");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetailsScreen(trip: t),
+                                  ));
+                            },
+                            child: itemTile(index),
+                          ),
+                        ),
+                      )
+                    : const Text(
+                        'No results found',
+                        style: TextStyle(fontSize: 24),
+                      ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-Widget itemTile(int index){
+Widget itemTile(int index) {
   return Container(
     width: 200.0,
-    margin: EdgeInsets.all(8.0),
+    margin: const EdgeInsets.all(8.0),
     decoration: BoxDecoration(
-      boxShadow: [
-        BoxShadow(
-            color:Colors.black54,
-          spreadRadius: 2,blurRadius: 2
-        )
-      ],
-      borderRadius: BorderRadius.circular(10.0),
-      border: Border.all(color: Colors.black),
-      color: Colors.grey.shade400
-    ),
-child: Center(
-  child: Column(
-    children: [
-      Gap(2),
-      Hero(
-        tag: "hello"+index.toString(),
-        transitionOnUserGestures: true,
-        child: ClipRRect(
-          child: Container(
-            // color: Colors.black,
-            height: 339,
-          width:195,
-            decoration: BoxDecoration(
-              // boxShadow: [
-              //    BoxShadow(
-              //      blurRadius: 2
-              //    )
-              // ],
-              borderRadius: BorderRadius.only(topRight: Radius.circular(8),topLeft: Radius.circular(8)),
-              image: DecorationImage(
-                image: AssetImage("assets/images/temptrip${index%2}.jpg"), // Set background image
-                fit: BoxFit.cover,
-              ),
+        boxShadow: const [
+          BoxShadow(color: Colors.black54, spreadRadius: 2, blurRadius: 2)
+        ],
+        borderRadius: BorderRadius.circular(10.0),
+        border: Border.all(color: Colors.black),
+        color: Colors.grey.shade400),
+    child: Center(
+      child: Column(
+        children: [
+          const Gap(2),
+          Hero(
+            tag: "hello$index",
+            transitionOnUserGestures: true,
+            child: ClipRRect(
+              child: Container(
+                  // color: Colors.black,
+                  height: 339,
+                  width: 195,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(8),
+                        topLeft: Radius.circular(8)),
+                    image: DecorationImage(
+                      image: AssetImage(
+                          "assets/images/temptrip${index % 2}.jpg"), // Set background image
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 20, left: 65),
+                    child: Text(
+                      "Goa",
+                      style: TextStyle(
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 34),
+                    ),
+                  )),
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 20,left: 65),
-              child: Text("Goa",style: TextStyle(color: Colors.white70,fontWeight: FontWeight.w900,fontSize: 34),),
-            )
           ),
-        ),
+          const Gap(10),
+          const Text(
+            "15000₹",
+            style: TextStyle(fontSize: 22, color: Colors.white),
+          ),
+          // Gap(200),
+          // Text("15000",style: TextStyle(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white),)
+        ],
       ),
-      Gap(10),
-      Text("15000₹",style: TextStyle(fontSize: 22,color: Colors.white),),
-      // Gap(200),
-      // Text("15000",style: TextStyle(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white),)
-    ],
-  ),
-),
+    ),
   );
-
 }

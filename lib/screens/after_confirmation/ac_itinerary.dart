@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hum_chale/models/TravelRoute.dart';
+// import 'package:hum_chale/models/TravelRoute.dart';
 import 'package:gap/gap.dart';
-import 'package:hum_chale/models/TravelRoute.dart';
+// import 'package:hum_chale/models/TravelRoute.dart';
+import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:intl/intl.dart';
 

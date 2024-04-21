@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
 class TripLodging extends StatefulWidget {
   static var routeName = "trip-lodging";
-  const TripLodging({super.key});
+  final Trip trip;
+  const TripLodging({super.key, required this.trip});
 
   @override
   State<TripLodging> createState() => _TripLodgingState();
@@ -46,8 +48,14 @@ class _TripLodgingState extends State<TripLodging> {
                 width: MediaQuery.of(context).size.width-50,
                 margin: EdgeInsets.only(bottom: 17),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.popUntil(context, (route) => route.settings.name==CustomBottomNav.routeName),
-                  style: ElevatedButton.styleFrom(
+                  onPressed: () {
+                    widget.trip.setLodgings(lodging);
+                    ////////////////////////////////////////////////////////////////////crete trip on firebase
+                    Navigator.popUntil(
+                        context, (route) => route.settings.name ==
+                        CustomBottomNav.routeName);
+
+                  },style: ElevatedButton.styleFrom(
                     elevation: 5,
                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                     backgroundColor: CustomColors.primaryColor,

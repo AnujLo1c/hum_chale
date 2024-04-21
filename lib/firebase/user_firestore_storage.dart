@@ -12,11 +12,13 @@ import 'package:hum_chale/models/tuser.dart';
 class UserFirestore{
 var ff=FirebaseFirestore.instance;
 var fs=FirebaseStorage.instance;
+var fa=FirebaseAuth.instance;
   createUserData(Tuser user,File? pickedImage) async {
     UploadTask uploadTask=fs.ref("Profile-pic").child(user.email).putFile(pickedImage!);
     TaskSnapshot taskSnapshot=await uploadTask;
     String imageurl=await taskSnapshot.ref.getDownloadURL();
     user.url=imageurl;
+    // fa.currentUser?.updatePhotoURL(imageurl);
     ff.collection("userData").doc(user.email).set({
       "Name":user.fullName,
       "Age":user.age,
@@ -32,7 +34,7 @@ Future<void> fetchUserData() async {
   final currentUser = FirebaseAuth.instance.currentUser;
   // print(currentUser?.email);
   if (currentUser != null) {
-    DocumentSnapshot userDataSnapshot = await FirebaseFirestore.instance.collection("userData").doc("anujlowanshi3@gmail.com").get();
+    DocumentSnapshot userDataSnapshot = await FirebaseFirestore.instance.collection("userData").doc(currentUser.email).get();
     if (userDataSnapshot.exists) {
       print("object");
       print(userDataSnapshot.data());

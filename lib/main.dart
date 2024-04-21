@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/email_verification_screen.dart';
 import 'package:hum_chale/firebase/firebase_options.dart';
-import 'package:hum_chale/models/TravelRoute.dart';
+import 'package:hum_chale/models/trip.dart';
+// import 'package:hum_chale/models/TravelRoute.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up_google.dart';
@@ -47,9 +48,9 @@ class MyApp extends StatelessWidget {
         SignUpG.routeName: (context) => const SignUpG(),
         Explore.routeName: (context) => const Explore(),
         CustomBottomNav.routeName: (context) => const CustomBottomNav(),
-        TripItinerary.routeName:(context)=>const TripItinerary(),
-        TripTransit.routeName:(context)=>const TripTransit(),
-        TripLodging.routeName:(context)=>const TripLodging(),
+        TripItinerary.routeName:(context)=> TripItinerary(trip: ModalRoute.of(context)!.settings.arguments as Trip),
+        TripTransit.routeName:(context)=>TripTransit(trip: ModalRoute.of(context)!.settings.arguments as Trip),
+        TripLodging.routeName:(context)=> TripLodging(trip: ModalRoute.of(context)!.settings.arguments as Trip),
         AddMembers.routeName:(context)=>const AddMembers(),
         Achome.routeName:(context) => Achome(),
         EmailVerificationScreen.routeName:(context) => const EmailVerificationScreen(),

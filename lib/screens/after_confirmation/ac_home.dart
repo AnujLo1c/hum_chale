@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:hum_chale/models/TravelRoute.dart';
+// import 'package:hum_chale/models/TravelRoute.dart';
 import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_booking.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_itinerary.dart';
@@ -16,7 +16,7 @@ import 'package:hum_chale/ui/CustomColors.dart';
 class Achome extends StatelessWidget {
   static var routeName = "ac-home";
    Achome({super.key});
-final Trip trip= Trip(title: "Goa Tour", price: "12000", index: 5, imageurl: 'sadfdsaf');
+final Trip trip= Trip(host:"anuj",title: "Goa Tour", price: "12000", index: 5, imageurl: 'sadfdsaf',pickUpPoint:"vijay nagar",activities:"activity1",);
   final TravelRoute temp= TravelRoute(start: "A", dest: "N", time: "17:30", date: DateTime.now());
 
   final TravelRoute temp2=TravelRoute(start: "C", dest: "Na", time: "15:30", date: DateTime.now());

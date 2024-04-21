@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/authentication/GoogleLogin.dart';
@@ -18,12 +19,8 @@ class ProfileHome extends StatefulWidget {
 class _ProfileHomeState extends State<ProfileHome> {
   static Size? size;
 
-  static bool c = true;
-  @override
-  void initState() {
-    super.initState();
-  }
 
+  static bool c = true;
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -48,10 +45,12 @@ class _ProfileHomeState extends State<ProfileHome> {
                 const Gap(10),
                 CircleAvatar(
                     radius: 50,
-                    backgroundColor: Colors.grey.shade200,
-                    backgroundImage: NetworkImage(snapshot.data["ImageURL"])),
-                const Gap(10),
-                Text(snapshot.data["Email"], style: TextStyle(fontSize: 24)),
+                    backgroundColor: Colors.grey.shade400,
+                    backgroundImage: NetworkImage(snapshot.data["ImageURL"])
+                    // backgroundImage: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL,
+                    )
+                ,const Gap(10),
+                Text(snapshot.data["Name"], style: TextStyle(fontSize: 24)),
                 const Gap(20),
                 Column(
                   children: [

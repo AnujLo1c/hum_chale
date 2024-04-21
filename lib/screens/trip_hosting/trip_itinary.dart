@@ -1,20 +1,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+// import 'package:hum_chale/models/TravelRoute.dart';
+// import 'pahum_chale/models/TravelRoute.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_transit.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
 import 'package:intl/intl.dart';
-import 'package:hum_chale/models/TravelRoute.dart';
+import 'package:hum_chale/models/trip.dart';
 class TripItinerary extends StatefulWidget {
   static var routeName = "trip-itinerary";
-
-  const TripItinerary({super.key});
+final Trip trip;
+  const TripItinerary({super.key,required this.trip});
   @override
   State<TripItinerary> createState() => _TripItineraryState();
 }
 class _TripItineraryState extends State<TripItinerary> {
-  List<dynamic> itineraries = [];
+
+  List<TravelRoute>? itineraries =[];
   TextEditingController textEditingControllerStart = TextEditingController();
   TextEditingController textEditingControllerDest = TextEditingController();
   TextEditingController textEditingControllerTime = TextEditingController();
@@ -29,7 +32,7 @@ class _TripItineraryState extends State<TripItinerary> {
           Gap(20),
           Expanded(
             child: ListView.builder(
-              itemCount: itineraries.length,
+              itemCount: itineraries!.length,
               itemBuilder: (context, index) {
                 return itineraryTile(index);
               },
@@ -40,7 +43,12 @@ class _TripItineraryState extends State<TripItinerary> {
             width: MediaQuery.of(context).size.width-90,
             margin: EdgeInsets.only(bottom: 17),
             child: ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, TripTransit.routeName),
+              onPressed: (){
+                widget.trip.setItinerary(itineraries);
+                // var t=widget.trip.travelRoute;
+                // print(t?.elementAt(0).start);
+                Navigator.pushNamed(context, TripTransit.routeName,arguments: widget.trip);
+              },
               style: ElevatedButton.styleFrom(
                 elevation: 5,
                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
@@ -116,9 +124,9 @@ class _TripItineraryState extends State<TripItinerary> {
                           s != "" &&
                           t != "" &&
                           d != "") {
-                        TravelRoute temp = new TravelRoute(
+                        TravelRoute temp =  TravelRoute(
                             start: s, dest: d, time: t, date: _selectedDate);
-                        itineraries.add(temp);
+                        itineraries!.add(temp);
                         setState(() {});
                         Navigator.pop(context);
                       } else {
@@ -185,7 +193,7 @@ class _TripItineraryState extends State<TripItinerary> {
   }
 
   Widget itineraryTile(int index) {
-    TravelRoute r = itineraries.elementAt(index);
+    TravelRoute r = itineraries!.elementAt(index);
     return Container(
         margin: EdgeInsets.only(right: 20,left: 20,top: 10,bottom: 10),
         padding: EdgeInsets.symmetric(vertical: 5,horizontal: 20),

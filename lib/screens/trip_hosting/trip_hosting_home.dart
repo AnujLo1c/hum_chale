@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -7,9 +10,12 @@ import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
 import 'package:hum_chale/widget/CustomButton.dart';
 import 'package:hum_chale/widget/Custom_text_field_2.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
+import 'package:image_picker/image_picker.dart';
 class TripHostingHome extends StatelessWidget {
   static var routeName= "trip-hosting-home";
+
    TripHostingHome({super.key});
+  dynamic file;
   final TextEditingController TECtitle=TextEditingController();
   final TextEditingController TECpickUpPoint=TextEditingController();
   final TextEditingController TECprice=TextEditingController();
@@ -36,16 +42,30 @@ class TripHostingHome extends StatelessWidget {
               Text("Price",style:  TextStyle(fontSize: 28,color: Colors.black,fontWeight: FontWeight.w600),
               ),Gap(10),
               CustomTextField2(textEditingController: TECprice, hintText: "PP",w: 150,size: size.width/2-100),
+              ElevatedButton(onPressed: (){pickImage(ImageSource.gallery);
+                }, child: Text("Image"))
             ],
           ),
           Gap(15),
           CustomTextField2(textEditingController: TECactivities, hintText: "Activities included", w: 200,height: 5),
           Gap(30),
           CustomButton(onTap: (){
-            Trip trip =Trip(startDate:DateTime.now(),endDate:DateTime.now(),host:"a",activities: TECactivities.text, pickUpPoint: TECpickUpPoint.text, title: TECtitle.text, price: TECprice.text, imageurl: "my trip image", index: 99);
+            Trip trip =Trip(pickedImage:file,startDate:DateTime.now(),endDate:DateTime.now(),host:FirebaseAuth.instance.currentUser!.email,activities: TECactivities.text, pickUpPoint: TECpickUpPoint.text, title: TECtitle.text, price: TECprice.text, imageurl: "my trip image", index: 99);
             Navigator.pushNamed(context,TripItinerary.routeName,arguments: trip);},text: "Next",)
         ],
       ),
     );
+  }
+  pickImage(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image == null) return -1;
+      final tempImage = File(image.path);
+      file=tempImage;
+    }
+    catch (ex){
+      print(ex.toString());
+      return -1;
+    }
   }
 }

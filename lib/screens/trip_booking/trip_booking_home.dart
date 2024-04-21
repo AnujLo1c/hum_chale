@@ -91,7 +91,7 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                           itemCount: _foundUsers.length,
                           itemBuilder: (context, index) => GestureDetector(
                             onTap: () {
-                              Trip t = Trip(startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",
+                              Trip t = Trip(pickedImage:null,startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",
                                   title: "Goa",
                                   price: "15000",
                                   imageurl:

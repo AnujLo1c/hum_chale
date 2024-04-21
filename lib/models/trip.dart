@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Trip{
-  final String title,price,imageurl,activities,pickUpPoint,host;
+  final String title,price,activities,pickUpPoint;
+  final File? pickedImage;
+  String imageurl;
   final DateTime startDate,endDate;
-
+final String? host;
   final int index;
    List<TravelRoute>? travelRoute;
    List<bool>? lodgings;
    List<bool>? transits;
-  Trip(  {required this.startDate, required this.endDate, required this.host,this.lodgings, this.transits,required this.activities, required this.pickUpPoint, this.travelRoute,required this.title, required this.price, required this.imageurl,required this.index});
+  Trip(  {required this.startDate,required this.pickedImage, required this.endDate, required this.host,this.lodgings, this.transits,required this.activities, required this.pickUpPoint, this.travelRoute,required this.title, required this.price, required this.imageurl,required this.index});
 
   void setItinerary(List<TravelRoute>? itineraries) {
     travelRoute=itineraries;

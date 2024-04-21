@@ -20,6 +20,7 @@ class TripHostingHome extends StatelessWidget {
   final TextEditingController TECpickUpPoint=TextEditingController();
   final TextEditingController TECprice=TextEditingController();
   final TextEditingController TECactivities=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;

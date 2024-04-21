@@ -6,7 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
 
@@ -18,7 +18,6 @@ class ProfileHome extends StatefulWidget {
 
 class _ProfileHomeState extends State<ProfileHome> {
   static Size? size;
-
 
   static bool c = true;
   @override
@@ -43,14 +42,35 @@ class _ProfileHomeState extends State<ProfileHome> {
                 const Gap(20),
                 const Text("Profile", style: TextStyle(fontSize: 34)),
                 const Gap(10),
-                CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.grey.shade400,
-                    backgroundImage: NetworkImage(snapshot.data["ImageURL"])
-                    // backgroundImage: NetworkImage(FirebaseAuth.instance.currentUser!.photoURL,
-                    )
-                ,const Gap(10),
-                Text(snapshot.data["Name"], style: TextStyle(fontSize: 24)),
+                Center(
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      fit: BoxFit.fill,
+                      height: 150,
+                      width: 150,
+                      imageUrl: snapshot.data["ImageURL"],
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const CircleAvatar(
+                        foregroundColor: Colors.white,
+                        backgroundColor: CustomColors.primaryColor,
+                        radius: 100,
+                        child: Icon(
+                          Icons.person,
+                          size: 90,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // CircleAvatar(
+                //   radius: 50,
+                //   backgroundColor: Colors.grey.shade400,
+                //   backgroundImage: NetworkImage(snapshot.data["ImageURL"]),
+                //
+                // ),
+                const Gap(10),
+                Text(snapshot.data["Name"], style: const TextStyle(fontSize: 24)),
                 const Gap(20),
                 Column(
                   children: [

@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -80,38 +82,84 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                     suffixIcon: Icon(Icons.search)),
               ),
               const Gap(40),
-              _foundUsers.isNotEmpty ?
-              SizedBox(
+              StreamBuilder(stream: FirebaseFirestore.instance.collection("trips").where("startDate",isLessThanOrEqualTo: Timestamp.now()).snapshots(),
+                  builder: (context, snapshot) {
+                if(snapshot.connectionState==ConnectionState.active) {
+                  if (snapshot.hasData) {
+                    return SizedBox(
                       width: double.infinity,
                       height: 400,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: _foundUsers.length,
-                        itemBuilder: (context, index) => GestureDetector(
-                          onTap: () {
-                            Trip t = Trip(pickedImage:null,startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",
-                                title: "Goa",
-                                price: "15000",
-                                imageurl:
-                                    "assets/images/temptrip${index % 2}.jpg",
-                                index: index % 2,
-                                pickUpPoint: "vijay nagar",
-                                activities: "activity1");
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductDetailsScreen(trip: t),
-                                ));
-                          },
-                          child: itemTile(index),
-                        ),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) =>
+                            GestureDetector(
+                              onTap: () {
+                                // Trip t = Trip(pickedImage: null,
+                                //     startDate: DateTime.now(),
+                                //     endDate: DateTime.now(),
+                                //     host: "anuj",
+                                //     title: "Goa",
+                                //     price: "15000",
+                                //     imageurl:
+                                //     "assets/images/temptrip${index % 2}.jpg",
+                                //     index: index % 2,
+                                //     pickUpPoint: "vijay nagar",
+                                //     activities: "activity1");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductDetailsScreen(trip: Trip.fromSnapshot(snapshot.data!.docs[index]),
+                                    )));
+                              },
+                              child: itemTile(index,snapshot.data?.docs[index]),
+                            ),
                       ),
-                    )
-                  : const Text(
-                      'No results found',
-                      style: TextStyle(fontSize: 24),
-                    ),
+                    );
+                  }
+                  else if(snapshot.hasError){
+                    return Center(child: Text(snapshot.hasError.toString()),);
+                  }
+                }
+                else{
+                  return const Center(child: CircularProgressIndicator(),);
+                }
+                return const Placeholder();
+                  },
+              ),
+              // _foundUsers.isNotEmpty ?
+              // SizedBox(
+              //         width: double.infinity,
+              //         height: 400,
+              //         child: ListView.builder(
+              //           scrollDirection: Axis.horizontal,
+              //           itemCount: _foundUsers.length,
+              //           itemBuilder: (context, index) => GestureDetector(
+              //             onTap: () {
+              //               Trip t = Trip(pickedImage:null,startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",
+              //                   title: "Goa",
+              //                   price: "15000",
+              //                   imageurl:
+              //                       "assets/images/temptrip${index % 2}.jpg",
+              //                   index: index % 2,
+              //                   pickUpPoint: "vijay nagar",
+              //                   activities: "activity1");
+              //               Navigator.push(
+              //                   context,
+              //                   MaterialPageRoute(
+              //                     builder: (context) =>
+              //                         ProductDetailsScreen(trip: t),
+              //                   ));
+              //             },
+              //             child: itemTile(index),
+              //           ),
+              //         ),
+              //       )
+                  // : const Text(
+                  //     'No results found',
+                  //     style: TextStyle(fontSize: 24),
+                  //   ),
             ],
           ),
         ),
@@ -120,7 +168,7 @@ class _TripBookingHomeState extends State<TripBookingHome> {
   }
 }
 
-Widget itemTile(int index) {
+Widget itemTile(int index, dynamic doc) {
   return Container(
     width: 200.0,
     margin: const EdgeInsets.all(8.0),
@@ -144,20 +192,20 @@ Widget itemTile(int index) {
                   height: 339,
                   width: 195,
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
+                    borderRadius:  const BorderRadius.only(
                         topRight: Radius.circular(8),
                         topLeft: Radius.circular(8)),
                     image: DecorationImage(
-                      image: AssetImage(
-                          "assets/images/temptrip${index % 2}.jpg"), // Set background image
+                      image:
+                      CachedNetworkImageProvider( doc['imageUrl'].toString()),
                       fit: BoxFit.cover,
                     ),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 20, left: 65),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(top: 20, left: 65),
                     child: Text(
-                      "Goa",
-                      style: TextStyle(
+                      doc['title'].toString(),
+                      style: const TextStyle(
                           color: Colors.white70,
                           fontWeight: FontWeight.w900,
                           fontSize: 34),
@@ -165,13 +213,14 @@ Widget itemTile(int index) {
                   )),
             ),
           ),
-          const Gap(10),
-          const Text(
-            "15000₹",
-            style: TextStyle(fontSize: 22, color: Colors.white),
+          const Gap(5),
+          Text(
+            doc['price'],
+            style: const TextStyle(fontSize: 22, color: Colors.white),
           ),
-          // Gap(200),
+          // const Gap(10),
           // Text("15000",style: TextStyle(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white),)
+          const Gap(5),
         ],
       ),
     ),

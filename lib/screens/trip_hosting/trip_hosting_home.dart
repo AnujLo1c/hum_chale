@@ -27,33 +27,35 @@ class TripHostingHome extends StatelessWidget {
     return  Container(
       alignment: Alignment.center,
       margin: EdgeInsets.symmetric(vertical: 15,horizontal: 20),
-      child: Column(
-        children: [
-          Gap(5),
-          Align(
-              alignment: AlignmentDirectional.topStart,child: Text("Trip Hosting",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 34,color: Theme.of(context).primaryColor),))
-          ,Gap(20),CustomTextField2(textEditingController: TECtitle, hintText: 'Trip Title', w: 300,),
-          Gap(10),
-          CustomTextField2(textEditingController: TECpickUpPoint, hintText: 'Pick up Point', w: 200,),
-        Gap(15)
-        ,Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Gap(2),
-              Text("Price",style:  TextStyle(fontSize: 28,color: Colors.black,fontWeight: FontWeight.w600),
-              ),Gap(10),
-              CustomTextField2(textEditingController: TECprice, hintText: "PP",w: 150,size: size.width/2-100),
-              ElevatedButton(onPressed: (){pickImage(ImageSource.gallery);
-                }, child: Text("Image"))
-            ],
-          ),
-          Gap(15),
-          CustomTextField2(textEditingController: TECactivities, hintText: "Activities included", w: 200,height: 5),
-          Gap(30),
-          CustomButton(onTap: (){
-            Trip trip =Trip(pickedImage:file,startDate:DateTime.now(),endDate:DateTime.now(),host:FirebaseAuth.instance.currentUser!.email,activities: TECactivities.text, pickUpPoint: TECpickUpPoint.text, title: TECtitle.text, price: TECprice.text, imageurl: "my trip image", index: 99);
-            Navigator.pushNamed(context,TripItinerary.routeName,arguments: trip);},text: "Next",)
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Gap(5),
+            Align(
+                alignment: AlignmentDirectional.topStart,child: Text("Trip Hosting",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 34,color: Theme.of(context).primaryColor),))
+            ,Gap(20),CustomTextField2(textEditingController: TECtitle, hintText: 'Trip Title', w: 300,),
+            Gap(10),
+            CustomTextField2(textEditingController: TECpickUpPoint, hintText: 'Pick up Point', w: 200,),
+          Gap(15)
+          ,Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Gap(2),
+                Text("Price",style:  TextStyle(fontSize: 28,color: Colors.black,fontWeight: FontWeight.w600),
+                ),Gap(10),
+                CustomTextField2(textEditingController: TECprice, hintText: "PP",w: 150,size: size.width/2-100),
+                ElevatedButton(onPressed: (){pickImage(ImageSource.gallery);
+                  }, child: Text("Image"))
+              ],
+            ),
+            Gap(15),
+            CustomTextField2(textEditingController: TECactivities, hintText: "Activities included", w: 200,height: 5),
+            Gap(30),
+            CustomButton(onTap: (){
+              Trip trip =Trip(pickedImage:file,startDate:DateTime.now(),endDate:DateTime(DateTime.august),host:FirebaseAuth.instance.currentUser!.email,activities: TECactivities.text, pickUpPoint: TECpickUpPoint.text, title: TECtitle.text, price: TECprice.text, imageurl: "my trip image", index: 99);
+              Navigator.pushNamed(context,TripItinerary.routeName,arguments: trip);},text: "Next",)
+          ],
+        ),
       ),
     );
   }

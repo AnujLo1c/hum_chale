@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -24,7 +25,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  Timer(Duration(milliseconds: 100),() => _show(context),);
+  Timer(const Duration(milliseconds: 100),() => _show(context),);
   }
 
   void _show(BuildContext ctx) {
@@ -43,10 +44,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height/2,
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topRight: Radius.circular(25),
               topLeft: Radius.circular(25),
             ),
@@ -54,7 +55,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
+              const Center(
                 child: Text(
                   'Trip Details',
                   style: TextStyle(
@@ -63,17 +64,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
 
-              Text(widget.trip.title,style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+              Text(widget.trip.title,style: const TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
               Text('Date: ${widget.trip.title}'),
               Text('Price: ${widget.trip.price}'),
               // Add more details as needed
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 50,
                 width: MediaQuery.of(context).size.width-50,
-                margin: EdgeInsets.only(bottom: 17),
+                margin: const EdgeInsets.only(bottom: 17),
                 child: ElevatedButton(
                   onPressed: () => Navigator.pushNamed(context, AddMembers.routeName),
                   style: ElevatedButton.styleFrom(
@@ -106,11 +107,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 tag: "hello${widget.trip.index}",
                 child: ClipRRect(
                   child: Container(
-                    height: 400,
+                    height: 600,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage(widget.trip.imageurl),
+                        image: CachedNetworkImageProvider(widget.trip.imageurl),
                         fit: BoxFit.fill,
                       ),
                     ),

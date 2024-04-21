@@ -39,6 +39,20 @@ final String? host;
       'transits': transits,
     };
   }
+
+  factory Trip.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
+    return Trip(
+      title: snapshot['title'] as String,
+      price: snapshot['price'] as String,
+      activities: snapshot['activities'] as String,
+      pickUpPoint: snapshot['pickUpPoint'] as String,
+      startDate: (snapshot['startDate'] as Timestamp).toDate(),
+      endDate: (snapshot['endDate'] as Timestamp).toDate(),
+      index: snapshot['index'] as int,
+      host: snapshot['host'] as String?, // Assuming 'host' is nullable
+      pickedImage: null, imageurl: snapshot['imageUrl']as String, // Assuming 'pickedImage' is nullable
+    );
+  }
 }
 class TravelRoute {
   final String start, dest, time;

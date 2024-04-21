@@ -80,41 +80,38 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                     suffixIcon: Icon(Icons.search)),
               ),
               const Gap(40),
+              _foundUsers.isNotEmpty ?
               SizedBox(
-                // height: 350,
-                child: _foundUsers.isNotEmpty
-                    ? SizedBox(
-                        width: double.infinity,
-                        height: 400,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _foundUsers.length,
-                          itemBuilder: (context, index) => GestureDetector(
-                            onTap: () {
-                              Trip t = Trip(pickedImage:null,startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",
-                                  title: "Goa",
-                                  price: "15000",
-                                  imageurl:
-                                      "assets/images/temptrip${index % 2}.jpg",
-                                  index: index % 2,
-                                  pickUpPoint: "vijay nagar",
-                                  activities: "activity1");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductDetailsScreen(trip: t),
-                                  ));
-                            },
-                            child: itemTile(index),
-                          ),
+                      width: double.infinity,
+                      height: 400,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _foundUsers.length,
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            Trip t = Trip(pickedImage:null,startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",
+                                title: "Goa",
+                                price: "15000",
+                                imageurl:
+                                    "assets/images/temptrip${index % 2}.jpg",
+                                index: index % 2,
+                                pickUpPoint: "vijay nagar",
+                                activities: "activity1");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ProductDetailsScreen(trip: t),
+                                ));
+                          },
+                          child: itemTile(index),
                         ),
-                      )
-                    : const Text(
-                        'No results found',
-                        style: TextStyle(fontSize: 24),
                       ),
-              ),
+                    )
+                  : const Text(
+                      'No results found',
+                      style: TextStyle(fontSize: 24),
+                    ),
             ],
           ),
         ),

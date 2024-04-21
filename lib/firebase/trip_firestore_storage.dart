@@ -81,4 +81,5 @@ class tripFirestore {
       print("trip data not uploaded");
     }
   }
+
 }

@@ -40,7 +40,7 @@ final String? host;
     };
   }
 
-  factory Trip.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory Trip.fromSnapshot(DocumentSnapshot<Object?> snapshot) {
     return Trip(
       title: snapshot['title'] as String,
       price: snapshot['price'] as String,

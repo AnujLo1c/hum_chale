@@ -107,8 +107,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 tag: "hello${widget.trip.index}",
                 child: ClipRRect(
                   child: Container(
-                    height: 600,
-                    width: MediaQuery.of(context).size.width,
+                  height: 480,
+                  width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: CachedNetworkImageProvider(widget.trip.imageurl),

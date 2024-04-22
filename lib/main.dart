@@ -51,7 +51,9 @@ class MyApp extends StatelessWidget {
         TripItinerary.routeName:(context)=> TripItinerary(trip: ModalRoute.of(context)!.settings.arguments as Trip),
         TripTransit.routeName:(context)=>TripTransit(trip: ModalRoute.of(context)!.settings.arguments as Trip),
         TripLodging.routeName:(context)=> TripLodging(trip: ModalRoute.of(context)!.settings.arguments as Trip),
-        AddMembers.routeName:(context)=>const AddMembers(),
+        AddMembers.routeName: (context) => AddMembers(
+            tripReq:
+                ModalRoute.of(context)!.settings.arguments as TripJoinRequest),
         Achome.routeName:(context) => Achome(),
         EmailVerificationScreen.routeName:(context) => const EmailVerificationScreen(),
         ForgotPassword.routeName:(context) => const ForgotPassword(),

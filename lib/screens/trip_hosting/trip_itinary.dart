@@ -18,6 +18,7 @@ final Trip trip;
 class _TripItineraryState extends State<TripItinerary> {
 
   List<TravelRoute>? itineraries =[];
+  List<String> locationsList = [];
   TextEditingController textEditingControllerStart = TextEditingController();
   TextEditingController textEditingControllerDest = TextEditingController();
   TextEditingController textEditingControllerTime = TextEditingController();
@@ -44,9 +45,10 @@ class _TripItineraryState extends State<TripItinerary> {
             margin: EdgeInsets.only(bottom: 17),
             child: ElevatedButton(
               onPressed: (){
-                widget.trip.setItinerary(itineraries);
-                // var t=widget.trip.travelRoute;
-                // print(t?.elementAt(0).start);
+                var w = widget.trip;
+                w.setItinerary(itineraries);
+                w.setLocations(locationsList);
+                print(w.locations);
                 Navigator.pushNamed(context, TripTransit.routeName,arguments: widget.trip);
               },
               style: ElevatedButton.styleFrom(
@@ -127,6 +129,7 @@ class _TripItineraryState extends State<TripItinerary> {
                         TravelRoute temp =  TravelRoute(
                             start: s, dest: d, time: t, date: _selectedDate);
                         itineraries!.add(temp);
+                        locationsList.add(d.toLowerCase());
                         setState(() {});
                         Navigator.pop(context);
                       } else {

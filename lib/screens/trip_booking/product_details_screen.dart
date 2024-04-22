@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:hum_chale/models/trip.dart';
-// import 'package:hum_chale/screens/custom_bottom_nav.dart';
+
 import 'package:hum_chale/screens/trip_booking/add_members.dart';
-import 'package:hum_chale/ui/CustomColors.dart'; // Import the trip.dart file only once
+import 'package:hum_chale/ui/CustomColors.dart';
+import 'package:hum_chale/models/tuser.dart';
+import 'package:hum_chale/firebase/user_firestore_storage.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static var routeName = "product-detail";
@@ -20,12 +22,33 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  static Tuser? user;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
   Timer(const Duration(milliseconds: 100),() => _show(context),);
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    try {
+      dynamic temp = await UserFirestore().fetchUserData();
+      // print(temp);
+
+      setState(() {
+        user = Tuser(
+            fullName: temp['Name'],
+            phoneNo: temp['Phone'],
+            email: temp['Email'],
+            age: temp['Age']);
+      });
+      // print(user?.phoneNo);
+    } catch (error) {
+      print('Error fetching user data: $error');
+      return null;
+    }
   }
 
   void _show(BuildContext ctx) {
@@ -57,7 +80,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             children: [
               const Center(
                 child: Text(
-                  'Trip Details',
+                  'Trip Details}',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -76,7 +99,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 width: MediaQuery.of(context).size.width-50,
                 margin: const EdgeInsets.only(bottom: 17),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, AddMembers.routeName),
+                  onPressed: () {
+                    TripJoinRequest req = TripJoinRequest(
+                        phone: user!.phoneNo,
+                        docId: widget.trip.refId!,
+                        email: user!.email,
+                        name: "${user!.fullName}#${user!.age}");
+                    // print(req);
+                    Navigator.pushNamed(context, AddMembers.routeName,
+                        arguments: req);
+                  },
                   style: ElevatedButton.styleFrom(
                     elevation: 5,
                     shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),

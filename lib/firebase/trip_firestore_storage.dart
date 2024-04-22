@@ -70,6 +70,7 @@ class tripFirestore {
 
     if (uToken != -1) {
       var task=fs.ref("Trips-pic").child(trip.host!+uToken.toString()).putFile(trip.pickedImage!);
+      trip.setRefId(trip.host! + uToken.toString());
       TaskSnapshot taskSnapshot=await task;
       String link=await taskSnapshot.ref.getDownloadURL();
       trip.imageurl=link;

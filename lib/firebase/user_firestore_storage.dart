@@ -31,14 +31,15 @@ var fa=FirebaseAuth.instance;
     });
 
   }
-Future<void> fetchUserData() async {
-  final currentUser = FirebaseAuth.instance.currentUser;
-  // print(currentUser?.email);
+
+  Future<dynamic> fetchUserData() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    // print(currentUser?.email);
   if (currentUser != null) {
     DocumentSnapshot userDataSnapshot = await FirebaseFirestore.instance.collection("userData").doc(currentUser.email).get();
     if (userDataSnapshot.exists) {
-      print("object");
-      print(userDataSnapshot.data());
+        // print("object");
+        print(userDataSnapshot.data());
       return Future.delayed(const Duration(milliseconds: 100)).then((value) => userDataSnapshot.data());
     } else {
       print('User data does not exist');

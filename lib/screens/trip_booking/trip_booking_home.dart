@@ -104,7 +104,8 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                                               ProductDetailsScreen(
                                                 trip: Trip.fromSnapshot(
                                                     // snapshot.data!.docs[index]
-                                                    _filteredTrips[index]),
+                                                  _filteredTrips[index],
+                                                ),
                                               )));
                                 },
                                 child:
@@ -138,6 +139,14 @@ class _TripBookingHomeState extends State<TripBookingHome> {
     if (enteredKeyword.isEmpty) {
       return trips;
     } else {
+      return trips.where((trip) {
+        for (var location in trip['locations']) {
+          if (location.toLowerCase().contains(_searchQuery.toLowerCase())) {
+            return true;
+          }
+        }
+        return false;
+      }).toList();
       return trips.where((trip) {
         final title = trip['title'].toString().toLowerCase();
         return title.contains(enteredKeyword);

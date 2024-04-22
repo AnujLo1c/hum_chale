@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 class AddMembers extends StatefulWidget {
   static var routeName = "Add-members-screen";
-  const AddMembers({super.key});
+  final TripJoinRequest tripReq;
+
+  const AddMembers({super.key, required this.tripReq});
 
   @override
   State<AddMembers> createState() => _AddMembersState();
@@ -14,6 +17,15 @@ class AddMembers extends StatefulWidget {
 
 class _AddMembersState extends State<AddMembers> {
   List<Member> members=[];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final nameAndAge = widget.tripReq.name.split('#');
+    members.add(
+        Member(age: int.tryParse(nameAndAge[1]) ?? 0, name: nameAndAge[0]));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,14 +47,30 @@ class _AddMembersState extends State<AddMembers> {
             width: MediaQuery.of(context).size.width-50,
             margin: EdgeInsets.only(bottom: 17),
             child: ElevatedButton(
-              onPressed: ()=>Navigator.popUntil(context, (route) => route.settings.name==CustomBottomNav.routeName),
+              onPressed: () {
+                List<String> outputList = [];
+                for (var member in members) {
+                  String output = '${member.name}#${member.age}';
+                  outputList.add(output);
+                }
+                widget.tripReq.setMembers(outputList);
+                //add this request to trip new field requests
+                //add this to user trip history
+                Navigator.popUntil(
+                    context,
+                    (route) =>
+                        route.settings.name == CustomBottomNav.routeName);
+              },
               style: ElevatedButton.styleFrom(
                 elevation: 5,
                 shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15))),
                 backgroundColor: CustomColors.primaryColor,
                 foregroundColor: Colors.white,
               ),
-              child: const Text('Submit Interest',style: TextStyle(fontSize: 22),),
+              child: const Text(
+                'Submit Interest',
+                style: TextStyle(fontSize: 22),
+              ),
             ),
           ),
         ],

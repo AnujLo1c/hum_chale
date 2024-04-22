@@ -55,8 +55,8 @@ class EmailPassLogin{
             .createUserWithEmailAndPassword(email: user.email, password: password);
 
         UserFirestore().createUserData(user,pickedImage);
-        // UserFirestore().uploadUserData();
-        Navigator.pushNamed(context, EmailVerificationScreen.routeName);
+      // UserFirestore().uploadUserData();
+      Navigator.pushNamed(context, EmailVerificationScreen.routeName);
       } on FirebaseAuthException catch (e) {
         if (e.code == "email-already-in-use") {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

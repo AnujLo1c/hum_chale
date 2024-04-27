@@ -22,7 +22,7 @@ import 'package:hum_chale/authentication/email_verification_screen.dart';
 import 'package:hum_chale/authentication/forgot_password.dart';
 import 'package:hum_chale/screens/profile/trip_history.dart';
 import 'package:hum_chale/screens/profile/hosted_trip_request.dart';
-import 'package:hum_chale/screens/profile/trip_booking_status.dart';
+import 'package:hum_chale/screens/profile/hosted_trip_request_selection.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,15 +54,17 @@ class MyApp extends StatelessWidget {
         TripItinerary.routeName:(context)=> TripItinerary(trip: ModalRoute.of(context)!.settings.arguments as Trip),
         TripTransit.routeName:(context)=>TripTransit(trip: ModalRoute.of(context)!.settings.arguments as Trip),
         TripLodging.routeName:(context)=> TripLodging(trip: ModalRoute.of(context)!.settings.arguments as Trip),
+        HostedTRSelection.routeName: (context) => HostedTRSelection(
+            trip: ModalRoute.of(context)!.settings.arguments as Trip),
         TripHistoryScreen.routeName: (context) => TripHistoryScreen(
             tripHistoryList:
                 ModalRoute.of(context)!.settings.arguments as List<dynamic>),
         TripBookingStatus.routeName: (context) => TripBookingStatus(
             tripBookingStatus:
                 ModalRoute.of(context)!.settings.arguments as List<dynamic>),
-        // HostedTripRequest.routeName: (context) => HostedTripRequest(
-        //     tripHostings:
-        //         ModalRoute.of(context)!.settings.arguments as List<dynamic>),
+        HostedTripRequest.routeName: (context) => HostedTripRequest(
+            tripHostings:
+                ModalRoute.of(context)!.settings.arguments as List<dynamic>),
         AddMembers.routeName: (context) => AddMembers(
             tripReq:
                 ModalRoute.of(context)!.settings.arguments as TripJoinRequest),

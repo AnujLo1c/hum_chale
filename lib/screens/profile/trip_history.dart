@@ -146,8 +146,7 @@ class _TripHistoryState extends State<TripHistoryScreen> {
   }
 
   String tripStatus(String? status) {
-    if (status != null) {
-      switch (status) {
+    switch (status) {
         case 'P':
           return "Pending";
         case 'C':
@@ -160,8 +159,6 @@ class _TripHistoryState extends State<TripHistoryScreen> {
           return "Finished";
         default:
           return "Error";
-      }
     }
-    return "p";
   }
 }

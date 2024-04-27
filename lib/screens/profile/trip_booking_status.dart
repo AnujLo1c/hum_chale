@@ -144,7 +144,6 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
   }
 
   String tripStatus(String? status) {
-    if (status != null) {
       switch (status) {
         case 'P':
           return "Pending";
@@ -159,7 +158,5 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
         default:
           return "Error";
       }
-    }
-    return "p";
   }
 }

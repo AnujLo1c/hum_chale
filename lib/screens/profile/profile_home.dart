@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:hum_chale/screens/profile/hosted_trip_request.dart';
 import 'package:hum_chale/screens/profile/trip_history.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
@@ -91,7 +94,10 @@ class _ProfileHomeState extends State<ProfileHome> {
                           arguments: validTripIds);
                     }, Icons.bookmark_add_outlined),
                     profileTile("Hosted Trip Requests", () {
-                      Navigator.pushNamed(context, Achome.routeName);
+                      var hostings = snapshot.data["hostings"];
+                      print(hostings);
+                      Navigator.pushNamed(context, HostedTripRequest.routeName,
+                          arguments: hostings);
                     }, Icons.bookmark_add_outlined),
                     profileTile("Trip History", () {
                       print(snapshot.data["tripHistory"]);

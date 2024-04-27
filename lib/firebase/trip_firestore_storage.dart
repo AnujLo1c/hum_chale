@@ -57,30 +57,143 @@ class tripFirestore {
   }
 
   createTrip(Trip trip) async {
-    var userColl = ff.collection("userData").doc(trip.host);
-    // ff.collection("userData").doc(user.email)
-    var uToken = await userColl.get().then((doc) {
-      // print(doc.data());
-      if (doc.exists) {
-        return doc.data()?["uToken"];
+    try {
+      var userColl = ff.collection("userData").doc(trip.host);
+      // ff.collection("userData").doc(user.email)
+      var uToken = await userColl.get().then((doc) {
+        // print(doc.data());
+        if (doc.exists) {
+          return doc.data()?["uToken"];
+        } else {
+          return -1;
+        }
+      });
+      String tripNameId = trip.host! + uToken.toString();
+      if (uToken != -1) {
+        var task =
+            fs.ref("Trips-pic").child(tripNameId).putFile(trip.pickedImage!);
+        trip.setRefId(trip.host! + uToken.toString());
+        TaskSnapshot taskSnapshot = await task;
+        String link = await taskSnapshot.ref.getDownloadURL();
+        trip.imageurl = link;
+        ff.collection("trips").doc(tripNameId).set(trip.toMap());
+        userColl.update({
+          "hostings": FieldValue.arrayUnion([tripNameId])
+        });
+        userColl.update({"uToken": uToken + 1});
       } else {
-        return -1;
+        print("trip data not uploaded");
       }
-    });
-
-    if (uToken != -1) {
-      var task=fs.ref("Trips-pic").child(trip.host!+uToken.toString()).putFile(trip.pickedImage!);
-      trip.setRefId(trip.host! + uToken.toString());
-      TaskSnapshot taskSnapshot=await task;
-      String link=await taskSnapshot.ref.getDownloadURL();
-      trip.imageurl=link;
-      ff.collection("trips")
-          .doc(trip.host! + uToken.toString())
-          .set(trip.toMap());
-      userColl.update({"uToken": uToken + 1});
-    } else {
-      print("trip data not uploaded");
+    } catch (e) {
+      print(e);
     }
   }
 
+  Future<void> submitRequest(TripJoinRequest tripReq) async {
+    try {
+      var documentReference = ff.collection("trips").doc(tripReq.docId);
+      var documentSnapshot = await documentReference.get();
+
+      // print("fval$fieldValue");
+      if (documentSnapshot.exists) {
+        var data = documentSnapshot.data();
+        if (data != null) {
+          var fieldValue = data['requests'];
+          TripHistory tripHistory = TripHistory(
+              user: tripReq.email,
+              docId: tripReq.docId,
+              startDate: data["startDate"],
+              membersCount: tripReq.members?.length,
+              title: data["title"]);
+          if (fieldValue != null) {
+            print(data['requests']);
+            List<dynamic> existingRequests = data['requests'];
+            bool userAlreadyRequested = existingRequests
+                .any((request) => request['email'] == tripReq.email);
+            print(userAlreadyRequested);
+            if (!userAlreadyRequested) {
+              await documentReference.update({
+                'requests': FieldValue.arrayUnion([tripReq.toMap()]),
+              });
+              addToUserHistory(tripHistory);
+              print("field exits");
+            } else {
+              print("already requested");
+            }
+          } else {
+            await documentReference.update({
+              'requests': [tripReq.toMap()],
+            });
+            addToUserHistory(tripHistory);
+            print("field not exits");
+          }
+        } else {
+          // Document data is null
+          print("trip documnet data error null valuew");
+        }
+      } else {
+        print("doc snapshot doesnot exits");
+      }
+    } catch (e) {
+      print("Trip request failed to send $e");
+    }
+  }
+
+  // Future<void> submitRequest(TripJoinRequest tripReq) async {
+  //   try {
+  //     var documentReference = ff.collection("trips").doc(tripReq.docId);
+  //     var documentSnapshot = await documentReference.get();
+  //
+  //     // print("fval$fieldValue");
+  //     if (documentSnapshot.exists) {
+  //       var data = documentSnapshot.data();
+  //       if (data != null) {
+  //         print(data['requests']);
+  //         List<dynamic> existingRequests = data['requests'];
+  //         bool userAlreadyRequested = existingRequests
+  //             .any((request) => request['email'] == tripReq.email);
+  //         print(userAlreadyRequested);
+  //         if (!userAlreadyRequested) {
+  //           var fieldValue = data['requests'];
+  //           TripHistory tripHistory = TripHistory(
+  //               user: tripReq.email,
+  //               docId: tripReq.docId,
+  //               startDate: data["startDate"],
+  //               membersCount: tripReq.members?.length);
+  //           if (fieldValue != null) {
+  //             await documentReference.update({
+  //               'requests': FieldValue.arrayUnion([tripReq.toMap()]),
+  //             });
+  //             // addToUserHistory(tripHistory);
+  //             print("field exits");
+  //           } else {
+  //             await documentReference.update({
+  //               'requests': [tripReq.toMap()],
+  //             });
+  //             // addToUserHistory(tripHistory);
+  //             print("field not exits");
+  //           }
+  //         } else {
+  //           print("already requested");
+  //         }
+  //       } else {
+  //         // Document data is null
+  //         print("trip documnet data error null valuew");
+  //       }
+  //     } else {
+  //       print("doc snapshot doesnot exits");
+  //     }
+  //   } catch (e) {
+  //     print("Trip request failed to send $e");
+  //   }
+  // }
+  addToUserHistory(TripHistory tripHistory) async {
+    try {
+      await ff.collection("userData").doc(tripHistory.user).update({
+        'tripHistory': FieldValue.arrayUnion([tripHistory.toMap()]),
+      });
+    } catch (e) {
+      print("error in uploading user historu for this trip");
+    }
+  }
 }

@@ -6,8 +6,10 @@ import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:hum_chale/screens/profile/trip_history.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
+import 'package:hum_chale/screens/profile/trip_booking_status.dart';
 
 class ProfileHome extends StatefulWidget {
   const ProfileHome({super.key});
@@ -62,24 +64,43 @@ class _ProfileHomeState extends State<ProfileHome> {
                     ),
                   ),
                 ),
-                // CircleAvatar(
-                //   radius: 50,
-                //   backgroundColor: Colors.grey.shade400,
-                //   backgroundImage: NetworkImage(snapshot.data["ImageURL"]),
-                //
-                // ),
                 const Gap(10),
                 Text(snapshot.data["Name"], style: const TextStyle(fontSize: 24)),
                 const Gap(20),
                 Column(
                   children: [
-                    profileTile("Booking Updates", () {
+                    profileTile("Trip Booking Status", () {
+                      DateTime today = DateTime.now();
+                      List<String> validTripIds = [];
+
+                      snapshot.data["tripHistory"].where((trip) {
+                        DateTime startDate = trip['startDate'].toDate();
+
+                        ///here///////////////////////////////
+                        bool isValid =
+                            // startDate.isAfter(today)
+                            startDate.isBefore(today) ||
+                                startDate.isAtSameMomentAs(today);
+                        if (isValid) {
+                          validTripIds.add(trip['docId'].toString());
+                        }
+                        return isValid;
+                      }).toList();
+                      // print(validTripIds);
+                      Navigator.pushNamed(context, TripBookingStatus.routeName,
+                          arguments: validTripIds);
+                    }, Icons.bookmark_add_outlined),
+                    profileTile("Hosted Trip Requests", () {
                       Navigator.pushNamed(context, Achome.routeName);
                     }, Icons.bookmark_add_outlined),
                     profileTile("Trip History", () {
-                      print(snapshot.data);
+                      print(snapshot.data["tripHistory"]);
+                      Navigator.pushNamed(context, TripHistoryScreen.routeName,
+                          arguments: snapshot.data["tripHistory"]);
                     }, Icons.history),
-                    profileTile("Help", () {}, Icons.help_outline),
+                    profileTile("Help", () {
+                      print(snapshot.data['hostings']);
+                    }, Icons.help_outline),
                     profileTile("Settings", () {}, Icons.settings),
                     profileTile("Log Out", () {
                       GoogleLogin().logOutFromGoogle(context);

@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/authentication/GoogleLogin.dart';
+import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/trip_booking/product_details_screen.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
@@ -88,31 +91,45 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                         _allTrips = snapshot.data!.docs;
                         // print(_allTrips);
                         _filteredTrips = _runFilter1(_allTrips);
-                        return SizedBox(
-                            width: double.infinity,
-                            height: 400,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              // itemCount: snapshot.data!.docs.length,
-                              itemCount: _filteredTrips.length,
-                              itemBuilder: (context, index) => GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ProductDetailsScreen(
-                                                trip: Trip.fromSnapshot(
-                                                    // snapshot.data!.docs[index]
-                                                  _filteredTrips[index],
-                                                ),
-                                              )));
-                                },
-                                child:
-                                    // itemTile(index, snapshot.data?.docs[index]),
-                                    itemTile(index, _filteredTrips[index]),
-                              ),
-                            ));
+                        return
+                            // Column(
+                            // children: [
+                            SizedBox(
+                                width: double.infinity,
+                                height: 400,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  // itemCount: snapshot.data!.docs.length,
+                                  itemCount: _filteredTrips.length,
+                                  itemBuilder: (context, index) =>
+                                      GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ProductDetailsScreen(
+                                                    trip: Trip.fromSnapshot(
+                                                      // snapshot.data!.docs[index]
+                                                      _filteredTrips[index],
+                                                    ),
+                                                  )));
+                                    },
+                                    child:
+                                        // itemTile(index, snapshot.data?.docs[index]),
+                                        itemTile(index, _filteredTrips[index]),
+                                  ),
+                                )
+                                // )
+                                // ,
+                                // ElevatedButton(
+                                //     onPressed: () {
+                                //       GoogleLogin().logOutFromGoogle(context);
+                                //       SharedPref().LogoutSP();
+                                //     },
+                                //     child: Text("asdf"))
+                                // ],
+                                );
                       } else if (snapshot.hasError) {
                         return Center(
                           child: Text(snapshot.hasError.toString()),

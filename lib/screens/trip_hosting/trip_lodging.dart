@@ -63,8 +63,11 @@ class _TripLodgingState extends State<TripLodging> {
                     backgroundColor: CustomColors.primaryColor,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text('Next',style: TextStyle(fontSize: 22),),
-                ),
+              child: const Text(
+                'Finish',
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
               ),
               Gap(5)
               // transitTile(Icons.bus_alert)

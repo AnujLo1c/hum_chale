@@ -127,16 +127,32 @@ class TripJoinRequest {
   setMembers(List<String> m) {
     members = m;
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'phone': phone,
+      'docId': docId,
+      'email': email,
+      'members': members,
+      'name': name,
+      'status': status,
+    };
+  }
 }
 
 class TripHistory {
-  final String docId;
-  String status = 'P';
-  final DateTime startDate;
+  final String docId, user, title;
+  String? status = 'P';
+  final Timestamp startDate;
   int? membersCount;
 
   TripHistory(
-      {this.membersCount, required this.docId, required this.startDate});
+      {required this.user,
+      this.status,
+      this.membersCount,
+      required this.docId,
+      required this.startDate,
+      required this.title});
 
   changeStatus(String status) {
     this.status = status;
@@ -144,5 +160,16 @@ class TripHistory {
 
   setMembers(int m) {
     membersCount = m;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'docId': docId,
+      'status': status,
+      'startDate': startDate,
+      'membersCount': membersCount,
+      'user': user,
+      'title': title
+    };
   }
 }

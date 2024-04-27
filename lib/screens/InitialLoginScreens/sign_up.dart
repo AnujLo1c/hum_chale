@@ -124,15 +124,17 @@ class _SignUpState extends State<SignUp> {
       child: ElevatedButton(
         // onPressed: ()=>Navigator.pushNamed(context, Explore.routeName),
         onPressed: (){
-          String password=TECemailAddress.text,email=TECpassword.text.trim();
-          // debugPrint(   EmailValidator.validate(TECemailAddress.text).toString());
+          String password = TECpassword.text,
+              email = TECemailAddress.text.trim();
+          debugPrint(EmailValidator.validate(TECemailAddress.text).toString());
+          print(email);
           if(
           EmailValidator.validate(email)&&
               TECemailAddress.text!="" && TECpassword.text!="" ){
             // print("sign up");
             Tuser user=Tuser(fullName: TECfullName.text, phoneNo: TECphoneNo.text, email: email, age: int.parse(TECage.text));
             // UserFirestore().createUserData(email,pickedImage);
-            EmailPassLogin().registration(context, user, password,pickedImage!);
+            EmailPassLogin().registration(context, user, email, pickedImage!);
           }
           else{
             ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

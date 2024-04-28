@@ -50,7 +50,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
     var currentUser = FirebaseAuth.instance.currentUser;
     var firestore = FirebaseFirestore.instance;
     List<String> tripIds = widget.tripBookingStatus.cast<String>();
-    print(tripIds);
+    // print(tripIds);
     for (var tripId in tripIds) {
       var tripData = await firestore.collection("trips").doc(tripId).get();
       var requestsData = tripData.data()?['requests'];
@@ -66,11 +66,12 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
                 ? List<String>.from(firstRequestData['members'])
                 : null,
           );
+          request.changeStatus(firstRequestData['status']);
           setState(() {
             titleList.add(tripData['title']);
             requests.add(request);
           });
-          print(requests);
+          // print(requests);
         } else {
           print("Email does not match for trip ID: $tripId");
         }
@@ -81,14 +82,14 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
   }
 
   tripStatusTile(int index) {
-    TripJoinRequest tjr = requests[0];
+    TripJoinRequest tjr = requests[index];
 
-    print("here${requests[0].members}");
+    print("here${requests[index].members}");
     return Container(
       // height: 160,
       width: 400,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
       decoration: BoxDecoration(
           border: Border.all(color: CustomColors.primaryColor, width: 2),
           borderRadius: BorderRadius.circular(15)),
@@ -97,18 +98,18 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
         children: [
           Text(
             titleList[index],
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "No. of Members :",
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
               ),
               Container(
-                margin: EdgeInsets.all(4),
-                padding: EdgeInsets.all(4),
+                margin: const EdgeInsets.all(4),
+                padding: const EdgeInsets.all(4),
                 width: 25,
                 decoration: BoxDecoration(
                     border: Border.all(width: 1, color: Colors.black),
@@ -120,13 +121,13 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Status :",
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
               ),
               Container(
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.all(4),
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(4),
                   width: 95,
                   decoration: BoxDecoration(
                       border: Border.all(width: 1, color: Colors.black),
@@ -134,7 +135,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
                   child: Center(
                       child: Text(
                     tripStatus(tjr.status),
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ))),
             ],
           )

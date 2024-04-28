@@ -54,6 +54,7 @@ class _AddMembersState extends State<AddMembers> {
                   outputList.add(output);
                 }
                 widget.tripReq.setMembers(outputList);
+                // widget.tripReq.changeStatus("P");
                 //add this request to trip new field requests
                 //add this to user trip history
                 tripFirestore().submitRequest(widget.tripReq);

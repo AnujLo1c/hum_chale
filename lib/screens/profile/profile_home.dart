@@ -104,8 +104,14 @@ class _ProfileHomeState extends State<ProfileHome> {
                       Navigator.pushNamed(context, TripHistoryScreen.routeName,
                           arguments: snapshot.data["tripHistory"]);
                     }, Icons.history),
-                    profileTile("Help", () {
-                      print(snapshot.data['hostings']);
+                    profileTile("Help", () async {
+                      var data = await FirebaseFirestore.instance
+                          .collection("trips")
+                          .doc("anujlowanshi15@gmail.com9")
+                          .collection("requests")
+                          .doc("email")
+                          .get();
+                      print(data.get("data"));
                     }, Icons.help_outline),
                     profileTile("Settings", () {}, Icons.settings),
                     profileTile("Log Out", () {

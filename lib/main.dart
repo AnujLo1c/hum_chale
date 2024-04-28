@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         TripTransit.routeName:(context)=>TripTransit(trip: ModalRoute.of(context)!.settings.arguments as Trip),
         TripLodging.routeName:(context)=> TripLodging(trip: ModalRoute.of(context)!.settings.arguments as Trip),
         HostedTRSelection.routeName: (context) => HostedTRSelection(
-            trip: ModalRoute.of(context)!.settings.arguments as Trip),
+            id: ModalRoute.of(context)!.settings.arguments as String),
         TripHistoryScreen.routeName: (context) => TripHistoryScreen(
             tripHistoryList:
                 ModalRoute.of(context)!.settings.arguments as List<dynamic>),

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:hum_chale/screens/profile/hosted_trip_request_selection.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,7 @@ class HostedTripRequest extends StatefulWidget {
 }
 
 class _HostedTripRequestState extends State<HostedTripRequest> {
+  var ff = FirebaseFirestore.instance.collection("trips");
   List<TempTrip> hostedTrips = [];
 
   @override
@@ -93,6 +95,9 @@ class _HostedTripRequestState extends State<HostedTripRequest> {
           ),
           Spacer(),
           GestureDetector(
+            onTap: () => Navigator.pushNamed(
+                context, HostedTRSelection.routeName,
+                arguments: hostedTrips[index].tripId),
             child: Container(
               // color: Colors.black,
               width: 40,
@@ -119,20 +124,23 @@ class _HostedTripRequestState extends State<HostedTripRequest> {
   }
 
   Future<void> fetchTripData() async {
-    var ff = FirebaseFirestore.instance.collection("trips");
     List hostings = widget.tripHostings;
     int len = hostings.length;
+    var datalist = [];
     for (int i = len - 1; i >= 0; i--) {
       var documentSnapshot = await ff.doc(hostings[i].toString()).get();
+      // datalist.add(documentSnapshot.data());
       var data = documentSnapshot.data();
-      print(data?['title']);
+      // print(data?['title']);
       hostedTrips.add(TempTrip(
           tripId: data?['refId'],
           title: data?['title'],
           location: data?['locations'],
-          timestamp: data?['startDate']));
+        timestamp: data?['startDate'],
+      ));
       // print(hostedTrips);
     }
+    // print(datalist);
     setState(() {});
   }
 }

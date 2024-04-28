@@ -105,6 +105,7 @@ class tripFirestore {
               startDate: data["startDate"],
               membersCount: tripReq.members?.length,
               title: data["title"]);
+          tripHistory.changeStatus("P");
           if (fieldValue != null) {
             print(data['requests']);
             List<dynamic> existingRequests = data['requests'];

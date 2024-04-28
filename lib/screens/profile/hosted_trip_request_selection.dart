@@ -194,9 +194,44 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
                   width: MediaQuery.of(context).size.width - 70,
                   child: ElevatedButton(
                     onPressed: () {
-                      updateRequestStatus(
-                          request["docId"], request["email"], 'C');
+                      // updateRequestStatus(
+                      //     request["docId"], request["email"], 'C');
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(
+                            "Contacted?",
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          content: Text(
+                            "Have you contacted by email or Phone no.",
+                          ),
+                          contentTextStyle:
+                              TextStyle(fontSize: 18, color: Colors.black),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("No")),
+                            TextButton(
+                                onPressed: () {
+                                  updateRequestStatus(
+                                      request["docId"], request["email"], 'C');
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Yes")),
+                          ],
+                        ),
+                      );
                     },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF92FF9D),
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 2, color: Colors.black54),
+                            borderRadius: BorderRadius.circular(10))),
                     child: const Text(
                       "Confirm",
                       style: TextStyle(
@@ -204,12 +239,6 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
                           color: Colors.black,
                           fontWeight: FontWeight.w700),
                     ),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF92FF9D),
-                        shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                width: 2, color: Colors.black54),
-                            borderRadius: BorderRadius.circular(10))),
                   ),
                 )
               : const Gap(1),

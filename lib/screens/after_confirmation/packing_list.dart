@@ -14,21 +14,29 @@ class _packingListState extends State<packingList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Packing List", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),),
         centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.0), // Set the height of the bottom border
-          child: Divider(color: Colors.black), // Add a Divider widget with a color
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+          color: CustomColors.primaryColor,
+        ),
+        title: const Text(
+          "Packing List",
+          style: TextStyle(fontSize: 28, color: CustomColors.primaryColor),
         ),
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(image: AssetImage("assets/images/packing_list.png")),
-            Text("Start Packing", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),),
-            ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Divider(
+            color: CustomColors.primaryColor,
+          ),
+          Image(image: AssetImage("assets/images/packing_list.png")),
+          Text(
+            "Start Packing",
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},

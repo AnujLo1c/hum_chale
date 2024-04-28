@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
-import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up_google.dart';

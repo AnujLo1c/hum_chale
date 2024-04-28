@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -14,18 +15,18 @@ import 'package:hum_chale/screens/after_confirmation/packing_list.dart';
 import 'package:hum_chale/screens/after_confirmation/todo_list.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
+import 'package:intl/intl.dart';
+
 class Achome extends StatelessWidget {
   static var routeName = "ac-home";
-   Achome({super.key});
-final Trip trip= Trip(pickedImage:null,startDate:DateTime.now(),endDate:DateTime.now(),host:"anuj",title: "Goa Tour", price: "12000", index: 5, imageurl: 'sadfdsaf',pickUpPoint:"vijay nagar",activities:"activity1");
-  final TravelRoute temp= TravelRoute(start: "A", dest: "N", time: "17:30", date: DateTime.now());
+  final String docId;
 
-  final TravelRoute temp2=TravelRoute(start: "C", dest: "Na", time: "15:30", date: DateTime.now());
+  Achome({super.key, required this.docId});
 
-  final List<IconData> transit=[Icons.train,Icons.car_crash,Icons.airplanemode_active_rounded];
-
-  final List<IconData> lodging=[Icons.home,Icons.house_outlined];
-final List tempMember=["Anuj Lowanshi","Nandini Dhote"];
+  ///memebers not now
+  final List tempMember = ["Anuj Lowanshi", "Nandini Dhote"];
+  final List<IconData> lodgingIcons = [];
+  final List<IconData> transitIcons = [];
 
   @override
 
@@ -34,103 +35,174 @@ precacheImage(const AssetImage("assets/images/aAfter-confirm.jpeg"), context);
     final Size size=MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            Container(
-              height: size.height/2,
-              width: size.width,
-              // color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15),bottomRight: Radius.circular(15)),
-                image: DecorationImage(image: AssetImage("assets/images/aAfter-confirm.jpeg"),fit: BoxFit.fill)
-              ),
-              child:  GestureDetector(
-                onTap: ()=>membersInfo(context),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(trip.title,style: const TextStyle(letterSpacing: 1,fontSize: 36,fontWeight: FontWeight.bold,color: Colors.black54),),
-                      // IconButton(padding: EdgeInsets.all(5),,icon: Icon(Icons.home), onPressed: () {  },)
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("trips")
+                .doc(docId)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // return a loading indicator if the connection is still active
+                return const SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Center(child: CircularProgressIndicator()));
+              } else if (snapshot.hasError) {
+                // return an error widget if there's an error
+                return Text('Error: ${snapshot.error}');
+              } else if (!snapshot.hasData) {
+                // return an empty widget if there's no data
+                return const Text('Something wrong');
+              } else {
+                var tripData = snapshot.data;
+                // render UI using tripData
+                List<dynamic> routeList = tripData?["travelRoute"];
+                List<TravelRoute> tripRoutes = [];
+                fetchLodgings(tripData?["lodgings"], tripData?["transits"]);
+                routeList.forEach((data) {
+                  DateTime date = (data['date'] as Timestamp).toDate();
+                  String start = data['start'];
+                  String time = data['time'];
+                  String dest = data['dest'];
 
-                            const Spacer(),Container(
-                        height: 60,
-                        width: 60,
-                        decoration: BoxDecoration(
-                           color: Colors.white.withOpacity(0.2),
-                          borderRadius: const BorderRadius.all(Radius.circular(15))
-                        ),
-                        child: InkWell(
-                            onTap: ()=>Navigator.popUntil(context, (route) => route.settings.name==CustomBottomNav.routeName),
-                            child: const Icon(color:Colors.black54,Icons.home_outlined,size: 36,)),
-                      )
-                      ],
-                    ),
-                  const Gap(3),
-                    const Text("17 April",
-                      style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          color:Colors.black45
-                      ),),
-                    const Spacer(),
-                    Center(
-                      child: Container(
-                        width: size.width-120,
-                        height: 60,
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(.2),
-                          borderRadius: const BorderRadius.all(Radius.circular(10))
-                        ),
-                        child: Row(
+                  tripRoutes.add(TravelRoute(
+                      date: date, start: start, time: time, dest: dest));
+                });
+                var sdate = tripData?["startDate"].toDate();
+                String sd = DateFormat.yMMMMd().format(sdate);
+                return Column(
+                  children: [
+                    Container(
+                      height: size.height / 2,
+                      width: size.width,
+                      // color: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
+                          image: DecorationImage(
+                              image: AssetImage(
+                                  "assets/images/aAfter-confirm.jpeg"),
+                              fit: BoxFit.fill)),
+                      child: GestureDetector(
+                        onTap: () => membersInfo(context),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Gap(10),
-                            Container(
-                                height: 40,
-                                width: 40,
-                                margin: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withOpacity(.8),
-                                  borderRadius: const BorderRadius.all(Radius.circular(30))
+                            Row(
+                              children: [
+                                Text(
+                                  tripData?["title"],
+                                  style: const TextStyle(
+                                      letterSpacing: 1,
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black54),
                                 ),
-                                child: const Icon(Icons.person_outline_rounded,size: 30,))
-                          ,
+                                // IconButton(padding: EdgeInsets.all(5),,icon: Icon(Icons.home), onPressed: () {  },)
+
+                                const Spacer(),
+                                Container(
+                                  height: 60,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.2),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(15))),
+                                  child: InkWell(
+                                      onTap: () => Navigator.popUntil(
+                                          context,
+                                          (route) =>
+                                              route.settings.name ==
+                                              CustomBottomNav.routeName),
+                                      child: const Icon(
+                                        color: Colors.black54,
+                                        Icons.home_outlined,
+                                        size: 36,
+                                      )),
+                                )
+                              ],
+                            ),
+                            const Gap(3),
+                            Text(
+                              sd,
+                              style: const TextStyle(
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black45),
+                            ),
                             const Spacer(),
-                            const Text("Members",style: TextStyle(fontSize: 24,fontWeight: FontWeight.w700,color: Colors.black54),)
-                          ,const Gap(20)
+                            Center(
+                              child: Container(
+                                width: size.width - 120,
+                                height: 60,
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(.2),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10))),
+                                child: Row(
+                                  children: [
+                                    const Gap(10),
+                                    Container(
+                                        height: 40,
+                                        width: 40,
+                                        margin: const EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white.withOpacity(.8),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(30))),
+                                        child: const Icon(
+                                          Icons.person_outline_rounded,
+                                          size: 30,
+                                        )),
+                                    const Spacer(),
+                                    const Text(
+                                      "Members",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.black54),
+                                    ),
+                                    const Gap(20)
+                                  ],
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),
-                    )
+                    ),
+                    const Gap(50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ItemTile(Icons.mode_of_travel, "Itinerary",
+                            ACItinerary(itineraries: tripRoutes), context),
+                        ItemTile(Icons.luggage, "Packing List",
+                            const packingList(), context),
+                        ItemTile(Icons.list_alt, "To-do", const ToDo(), context)
+                      ],
+                    ),
+                    const Gap(30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ItemTile(Icons.wallet, "Expenses", const ExpenseList(),
+                            context),
+                        ItemTile(Icons.house, "Lodging",
+                            ACBooking(lodging: lodgingIcons), context),
+                        ItemTile(Icons.airplanemode_active_rounded, "Transit",
+                            ACTransit(transits: transitIcons), context)
+                      ],
+                    ),
                   ],
-                ),
-              ),
-
-            ),
-            const Gap(50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ItemTile(Icons.mode_of_travel,"Itinerary",ACItinerary(itineraries:[temp,temp2]),context),
-                ItemTile(Icons.luggage,"Packing List",const packingList(),context),
-                ItemTile(Icons.list_alt,"To-do",const ToDo(),context)
-              ],
-            ),
-            const Gap(30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ItemTile(Icons.wallet,"Expenses",const ExpenseList(),context),
-                ItemTile(Icons.house,"Lodging",ACBooking(lodging:lodging),context),
-                ItemTile(Icons.airplanemode_active_rounded,"Transit",ACTransit(transits: transit),context)
-              ],
-            ),
-          ],
-        ),
+                );
+              }
+            }),
       ),
     );
   }
@@ -209,5 +281,32 @@ child: RichText(text: TextSpan(text:tempMember[index],style: const TextStyle(let
 children: [const TextSpan(text: "\nAge: 21",style: TextStyle(letterSpacing:1,fontSize: 18,color: Colors.black54))]
 )),
 );
+  }
+
+  void fetchLodgings(tripLodging, tripTransit) {
+    print(tripTransit);
+    List<IconData> blist = [
+      Icons.home,
+      Icons.house_siding_outlined,
+      Icons.house_siding_outlined,
+      Icons.hotel_outlined
+    ];
+    List<IconData> tlist = [
+      Icons.bus_alert,
+      Icons.fire_truck_sharp,
+      Icons.cyclone,
+      Icons.bike_scooter,
+      Icons.local_shipping_outlined
+    ];
+    for (int i = 0; i < tripLodging.length; i++) {
+      if (tripLodging[i] == true) {
+        lodgingIcons.add(blist[i]);
+      }
+    }
+    for (int i = 0; i < tripTransit.length; i++) {
+      if (tripTransit[i] == true) {
+        transitIcons.add(tlist[i]);
+      }
+    }
   }
 }

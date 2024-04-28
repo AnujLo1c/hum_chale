@@ -5,10 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Trip {
   final String title, price, activities, pickUpPoint;
   final File? pickedImage;
-  String imageurl;
   final DateTime startDate, endDate;
   final String? host;
   final int index;
+  String imageurl;
   String? refId;
   List<TravelRoute>? travelRoute;
   List<bool>? lodgings;

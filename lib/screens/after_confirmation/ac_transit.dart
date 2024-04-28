@@ -14,30 +14,42 @@ class ACTransit extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          leading:  IconButton(onPressed: () => Navigator.pop(context),icon:Icon(Icons.arrow_back_ios),color: CustomColors.primaryColor,),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(Icons.arrow_back_ios),
+            color: CustomColors.primaryColor,
+          ),
           title: const Text("Transit",style: TextStyle(fontSize: 28,color: CustomColors.primaryColor),),
         ),
         body: Column(
           children: [
-            Divider(color: CustomColors.primaryColor,),
-            Gap(40),
+            const Divider(
+              color: CustomColors.primaryColor,
+            ),
+            const Gap(40),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                transits.length>0?
-                transitTile(Icons.train):Container(),
-                transits.length>1?
-                transitTile(Icons.car_crash):Container(width: 80,),
-                transits.length>2?
-                transitTile(Icons.airplanemode_active_rounded):Container(width: 80,),
+                transits.length > 0 ? transitTile(transits[0]) : const Gap(1),
+                transits.length > 1
+                    ? transitTile(Icons.car_crash)
+                    : const Gap(80),
+                transits.length > 2
+                    ? transitTile(Icons.airplanemode_active_rounded)
+                    : const Gap(80),
               ],
             ),
-            const Gap(15),
+            const Gap(25),
             Row(
               children: [
-                const Gap(27),
-                transits.length>3?
-                transitTile(Icons.bus_alert):Container(),
+                const Gap(30),
+                transits.length > 3
+                    ? transitTile(Icons.bus_alert)
+                    : const Gap(1),
+                const Gap(25),
+                transits.length > 4
+                    ? transitTile(Icons.bus_alert)
+                    : const Gap(1),
               ],
             ),
           ],
@@ -50,10 +62,10 @@ class ACTransit extends StatelessWidget {
         height: 80,
         width: 80,
         margin: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-            color: CustomColors.primaryColor,
-            borderRadius: const BorderRadius.all(Radius.circular(15))),
-        child: Center(
+      decoration: const BoxDecoration(
+          color: CustomColors.primaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(15))),
+      child: Center(
           child: Icon(
             icon,
             color: Colors.white,

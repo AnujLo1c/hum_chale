@@ -13,22 +13,34 @@ class _ToDoState extends State<ToDo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("To Do List", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),),
         centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.0), // Set the height of the bottom border
-          child: Divider(color: Colors.black), // Add a Divider widget with a color
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+          color: CustomColors.primaryColor,
+        ),
+        title: const Text(
+          "Todo List",
+          style: TextStyle(fontSize: 28, color: CustomColors.primaryColor),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(image: AssetImage("assets/images/todo.png")),
-            Text("Empty To DO list", style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),),
-            Text("CLick the add button below to \nadd your first task", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),textAlign: TextAlign.center,)
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Divider(
+            color: CustomColors.primaryColor,
+          ),
+          Image(image: AssetImage("assets/images/todo.png")),
+          Text(
+            "Empty To DO list",
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
+          ),
+          Text(
+            "CLick the add button below to \nadd your first task",
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),
+            textAlign: TextAlign.center,
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},

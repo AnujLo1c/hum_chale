@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/models/trip.dart';
+import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
 
@@ -89,55 +91,103 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
       // height: 160,
       width: 400,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+      // padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
       decoration: BoxDecoration(
           border: Border.all(color: CustomColors.primaryColor, width: 2),
           borderRadius: BorderRadius.circular(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Row(
         children: [
-          Text(
-            titleList[index],
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+          SizedBox(
+            width: 290,
+            // color: Colors.green,
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(
+                    titleList[index],
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: 24),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "No. of Members :",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(4),
+                      padding: const EdgeInsets.all(4),
+                      width: 25,
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: Colors.black),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: Center(
+                          child: Text(
+                        tjr.members!.length.toString(),
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      )),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Status :",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
+                    ),
+                    Container(
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(4),
+                        width: 95,
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.black),
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Center(
+                            child: Text(
+                          tripStatus(tjr.status),
+                          style: const TextStyle(fontSize: 16),
+                        ))),
+                  ],
+                )
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "No. of Members :",
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
+          const Spacer(),
+          GestureDetector(
+            onTap: () {
+              if (tjr.status == 'C') {
+                //navigate to achome
+                Navigator.pushNamed(context, Achome.routeName,
+                    arguments: tjr.docId);
+              } else {
+                print("Trip request yet to be confirmed.");
+              }
+            },
+            child: Container(
+              height: 160,
+              width: 60,
+              // color: Colors.black,
+
+              decoration: BoxDecoration(
+                  color: (tjr.status == 'C')
+                      ? CustomColors.primaryColor
+                      : Colors.grey,
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      bottomRight: Radius.circular(10))),
+              child: const Icon(
+                Icons.chevron_right,
+                size: 60,
+                color: Colors.white,
               ),
-              Container(
-                margin: const EdgeInsets.all(4),
-                padding: const EdgeInsets.all(4),
-                width: 25,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: Colors.black),
-                    borderRadius: BorderRadius.circular(4)),
-                child: Center(child: Text(tjr.members!.length.toString())),
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Status :",
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 22),
-              ),
-              Container(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.all(4),
-                  width: 95,
-                  decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black),
-                      borderRadius: BorderRadius.circular(4)),
-                  child: Center(
-                      child: Text(
-                    tripStatus(tjr.status),
-                    style: const TextStyle(fontSize: 16),
-                  ))),
-            ],
+            ),
           )
         ],
       ),

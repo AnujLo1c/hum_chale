@@ -1,4 +1,5 @@
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
+import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class SharedPref{
     if (UN != null && PW != null) {
       Navigator.pushReplacementNamed(context, CustomBottomNav.routeName);
     } else {
-      Navigator.pushReplacementNamed(context, LoginPage.routeName);
+      Navigator.pushReplacementNamed(context, StartPage.routeName);
     }
   }
   LogoutSP() async {

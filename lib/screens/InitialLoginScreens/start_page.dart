@@ -1,4 +1,4 @@
-
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -92,8 +92,9 @@ class StartPage extends StatelessWidget {
 
           style: ButtonStyle(backgroundColor: bg,side: border),
           onPressed: () {
-            SharedPref().isLoggedinSP(context);
-         Navigator.pushNamed(context,LoginPage.routeName);
+            // SharedPref().isLoggedinSP(context);
+            // Timer(, () { })
+            Navigator.pushNamed(context,LoginPage.routeName);
          //    tripFirestore().fetchTripsFromFirestore();
         },
           child: const Row(

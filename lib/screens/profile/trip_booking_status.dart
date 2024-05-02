@@ -98,7 +98,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
       child: Row(
         children: [
           SizedBox(
-            width: 290,
+            width: MediaQuery.of(context).size.width - 114,
             // color: Colors.green,
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +145,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
                     Container(
                         margin: const EdgeInsets.all(10),
                         padding: const EdgeInsets.all(4),
-                        width: 95,
+                        width: 90,
                         decoration: BoxDecoration(
                             border: Border.all(width: 1, color: Colors.black),
                             borderRadius: BorderRadius.circular(4)),
@@ -159,7 +159,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
               ],
             ),
           ),
-          const Spacer(),
+          // const Spacer(),
           GestureDetector(
             onTap: () {
               if (tjr.status == 'C') {

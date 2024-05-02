@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
  import 'package:hum_chale/firebase/trip_firestore_storage.dart';
+import 'package:hum_chale/widget/loading-dialog.dart';
+import 'package:rive/rive.dart';
+
 class StartPage extends StatelessWidget {
   static String routeName="/start-page";
    const StartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-  precacheImage(const AssetImage("assets/images/start-page.jpg"), context);
+    // precacheImage(const AssetImage("assets/images/start-page.jpeg"), context);
+
     final Size screenSize = MediaQuery.of(context).size;
 
     return PopScope(
@@ -46,7 +50,7 @@ class StartPage extends StatelessWidget {
         height: 961,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/start-page.jpg"),
+            image: AssetImage("assets/images/start-page.jpeg"),
             fit: BoxFit.fitHeight,
           ),
         ),
@@ -92,11 +96,8 @@ class StartPage extends StatelessWidget {
 
           style: ButtonStyle(backgroundColor: bg,side: border),
           onPressed: () {
-            // SharedPref().isLoggedinSP(context);
-            // Timer(, () { })
             Navigator.pushNamed(context,LoginPage.routeName);
-         //    tripFirestore().fetchTripsFromFirestore();
-        },
+          },
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween
             ,
@@ -104,7 +105,6 @@ class StartPage extends StatelessWidget {
               Text(
                 '  Begin your journey',
                 style: TextStyle(
-
                   color: Colors.white,
                   fontSize: 18,
                   fontFamily: 'Playfair Display',

@@ -2,14 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
 import 'package:hum_chale/authentication/GoogleLogin.dart';
-import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
 import 'package:hum_chale/authentication/forgot_password.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
-import 'package:hum_chale/screens/trip_booking/explore.dart';
+import 'package:hum_chale/widget/loading-dialog.dart';
 import 'package:rive/rive.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   static String routeName = "login-page";
@@ -20,7 +18,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String errormsg = "";
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
 
@@ -30,26 +27,32 @@ class _LoginPageState extends State<LoginPage> {
   SMIInput<bool>? isChecking;
   SMIInput<double>? numLook;
   SMIInput<bool>? isHandsUp;
-  SMIInput<bool>? trigSuccess;
-  SMIInput<bool>? trigFail;
+
+  // SMIInput<bool>? trigSuccess;
+  // SMIInput<bool>? trigFail;
 
   @override
   void initState() {
+    super.initState();
     emailFocusNode.addListener(emailFocus);
     passwordFocusNode.addListener(passwordFocus);
-    super.initState();
   }
 
   @override
   void dispose() {
     emailFocusNode.removeListener(emailFocus);
     passwordFocusNode.removeListener(passwordFocus);
+
     super.dispose();
   }
 
   void emailFocus() {
     isChecking?.change(emailFocusNode.hasFocus);
   }
+
+  // setTrigSuccess() {
+  //   trigSuccess = trigSuccess!;
+  // }
 
   void passwordFocus() {
     isHandsUp?.change(passwordFocusNode.hasFocus);
@@ -58,11 +61,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _controlleremail = TextEditingController();
   final TextEditingController _controllerpass = TextEditingController();
 
-  void error() {
-    // Fluttertoast.showToast(msg: errormsg!,fontSize: 16,textColor: Colors.red,backgroundColor: Colors.transparent);
-    errormsg = '';
-  }
-// GoogleLogin gl=GoogleLogin();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery
@@ -81,28 +79,24 @@ class _LoginPageState extends State<LoginPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: RichText(
-                        text: const TextSpan(
+                  RichText(
+                      text: const TextSpan(
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontFamily: 'Playfair Display',
+                          ),
+                          children: [
+                        TextSpan(
+                            text: "Let's enjoy the\n",
                             style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 25,
-                              fontFamily: 'Playfair Display',
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: "Let's enjoy the\n",
-                                  style: TextStyle(
-                                    fontStyle: FontStyle.italic,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                              TextSpan(
-                                  text: "Beautiful\nWorld",
-                                  style: TextStyle(fontSize: 45))
-                            ])),
-                  ),
-
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                            )),
+                        TextSpan(
+                            text: "Beautiful\nWorld",
+                            style: TextStyle(fontSize: 45))
+                      ])),
                   SizedBox(
                     width: size.width - 225,
                     height: 150,
@@ -143,8 +137,8 @@ class _LoginPageState extends State<LoginPage> {
                   isChecking = controller?.findInput("isChecking");
                   numLook = controller?.findInput("numLook");
                   isHandsUp = controller?.findInput("isHandsUp");
-                  trigSuccess = controller?.findInput("trigSuccess");
-                  trigFail = controller?.findInput("trigFail");
+                  // trigSuccess = controller?.findInput("trigSuccess");
+                  // trigFail = controller?.findInput("trigFail");
                 },
               ),
             ),
@@ -222,7 +216,6 @@ class _LoginPageState extends State<LoginPage> {
                           .of(context)
                           .textTheme
                           .bodyMedium,
-                      onChanged: (value) {},
                     ),
                   ),
                   Align(
@@ -242,18 +235,26 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
+                    width: MediaQuery.of(context).size.width,
                     height: 54,
                     child: ElevatedButton(
                       onPressed: () {
-                        // showLoadingDialog(context);
                         emailFocusNode.unfocus();
                         passwordFocusNode.unfocus();
-                        // isLogin? signInWithEandP() : createUserWithEandP();
-                        EmailPassLogin().userLogin(context, _controlleremail.text, _controllerpass.text);
+                        String email = _controlleremail.text.trim();
+                        String pass = _controllerpass.text.trim();
+                        if (email.isNotEmpty && pass.isNotEmpty) {
+                          precacheImage(
+                              const AssetImage("assets/images/explore.jpg"),
+                              context);
+                          LoadingDialog().loadingDialog(context);
+                          EmailPassLogin().userLogin(context, email, pass);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text(
+                                      "Email Or Password field must be filled.")));
+                        }
                         // Navigator.pushNamed(context, Explore.routeName);
 
 

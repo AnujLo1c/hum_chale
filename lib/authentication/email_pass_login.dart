@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
 import 'package:hum_chale/models/tuser.dart';
+import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/authentication/email_verification_screen.dart';
 
@@ -14,8 +15,10 @@ class EmailPassLogin{
     try {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password);
+
       SharedPref().LoginSP(email, password);
-      Navigator.pushNamed(context, Explore.routeName);
+
+      Navigator.pushReplacementNamed(context, Explore.routeName);
     } on FirebaseAuthException catch (e) {
       // print(FirebaseAuth.instance.currentUser.);
       if (e.code == 'invalid-credential') {
@@ -56,6 +59,7 @@ class EmailPassLogin{
 
         UserFirestore().createUserData(user,pickedImage);
       // UserFirestore().uploadUserData();
+      Navigator.pop(context);
       Navigator.pushNamed(context, EmailVerificationScreen.routeName);
       } on FirebaseAuthException catch (e) {
         if (e.code == "email-already-in-use") {

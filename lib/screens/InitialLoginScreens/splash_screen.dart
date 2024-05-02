@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:lottie/lottie.dart';
+import 'package:rive/rive.dart';
 
 class SplashScreen extends StatefulWidget {
   static String routeName="splash-screen";
@@ -21,11 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
       // Navigator.pushNamed(context, StartPage.routeName);
       SharedPref().isLoggedinSP(context);
     });
+    RiveFile.asset("assets/rive/login-bear.riv");
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
     final Size size=MediaQuery.of(context).size;
+    precacheImage(const AssetImage("assets/images/start-page.jpeg"), context);
     return Container(
         height: size.height,
         width: size.width,

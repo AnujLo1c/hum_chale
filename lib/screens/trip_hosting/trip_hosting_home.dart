@@ -25,32 +25,43 @@ class TripHostingHome extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size=MediaQuery.of(context).size;
     return  Container(
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 15,horizontal: 20),
+      alignment: Alignment.topCenter,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Gap(5),
+            const Gap(5),
             Align(
-                alignment: AlignmentDirectional.topStart,child: Text("Trip Hosting",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 34,color: Theme.of(context).primaryColor),))
-            ,Gap(20),CustomTextField2(textEditingController: TECtitle, hintText: 'Trip Title', w: 300,),
-            Gap(10),
+                alignment: AlignmentDirectional.topStart,child: Text("Trip Hosting",style: TextStyle(fontWeight: FontWeight.w900,fontSize: 34,color: Theme.of(context).primaryColor),)),
+            const Gap(20),
+            CustomTextField2(
+              textEditingController: TECtitle,
+              hintText: 'Trip Title',
+              w: 300,
+            ),
+            const Gap(10),
             CustomTextField2(textEditingController: TECpickUpPoint, hintText: 'Pick up Point', w: 200,),
-          Gap(15)
-          ,Row(
+            const Gap(15),Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Gap(2),
-                Text("Price",style:  TextStyle(fontSize: 28,color: Colors.black,fontWeight: FontWeight.w600),
-                ),Gap(10),
+                const Gap(2),
+                const Text(
+                  "Price",
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600),
+                ),
+                const Gap(10),
                 CustomTextField2(textEditingController: TECprice, hintText: "PP",w: 150,size: size.width/2-100),
                 ElevatedButton(onPressed: (){pickImage(ImageSource.gallery);
-                  }, child: Text("Image"))
+                    },
+                    child: const Text("Image"))
               ],
             ),
-            Gap(15),
+            const Gap(15),
             CustomTextField2(textEditingController: TECactivities, hintText: "Activities included", w: 200,height: 5),
-            Gap(30),
+            const Gap(30),
             CustomButton(onTap: (){
               Trip trip =Trip(pickedImage:file,startDate:DateTime.now(),endDate:DateTime(DateTime.august),host:FirebaseAuth.instance.currentUser!.email,activities: TECactivities.text, pickUpPoint: TECpickUpPoint.text, title: TECtitle.text, price: TECprice.text, imageurl: "my trip image", index: 99);
               Navigator.pushNamed(context,TripItinerary.routeName,arguments: trip);},text: "Next",)

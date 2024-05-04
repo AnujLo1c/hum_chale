@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 import 'package:hum_chale/models/trip.dart';
 
@@ -10,6 +12,7 @@ import 'package:hum_chale/screens/trip_booking/add_members.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/models/tuser.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
+import 'package:intl/intl.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   static var routeName = "product-detail";
@@ -52,11 +55,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void _show(BuildContext ctx) {
+    var trip = widget.trip;
+    String startDate = DateFormat.yMMMMd().format(trip.startDate);
+    String endDate = DateFormat.yMMMMd().format(trip.endDate);
+    var sh = const TextStyle(
+        fontWeight: FontWeight.w700, fontSize: 20, color: Colors.black54);
+    var sd = const TextStyle(
+        fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black45);
+    String locations = trip.locations.toString();
     showModalBottomSheet(
       barrierColor: Colors.transparent,
       isDismissible: false,
       elevation: 10,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white70.withOpacity(1),
       context: ctx,
       builder: (ctx) => WillPopScope(
         onWillPop: () async {
@@ -67,31 +78,91 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height/2,
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding:
+              const EdgeInsets.only(left: 30, top: 30, bottom: 10, right: 10),
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
+            color: Colors.white,
+            border: Border.all(color: Colors.grey, width: 2),
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(25),
               topLeft: Radius.circular(25),
             ),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Center(
-                child: Text(
-                  'Trip Details}',
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                  ),
+              Text(
+                trip.title,
+                style: const TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 5),
+              const Gap(15),
 
-              Text(widget.trip.title,style: const TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
-              Text('Date: ${widget.trip.title}'),
-              Text('Price: ${widget.trip.price}'),
+              // Text(widget.trip.title,style: const TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Start Date:',
+                        style: sd,
+                      ),
+                      Text(
+                        '  End Date:',
+                        style: sd,
+                      ),
+                      Text(
+                        'Pick-up-point:',
+                        style: sd,
+                      ),
+                      Text(
+                        'Locations:',
+                        style: sd,
+                      ),
+                    ],
+                  ),
+                  Gap(5),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        startDate,
+                        style: sh,
+                      ),
+                      Text(
+                        endDate,
+                        style: sh,
+                      ),
+                      Text(
+                        trip.pickUpPoint,
+                        style: sh,
+                      ),
+                      Text(
+                        locations.substring(1, locations.length - 1),
+                        style: sh,
+                      ),
+                    ],
+                  ),
+                  Gap(20)
+                ],
+              ),
+              Gap(5),
+              Text(
+                "Activities  ",
+                style: sh,
+              ),
+              Text(
+                trip.activities,
+                style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    color: Colors.black54),
+              ),
               // Add more details as needed
               const Spacer(),
               Container(
@@ -102,7 +173,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   onPressed: () {
                     TripJoinRequest req = TripJoinRequest(
                         phone: user!.phoneNo,
-                        docId: widget.trip.refId!,
+                        docId: trip.refId!,
                         email: user!.email,
                         name: "${user!.fullName}#${user!.age}");
                     // print(req);

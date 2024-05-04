@@ -11,6 +11,7 @@ import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/trip_booking/product_details_screen.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:intl/intl.dart';
 
 class TripBookingHome extends StatefulWidget {
   static var routeName = "trip-booking-home";
@@ -96,7 +97,7 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                             // children: [
                             SizedBox(
                                 width: double.infinity,
-                                height: 400,
+                                height: 425,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   // itemCount: snapshot.data!.docs.length,
@@ -173,59 +174,75 @@ class _TripBookingHomeState extends State<TripBookingHome> {
 }
 
 Widget itemTile(int index, dynamic doc) {
+  var date = doc['startDate'].toDate();
   return Container(
     width: 200.0,
+    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
     margin: const EdgeInsets.all(8.0),
     decoration: BoxDecoration(
         boxShadow: const [
-          BoxShadow(color: Colors.black54, spreadRadius: 2, blurRadius: 2)
+          BoxShadow(color: Colors.black38, spreadRadius: 2, blurRadius: 2)
         ],
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(color: Colors.black),
-        color: Colors.grey.shade400),
-    child: Center(
-      child: Column(
-        children: [
-          const Gap(2),
-          Hero(
-            tag: "hello$index",
-            transitionOnUserGestures: true,
-            child: ClipRRect(
+        color: Colors.grey.shade50),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Gap(2),
+        Hero(
+          tag: "hello$index",
+          transitionOnUserGestures: true,
+          child: ClipRRect(
               child: Container(
-                  // color: Colors.black,
-                  height: 340,
-                  width: 195,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(8),
-                        topLeft: Radius.circular(8)),
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          doc['imageUrl'].toString()),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 65),
-                    child: Text(
-                      doc['title'].toString(),
-                      style: const TextStyle(
-                          color: Colors.white70,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 34),
-                    ),
-                  )),
+            // color: Colors.black,
+            height: 340,
+            width: 195,
+            decoration: BoxDecoration(
+              border: Border.all(width: 2, color: Colors.black45),
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(8),
+                topLeft: Radius.circular(8),
+                bottomRight: Radius.circular(8),
+                bottomLeft: Radius.circular(8),
+              ),
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(doc['imageUrl'].toString()),
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          const Gap(5),
-          Text(
-            doc['price'],
-            style: const TextStyle(fontSize: 22, color: Colors.white),
-          ),
-          // const Gap(10),
-          // Text("15000",style: TextStyle(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white),)
-        ],
-      ),
+          )),
+        ),
+        const Gap(5),
+        Text(
+          // doc['price'],
+          " ${doc['title']}",
+          style: const TextStyle(
+              fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800),
+        ),
+        Row(
+          children: [
+            Text(
+              " ${date.day} ${DateFormat.MMM().format(date)}",
+              style: const TextStyle(
+                  fontSize: 15,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600),
+            ),
+            const Spacer(),
+            Text(
+              "${doc['price']} ₹",
+              style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600),
+            ),
+            const Gap(5)
+          ],
+        )
+        // const Gap(10),
+        // Text("15000",style: TextStyle(fontSize: 28,fontWeight: FontWeight.w600,color: Colors.white),)
+      ],
     ),
   );
 }

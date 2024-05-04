@@ -177,7 +177,7 @@ class _SignUpState extends State<SignUp> {
                 phoneNo: TECphoneNo.text,
                 email: email,
                 age: int.parse(TECage.text));
-            // UserFirestore().createUserData(email,pickedImage);
+            
             LoadingDialog().loadingDialog(context);
             EmailPassLogin().registration(context, user, email, pickedImage!);
           }

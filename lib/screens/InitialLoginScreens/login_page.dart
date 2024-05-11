@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart' as Flutter;
 import 'package:hum_chale/authentication/GoogleLogin.dart';
@@ -137,8 +136,6 @@ class _LoginPageState extends State<LoginPage> {
                   isChecking = controller?.findInput("isChecking");
                   numLook = controller?.findInput("numLook");
                   isHandsUp = controller?.findInput("isHandsUp");
-                  // trigSuccess = controller?.findInput("trigSuccess");
-                  // trigFail = controller?.findInput("trigFail");
                 },
               ),
             ),
@@ -150,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.all(16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
@@ -303,11 +301,16 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(
                     height: 36,
+                    width: 150,
                     child: TextButton(onPressed: () =>
                         Navigator.pushNamed(context, SignUp.routeName),
-                        child: const Text("Sign Up",
-                          style: TextStyle(color: Colors.grey, fontSize: 16,),)
-                    ),
+                        child: const Text(
+                          "Sign Up      ",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 16,
+                          ),
+                        )),
                   ),
                   // ElevatedButton(onPressed: ()=>push, child: child)
                 ],

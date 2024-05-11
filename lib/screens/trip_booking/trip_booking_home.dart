@@ -36,16 +36,16 @@ class _TripBookingHomeState extends State<TripBookingHome> {
   //     //     .where((user) =>
   //     //         user["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
   //     //     .toList();
-  //     _filteredTrips = _allTrips.where((trip) {
-  //       String title = trip['title'].toString().toLowerCase();
-  //       return title.contains(enteredKeyword.toLowerCase());
-  //     }).toList();
-  //     if (_filteredTrips != _allTrips) {
-  //       setState(() {});
-  //     }
-  //   }
-  //   // print(_filteredTrips);
-  // }
+  //   //     _filteredTrips = _allTrips.where((trip) {
+  //   //       String title = trip['title'].toString().toLowerCase();
+  //   //       return title.contains(enteredKeyword.toLowerCase());
+  //   //     }).toList();
+  //   //     if (_filteredTrips != _allTrips) {
+  //   //       setState(() {});
+  //   //     }
+  //   //   }
+  //   //   // print(_filteredTrips);
+  //   // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,31 +77,28 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                         borderSide: BorderSide(
                             color: CustomColors.primaryColor, width: 3),
                         borderRadius: BorderRadius.all(Radius.circular(15))),
-                    labelText: 'Search',
-                    suffixIcon: Icon(Icons.search)),
+                    hintText: 'Search',
+                    prefixIcon: Icon(Icons.search)),
               ),
               const Gap(40),
               StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("trips")
-                      .where("startDate", isLessThanOrEqualTo: Timestamp.now())
+                      .where("startDate",
+                          isGreaterThanOrEqualTo: Timestamp.now())
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.active) {
                       if (snapshot.hasData) {
                         _allTrips = snapshot.data!.docs;
-                        // print(_allTrips);
                         _filteredTrips = _runFilter1(_allTrips);
-                        return
-                            // Column(
-                            // children: [
-                            SizedBox(
-                                width: double.infinity,
-                                height: 425,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  // itemCount: snapshot.data!.docs.length,
-                                  itemCount: _filteredTrips.length,
+                        return SizedBox(
+                            width: double.infinity,
+                            height: 427,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              // itemCount: snapshot.data!.docs.length,
+                              itemCount: _filteredTrips.length,
                                   itemBuilder: (context, index) =>
                                       GestureDetector(
                                     onTap: () {
@@ -116,21 +113,9 @@ class _TripBookingHomeState extends State<TripBookingHome> {
                                                     ),
                                                   )));
                                     },
-                                    child:
-                                        // itemTile(index, snapshot.data?.docs[index]),
-                                        itemTile(index, _filteredTrips[index]),
-                                  ),
-                                )
-                                // )
-                                // ,
-                                // ElevatedButton(
-                                //     onPressed: () {
-                                //       GoogleLogin().logOutFromGoogle(context);
-                                //       SharedPref().LogoutSP();
-                                //     },
-                                //     child: Text("asdf"))
-                                // ],
-                                );
+                                child: itemTile(index, _filteredTrips[index]),
+                              ),
+                            ));
                       } else if (snapshot.hasError) {
                         return Center(
                           child: Text(snapshot.hasError.toString()),
@@ -177,11 +162,11 @@ Widget itemTile(int index, dynamic doc) {
   var date = doc['startDate'].toDate();
   return Container(
     width: 200.0,
-    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+    // padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
     margin: const EdgeInsets.all(8.0),
     decoration: BoxDecoration(
         boxShadow: const [
-          BoxShadow(color: Colors.black38, spreadRadius: 2, blurRadius: 2)
+          BoxShadow(color: Colors.black38, spreadRadius: 1, blurRadius: 1)
         ],
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(color: Colors.black),
@@ -189,22 +174,22 @@ Widget itemTile(int index, dynamic doc) {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Gap(2),
+        // const Gap(2),
         Hero(
           tag: "hello$index",
           transitionOnUserGestures: true,
           child: ClipRRect(
               child: Container(
             // color: Colors.black,
-            height: 340,
-            width: 195,
+            height: 350,
+            width: 200,
             decoration: BoxDecoration(
               border: Border.all(width: 2, color: Colors.black45),
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(8),
                 topLeft: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
+                bottomRight: Radius.circular(2),
+                bottomLeft: Radius.circular(2),
               ),
               image: DecorationImage(
                 image: CachedNetworkImageProvider(doc['imageUrl'].toString()),
@@ -216,16 +201,16 @@ Widget itemTile(int index, dynamic doc) {
         const Gap(5),
         Text(
           // doc['price'],
-          " ${doc['title']}",
+          "  ${doc['title']}",
           style: const TextStyle(
               fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800),
         ),
         Row(
           children: [
             Text(
-              " ${date.day} ${DateFormat.MMM().format(date)}",
+              "  ${date.day} ${DateFormat.MMM().format(date)}",
               style: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 16,
                   color: Colors.black54,
                   fontWeight: FontWeight.w600),
             ),
@@ -233,11 +218,11 @@ Widget itemTile(int index, dynamic doc) {
             Text(
               "${doc['price']} ₹",
               style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 17,
                   color: Colors.black54,
                   fontWeight: FontWeight.w600),
             ),
-            const Gap(5)
+            const Gap(10)
           ],
         )
         // const Gap(10),

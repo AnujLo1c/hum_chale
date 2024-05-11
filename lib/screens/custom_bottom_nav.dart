@@ -21,6 +21,14 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   PageController pageController=PageController(initialPage: 0);
   static List<dynamic> screens=[const TripBookingHome(),TripHostingHome(),const ProfileHome()];
   static int selectedNavIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedNavIndex = 0;
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -67,6 +75,9 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
                 // Navigator.pushNamed(context, )
                 // if(selectedNavIndex!=index){
                 //   Navigator.pushNamed(context, screens[index]);
+                // }
+                // if (selectedNavIndex == 1) {
+                // TripHostingHome().dispose();
                 // }
                 setState(() {
                   selectedNavIndex = index;

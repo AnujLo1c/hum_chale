@@ -45,6 +45,7 @@ class EmailPassLogin{
               style: const TextStyle(fontSize: 18.0),
             )));
       }
+      Navigator.pop(context);
     }
     catch (e) {
       debugPrint(e.toString());

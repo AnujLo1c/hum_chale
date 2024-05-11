@@ -52,7 +52,7 @@ class _ProfileHomeState extends State<ProfileHome> {
                       fit: BoxFit.fill,
                       height: 150,
                       width: 150,
-                      imageUrl: snapshot.data["ImageURL"],
+                      imageUrl: snapshot.data?["ImageURL"],
                       placeholder: (context, url) =>
                           const CircularProgressIndicator(),
                       errorWidget: (context, url, error) => const CircleAvatar(

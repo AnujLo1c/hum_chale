@@ -45,10 +45,10 @@ class _TripTransitState extends State<TripTransit> {
               const Gap(15),
               Row(
                 children: [
-                  const Gap(20),
-                  transitTile(Icons.bus_alert, 3),
-                ],
-              ),
+              const Gap(37),
+              transitTile(Icons.bus_alert, 3),
+            ],
+          ),
               const Spacer(),
               Container(
                 height: 50,

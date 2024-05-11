@@ -20,7 +20,7 @@ class Explore extends StatelessWidget {
             height: screenSize.height,
             child: Stack(
               children: [
-                _buildBackgroundImage(),
+                _buildBackgroundImage(screenSize),
                 _buildHeaderText(screenSize),
                 _buildButton(screenSize, context),
               ],
@@ -31,13 +31,13 @@ class Explore extends StatelessWidget {
     );
   }
 
-  Widget _buildBackgroundImage() {
+  Widget _buildBackgroundImage(Size size) {
     return Positioned(
-      left: -7,
+      left: 0,
       top: 0,
       child: Container(
-        width: 437,
-        height: 961,
+        width: size.width,
+        height: size.height,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/explore.jpg"),
@@ -58,41 +58,28 @@ class Explore extends StatelessWidget {
         child: RichText(
           textAlign: TextAlign.center,
           text: const TextSpan(
-              style: TextStyle(color: Colors.black54, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 24),
               children: [
                 TextSpan(text: "Enjoy your journey with\n"),
                 TextSpan(
                     text: "Hum Chale",
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold))
+                    style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold))
               ]),
         ),
-        // child: Text(
-        //   'HUM CHALE ',
-        //   style: TextStyle(
-        //     shadows: [
-        //       Shadow(color: Colors.black,blurRadius: 15,),
-        //     ],
-        //     color: Colors.white,
-        //     fontSize: 48,
-        //     fontFamily: 'Playfair Display',
-        //     fontWeight: FontWeight.w800,
-        //     height: 1.0,
-        //   ),
-        // ),
       ),
     );
   }
 
   Widget _buildButton(Size size, BuildContext context) {
     return Positioned(
-      left: (size.width / 2) - 95,
+      left: (size.width / 2) - 135,
       top: size.height - 130,
       child: SizedBox(
-        height: 40,
-        width: 200,
+        height: 60,
+        width: 280,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFFFFFF).withOpacity(.05),
+              backgroundColor: const Color(0xFFFFFFFF).withOpacity(.07),
               side: const BorderSide(
                 color: Colors.white,
                 width: 2,
@@ -106,8 +93,7 @@ class Explore extends StatelessWidget {
             'Explore',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 22,
-              fontFamily: 'Playfair Display',
+              fontSize: 28,
               fontWeight: FontWeight.w800,
             ),
           ),

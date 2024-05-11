@@ -1,12 +1,19 @@
+import 'dart:io';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
+import 'package:hum_chale/firebase/user_firestore_storage.dart';
+import 'package:hum_chale/models/tuser.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/ui/app_style.dart';
 import 'package:hum_chale/widget/custom_text_field.dart';
+import 'package:hum_chale/widget/loading-dialog.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpG extends StatefulWidget {
   static var routeName = "/sign-up-G";
@@ -26,7 +33,7 @@ class _SignUpGState extends State<SignUpG> {
   final String HTfullName = "Full Name";
   final String HTage = "Age";
   final String HTphoneNo = "Phone No.";
-
+  File? pickedImage;
   //width
   late double width;
   @override
@@ -37,6 +44,7 @@ class _SignUpGState extends State<SignUpG> {
       canPop: true,
       onPopInvoked: (onPop){
         FirebaseAuth.instance.currentUser?.delete();
+        GoogleSignIn().signOut();
       },
       child: SafeArea(
             child: Scaffold(
@@ -55,55 +63,51 @@ class _SignUpGState extends State<SignUpG> {
                   child: Column(
                     children: [
                       const Gap(30),
-                      Center(
-                        child: Container(
-                          height: 200,
-                          width: 260,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.black, width: 2),
+                  InkWell(
+                    onTap: () => showdialog(),
+                    child: pickedImage == null
+                        ? const Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 60,
+                                backgroundColor: CustomColors.primaryColor,
+                                child: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                  size: 70,
+                                ),
+                              ),
+                              Gap(3),
+                              Text("Select profile"),
+                              Gap(10)
+                            ],
+                          )
+                        : CircleAvatar(
+                            radius: 60,
+                            backgroundColor: CustomColors.primaryColor,
+                            backgroundImage: FileImage(pickedImage!),
                           ),
-                          child: ClipOval(
-                            child: FittedBox(
-                              fit: BoxFit.fill,
-                              child:
-                                  Image.asset("assets/images/sign-up-screen.jpg"),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Gap(30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomTextField(
-                              textEditingController: TECfullName,
-                              hintText: HTfullName,
-                              w: width - 20 - 60-20),
-                          const Gap(5),
-                          CustomTextField(
-                              textEditingController: TECage,
-                              hintText: HTage,
-                              w: 55),
-                        ],
-                      ),
-                      const Gap(10),
+                  ),
+                  const Gap(30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomTextField(
+                          textEditingController: TECfullName,
+                          hintText: HTfullName,
+                          w: width - 20 - 60 - 20),
+                      const Gap(5),
+                      CustomTextField(
+                          textEditingController: TECage,
+                          hintText: HTage,
+                          w: 55),
+                    ],
+                  ),
+                  const Gap(10),
                       CustomTextField(
                           textEditingController: TECphoneNo,
                           hintText: HTphoneNo,
                           w: width - 20),
-                      // const Gap(10),
-                      // CustomTextField(
-                      //   textEditingController: TECemailAddress,
-                      //   hintText: HTemailAddress,
-                      //   w: width - 20,
-                      // ),
-                      // const Gap(10),
-                      // CustomTextField(
-                      //   textEditingController: TECpassword,
-                      //   hintText: HTpassword,
-                      //   w: width - 20,
-                      // ),
                       const Gap(240),
                       SignUpGButton()
                     ],
@@ -118,11 +122,35 @@ class _SignUpGState extends State<SignUpG> {
       height: 60,
       width: width - 30,
       child: ElevatedButton(
-        // onPressed: ()=>Navigator.pushNamed(context, Explore.routeName),
         onPressed: (){
           //null check inclusion pending
-          Navigator.pushReplacementNamed(context, Explore.routeName);
-          },
+          if (HTage.isNotEmpty &&
+              HTfullName.isNotEmpty &&
+              HTphoneNo.isNotEmpty &&
+              pickedImage != null) {
+            // FirebaseAuth
+            // showPhoneDialog(context);
+            var email = FirebaseAuth.instance.currentUser?.email;
+            if (email != null) {
+              LoadingDialog().loadingDialog(context);
+              Tuser user = Tuser(
+                  fullName: TECfullName.text,
+                  phoneNo: TECphoneNo.text,
+                  email: email,
+                  age: int.parse(TECage.text));
+              UserFirestore().createUserData(user, pickedImage);
+              Navigator.pop(context);
+              Navigator.pushReplacementNamed(context, Explore.routeName);
+            } else {
+              print("Error while fatching user data");
+            }
+            // Navigator.pushReplacementNamed(context, Explore.routeName);
+          } else if (pickedImage != null) {
+            print("Please fill all the details");
+          } else {
+            print("Please upload profile pic.");
+          }
+        },
         style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.primaryColor,
             elevation: 10,
@@ -132,6 +160,73 @@ class _SignUpGState extends State<SignUpG> {
             )),
         child: const Text("Sign Up",style: TextStyle(color: Colors.white,fontSize: 28),),
       ),
+    );
+  }
+
+  showdialog() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Pick Image from"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              onTap: () {
+                pickImage(ImageSource.camera);
+                Navigator.pop(context);
+              },
+              leading: const Icon(Icons.camera),
+              title: const Text("Camera"),
+            ),
+            ListTile(
+              onTap: () {
+                pickImage(ImageSource.gallery);
+                Navigator.pop(context);
+              },
+              leading: const Icon(Icons.image),
+              title: const Text("Gallery"),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  pickImage(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image == null) return;
+      final tempImage = File(image.path);
+      setState(() {
+        pickedImage = tempImage;
+      });
+    } catch (ex) {
+      print(ex.toString());
+    }
+  }
+
+  showPhoneDialog(BuildContext context) {
+    print("object");
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return const SizedBox(
+          height: 200,
+          child: Dialog(
+            backgroundColor: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Gap(10),
+                CircularProgressIndicator(
+                  color: CustomColors.primaryColor,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

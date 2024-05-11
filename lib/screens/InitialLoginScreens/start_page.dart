@@ -70,10 +70,13 @@ class StartPage extends StatelessWidget {
           'HUM CHALE ',
           style: TextStyle(
             shadows: [
-              Shadow(color: Colors.black,blurRadius: 15,),
+              Shadow(
+                color: Colors.white,
+                blurRadius: 7,
+              ),
             ],
             color: Colors.white,
-            fontSize: 48,
+            fontSize: 40,
             fontFamily: 'Playfair Display',
             fontWeight: FontWeight.w800,
             height: 1.0,
@@ -90,7 +93,7 @@ class StartPage extends StatelessWidget {
       left: (size.width/2)-125,
       top: size.height-130,
       child: SizedBox(
-        height: 40,
+        height: 50,
         width: 250,
         child: ElevatedButton(
 

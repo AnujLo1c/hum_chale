@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   String? text;
@@ -11,7 +12,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 centerTitle: true
       ,title: Text(
         (text == null) ? "Hum Chale" : text!,
-        style: const TextStyle(color: Colors.white, fontSize: 28),
+        style: GoogleFonts.freehand(
+          letterSpacing: 2,
+          color: Colors.white,
+          fontSize: 32,
+        ),
+        // TextStyle(letterSpacing: )
       ),
       backgroundColor: Theme.of(context).primaryColor,
       automaticallyImplyLeading: true,

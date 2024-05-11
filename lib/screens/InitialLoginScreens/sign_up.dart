@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
@@ -11,7 +11,6 @@ import 'package:hum_chale/ui/app_style.dart';
 import 'package:hum_chale/widget/custom_text_field.dart';
 import 'package:hum_chale/widget/loading-dialog.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:hum_chale/models/tuser.dart';
 
 class SignUp extends StatefulWidget {
@@ -181,23 +180,7 @@ class _SignUpState extends State<SignUp> {
             LoadingDialog().loadingDialog(context);
             EmailPassLogin().registration(context, user, email, pickedImage!);
           }
-          print(EmailValidator.validate(email));
-          // if(
-          // EmailValidator.validate(email)&&
-          //     TECemailAddress.text != "" &&
-          //     TECpassword.text != "") {
-          //   // print("sign up");
-          //   Tuser user=Tuser(fullName: TECfullName.text, phoneNo: TECphoneNo.text, email: email, age: int.parse(TECage.text));
-          //   // UserFirestore().createUserData(email,pickedImage);
-          //   EmailPassLogin().registration(context, user, email, pickedImage!);
-          // }
-          // else{
-          //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          //       content: Text(
-          //     "Please fill all fields and profile correctly",
-          //     style: TextStyle(fontSize: 20.0),
-          //   )));
-          // }
+          // print(EmailValidator.validate(email));
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: CustomColors.primaryColor,

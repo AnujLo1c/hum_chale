@@ -22,7 +22,8 @@ class _TripItineraryState extends State<TripItinerary> {
   TextEditingController textEditingControllerStart = TextEditingController();
   TextEditingController textEditingControllerDest = TextEditingController();
   TextEditingController textEditingControllerTime = TextEditingController();
-  late DateTime? _selectedDate=null;
+  DateTime? _selectedDate;
+  TimeOfDay? selectedTime;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,7 +31,7 @@ class _TripItineraryState extends State<TripItinerary> {
       appBar: CustomAppBar(),
       body: Column(
         children: [
-          Gap(20),
+          const Gap(20),
           Expanded(
             child: ListView.builder(
               itemCount: itineraries!.length,
@@ -42,7 +43,7 @@ class _TripItineraryState extends State<TripItinerary> {
           Container(
             height: 50,
             width: MediaQuery.of(context).size.width-90,
-            margin: EdgeInsets.only(bottom: 17),
+            margin: const EdgeInsets.only(bottom: 17),
             child: ElevatedButton(
               onPressed: (){
                 var w = widget.trip;
@@ -64,12 +65,12 @@ class _TripItineraryState extends State<TripItinerary> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => AddItem(),
-        child: Icon(
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButtonLocation: MyFloatingActionButtonLocation(),
       // floatingActionButtonLocation: FloatingActionButtonLocation.end,
     ));
   }
@@ -84,67 +85,104 @@ class _TripItineraryState extends State<TripItinerary> {
                   color: CustomColors.primaryColor,
                   width: 2,
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(25))),
-            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                borderRadius: const BorderRadius.all(Radius.circular(25))),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             height: 300,
             width: 355,
             child: Column(
               children: [
                 InputField("Origin", textEditingControllerStart, 5),
-                Gap(10),
+                const Gap(10),
                 InputField("Stop", textEditingControllerDest, 20),
-                Gap(20),
-                InputField("Timing", textEditingControllerTime, 5),
-                Gap(10),
+                const Gap(7),
+                // InputField("Timing", textEditingControllerTime, 5),
                 Row(
                   children: [
                     Text(
+                      "Timing",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    Gap(8),
+                    ElevatedButton(
+                        onPressed: () {
+                          _selectTime(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 0,
+                          backgroundColor: Colors.transparent,
+                          foregroundColor: Colors.black87,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              side:
+                                  BorderSide(color: Colors.black54, width: 1)),
+                        ),
+                        child: (selectedTime == null)
+                            ? const Text(
+                                "Set Time",
+                              )
+                            : Text(selectedTime!.format(context).toString()))
+                  ],
+                ),
+                Gap(5),
+                Row(
+                  children: [
+                    const Text(
                       "Date",
                       style: TextStyle(fontSize: 20),
                     ),
-                    Gap(35),
+                    const Gap(28),
                     GestureDetector(
                       onTap: () {
                         _selectDate(context);
                       },
-                      child: Text(
-                        _selectedDate == null
-                            ? 'No date selected'
-                            : "${_selectedDate?.day}/${_selectedDate!.month}/${_selectedDate?.year}",
-                        style: TextStyle(fontSize: 16),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 22),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: Colors.black87),
+                            borderRadius: BorderRadius.circular(7)),
+                        child: Text(
+                          _selectedDate == null
+                              ? 'No date selected'
+                              : "${_selectedDate?.day}/${_selectedDate!.month}/${_selectedDate?.year}",
+                          style: const TextStyle(fontSize: 16),
+                        ),
                       ),
                     ),
                   ],
                 ),
-                Gap(10),
+                const Gap(10),
                 ElevatedButton(
                     onPressed: () {
                       String s = textEditingControllerStart.text;
                       String d = textEditingControllerDest.text;
-                      String t = textEditingControllerTime.text;
+                      // String t = textEditingControllerTime.text;
                       if (_selectedDate != null &&
                           s != "" &&
-                          t != "" &&
+                          selectedTime != null &&
+                          _selectedDate != null &&
                           d != "") {
+                        String t = selectedTime.toString();
                         TravelRoute temp =  TravelRoute(
                             start: s, dest: d, time: t, date: _selectedDate);
                         itineraries!.add(temp);
                         locationsList.add(d.toLowerCase());
                         setState(() {});
                         Navigator.pop(context);
+                        disp();
                       } else {
                         print("Enter date");
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        minimumSize: Size(300, 50),
+                        minimumSize: const Size(300, 50),
                         backgroundColor: CustomColors.primaryColor,
                         elevation: 5,
                         shadowColor: Colors.black45,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10)))),
-                    child: Text(
+                    child: const Text(
                       "ADD",
                       style: TextStyle(
                           fontSize: 22,
@@ -170,6 +208,8 @@ class _TripItineraryState extends State<TripItinerary> {
       setState(() {
         _selectedDate = picked;
       });
+      Navigator.pop(context);
+      AddItem();
     }
   }
 
@@ -178,15 +218,17 @@ class _TripItineraryState extends State<TripItinerary> {
       children: [
         Text(
           s,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
         Gap(10 + size),
         SizedBox(
             height: 40,
             width: 170,
             child: TextField(
+              cursorHeight: 25,
+              textAlignVertical: TextAlignVertical.center,
               controller: t,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               )),
@@ -198,33 +240,65 @@ class _TripItineraryState extends State<TripItinerary> {
   Widget itineraryTile(int index) {
     TravelRoute r = itineraries!.elementAt(index);
     return Container(
-        margin: EdgeInsets.only(right: 20,left: 20,top: 10,bottom: 10),
-        padding: EdgeInsets.symmetric(vertical: 5,horizontal: 20),
+        margin: const EdgeInsets.only(right: 20, left: 20, top: 10, bottom: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
         height: 70,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
             border: Border.all(width: 2, color: CustomColors.primaryColor)),
         child: Column(
           children: [
             Row(children: [
-              Text(r.start.toString(),style: TextStyle(fontSize: 20),),
-              Spacer(),
-              Icon(Icons.arrow_right_alt),
-              Spacer(),
-              Text(r.dest.toString(),style: TextStyle(fontSize: 20)),
-            ]),Gap(5),
+              Text(
+                r.start.toString(),
+                style: const TextStyle(fontSize: 20),
+              ),
+              const Spacer(),
+              const Icon(Icons.arrow_right_alt),
+              const Spacer(),
+              Text(r.dest.toString(), style: const TextStyle(fontSize: 20)),
+            ]),
+            const Gap(5),
             Row(
               children: [
                 Text(DateFormat('yyyy-MM-dd').format(r.date!)),
-    Spacer(),
-    Text(r.time)
-    // String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+                const Spacer(),
+                Text(r.time)
+                // String formattedDate = DateFormat('yyyy-MM-dd').format(now);
               ],
             )
           ],
         )
     );
   }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    if (picked != null && picked != selectedTime) {
+      selectedTime = picked;
+      setState(() {});
+      Navigator.pop(context);
+      AddItem();
+    }
+  }
+
+  void disp() {
+    selectedTime = null;
+    _selectedDate = null;
+    textEditingControllerStart.clear();
+    textEditingControllerDest.clear();
+  }
 }
 
+class MyFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    // Define your custom offset here
+    return Offset(scaffoldGeometry.scaffoldSize.width - 75,
+        scaffoldGeometry.scaffoldSize.height - 130.0);
+  }
 
+  @override
+  String toString() => 'custom location';
+}

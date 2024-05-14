@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gap/gap.dart';
 
 import 'package:hum_chale/models/trip.dart';
@@ -12,6 +13,7 @@ import 'package:hum_chale/screens/trip_booking/add_members.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/models/tuser.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 import 'package:intl/intl.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -47,10 +49,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             email: temp['Email'],
             age: temp['Age']);
       });
-      // print(user?.phoneNo);
     } catch (error) {
-      print('Error fetching user data: $error');
-      return null;
+      ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackbar().customSnackbar(0, "Error", "Something went wrong."));
+      return;
     }
   }
 
@@ -63,9 +65,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     var sd = const TextStyle(
         fontSize: 20, fontWeight: FontWeight.w800, color: Colors.black45);
     String locations = trip.locations.toString();
+    var pickuppointlen = trip.pickUpPoint.length;
     showModalBottomSheet(
       barrierColor: Colors.transparent,
       isDismissible: false,
+      enableDrag: false,
       elevation: 10,
       // backgroundColor: Colors.white70.withOpacity(1),
       context: ctx,
@@ -139,7 +143,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         style: sh,
                       ),
                       Text(
-                        trip.pickUpPoint,
+                        pickuppointlen > 15
+                            ? trip.pickUpPoint.substring(0, 15) + ".."
+                            : trip.pickUpPoint,
                         style: sh,
                       ),
                       Text(
@@ -176,7 +182,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         docId: trip.refId!,
                         email: user!.email,
                         name: "${user!.fullName}#${user!.age}");
-                    // print(req);
+
                     Navigator.pushNamed(context, AddMembers.routeName,
                         arguments: req);
                   },

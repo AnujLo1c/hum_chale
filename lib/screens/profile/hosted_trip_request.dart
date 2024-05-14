@@ -46,20 +46,11 @@ class _HostedTripRequestState extends State<HostedTripRequest> {
                   ))
                 ],
               )
-            : const Center(
-                child: SizedBox(
-                height: 100,
-                width: 100,
-                child: CircularProgressIndicator(
-                  color: CustomColors.primaryColor,
-                ),
-              )),
-      ),
+              : const SizedBox()),
     );
   }
 
   HostedTripTile(index) {
-    // print(hostings);
     String len = hostedTrips[index].location.toString();
     String loc = len.substring(1, len.length - 1);
     var time =
@@ -131,16 +122,13 @@ class _HostedTripRequestState extends State<HostedTripRequest> {
       var documentSnapshot = await ff.doc(hostings[i].toString()).get();
       // datalist.add(documentSnapshot.data());
       var data = documentSnapshot.data();
-      // print(data?['title']);
       hostedTrips.add(TempTrip(
           tripId: data?['refId'],
           title: data?['title'],
           location: data?['locations'],
         timestamp: data?['startDate'],
       ));
-      // print(hostedTrips);
     }
-    // print(datalist);
     setState(() {});
   }
 }

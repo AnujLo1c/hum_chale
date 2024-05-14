@@ -4,6 +4,7 @@ import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
 import 'package:hum_chale/authentication/forgot_password.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 import 'package:hum_chale/widget/loading-dialog.dart';
 import 'package:rive/rive.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
@@ -249,9 +250,11 @@ class _LoginPageState extends State<LoginPage> {
                           EmailPassLogin().userLogin(context, email, pass);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                      "Email Or Password field must be filled.")));
+                              // const SnackBar(
+                              //     content: Text(
+                              //         "Email Or Password field must be filled.")));
+                              CustomSnackbar().customSnackbar(3, "Input Error",
+                                  "Email Or Password field must be filled."));
                         }
                         // Navigator.pushNamed(context, Explore.routeName);
 
@@ -305,7 +308,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextButton(onPressed: () =>
                         Navigator.pushNamed(context, SignUp.routeName),
                         child: const Text(
-                          "Sign Up      ",
+                          "Sign Up ",
                           style: TextStyle(
                             color: Colors.black54,
                             fontSize: 16,

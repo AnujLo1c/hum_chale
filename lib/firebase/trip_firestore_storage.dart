@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:hum_chale/models/trip.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 
 class tripFirestore {
   var ff = FirebaseFirestore.instance;
@@ -89,12 +91,12 @@ class tripFirestore {
     }
   }
 
-  Future<void> submitRequest(TripJoinRequest tripReq) async {
+  Future<void> submitRequest(
+      TripJoinRequest tripReq, BuildContext context) async {
     try {
       var documentReference = ff.collection("trips").doc(tripReq.docId);
       var documentSnapshot = await documentReference.get();
 
-      // print("fval$fieldValue");
       if (documentSnapshot.exists) {
         var data = documentSnapshot.data();
         if (data != null) {
@@ -107,7 +109,6 @@ class tripFirestore {
               title: data["title"]);
           tripHistory.changeStatus("P");
           if (fieldValue != null) {
-            print(data['requests']);
             List<dynamic> existingRequests = data['requests'];
             bool userAlreadyRequested = existingRequests
                 .any((request) => request['email'] == tripReq.email);
@@ -117,9 +118,13 @@ class tripFirestore {
                 'requests': FieldValue.arrayUnion([tripReq.toMap()]),
               });
               addToUserHistory(tripHistory);
-              print("field exits");
+
+              ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                  .customSnackbar(1, "Success", "Request sent successfully"));
             } else {
-              print("already requested");
+              ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                  .customSnackbar(0, "Failed", "Already requested."));
+              // print("already requested");
             }
           } else {
             await documentReference.update({

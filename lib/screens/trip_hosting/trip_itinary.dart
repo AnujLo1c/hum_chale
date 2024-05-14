@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_transit.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 import 'package:intl/intl.dart';
 import 'package:hum_chale/models/trip.dart';
 class TripItinerary extends StatefulWidget {
@@ -49,7 +50,6 @@ class _TripItineraryState extends State<TripItinerary> {
                 var w = widget.trip;
                 w.setItinerary(itineraries);
                 w.setLocations(locationsList);
-                print(w.locations);
                 Navigator.pushNamed(context, TripTransit.routeName,arguments: widget.trip);
               },
               style: ElevatedButton.styleFrom(
@@ -98,11 +98,11 @@ class _TripItineraryState extends State<TripItinerary> {
                 // InputField("Timing", textEditingControllerTime, 5),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Timing",
                       style: TextStyle(fontSize: 20),
                     ),
-                    Gap(8),
+                    const Gap(8),
                     ElevatedButton(
                         onPressed: () {
                           _selectTime(context);
@@ -113,8 +113,8 @@ class _TripItineraryState extends State<TripItinerary> {
                           foregroundColor: Colors.black87,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
-                              side:
-                                  BorderSide(color: Colors.black54, width: 1)),
+                              side: const BorderSide(
+                                  color: Colors.black54, width: 1)),
                         ),
                         child: (selectedTime == null)
                             ? const Text(
@@ -123,7 +123,7 @@ class _TripItineraryState extends State<TripItinerary> {
                             : Text(selectedTime!.format(context).toString()))
                   ],
                 ),
-                Gap(5),
+                const Gap(5),
                 Row(
                   children: [
                     const Text(
@@ -156,22 +156,23 @@ class _TripItineraryState extends State<TripItinerary> {
                     onPressed: () {
                       String s = textEditingControllerStart.text;
                       String d = textEditingControllerDest.text;
-                      // String t = textEditingControllerTime.text;
                       if (_selectedDate != null &&
                           s != "" &&
                           selectedTime != null &&
                           _selectedDate != null &&
                           d != "") {
-                        String t = selectedTime.toString();
+                        String? t = selectedTime?.format(context).toString();
                         TravelRoute temp =  TravelRoute(
-                            start: s, dest: d, time: t, date: _selectedDate);
+                            start: s, dest: d, time: t!, date: _selectedDate);
                         itineraries!.add(temp);
                         locationsList.add(d.toLowerCase());
                         setState(() {});
                         Navigator.pop(context);
                         disp();
                       } else {
-                        print("Enter date");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            CustomSnackbar().customSnackbar(
+                                3, "Empty Field", 'Please fill all fields.'));
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -202,9 +203,7 @@ class _TripItineraryState extends State<TripItinerary> {
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 1),
     );
-    // DateTime t=new DateTime.now();
     if (picked != null && picked != _selectedDate) {
-      // print("sadfsadfg");
       setState(() {
         _selectedDate = picked;
       });
@@ -277,6 +276,8 @@ class _TripItineraryState extends State<TripItinerary> {
         await showTimePicker(context: context, initialTime: TimeOfDay.now());
     if (picked != null && picked != selectedTime) {
       selectedTime = picked;
+      print(picked.format(context).toString());
+
       setState(() {});
       Navigator.pop(context);
       AddItem();

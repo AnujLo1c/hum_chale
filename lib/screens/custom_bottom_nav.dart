@@ -111,7 +111,6 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   }
 
   void animatedTheIcon(int index) {
-    // print("object");
     riveIconInput[index].change(true);
     Future.delayed(const Duration(seconds: 1), () {
       riveIconInput[index].change(false);

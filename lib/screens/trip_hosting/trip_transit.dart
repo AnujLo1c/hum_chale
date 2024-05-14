@@ -21,63 +21,68 @@ class _TripTransitState extends State<TripTransit> {
     return SafeArea(
         child: Scaffold(
           appBar: CustomAppBar(),
-          body: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Gap(20),
-              const Center(
-                  child: Text(
-                    "Select Transit",
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold),
-                  )),
-              const Gap(20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  transitTile(Icons.train, 0),
-                  transitTile(Icons.car_crash, 1),
-                  transitTile(Icons.airplanemode_active_rounded, 2),
-                ],
-              ),
-              const Gap(15),
-              Row(
-                children: [
-              const Gap(37),
-              transitTile(Icons.bus_alert, 3),
-            ],
-          ),
-              const Spacer(),
-              Container(
-                height: 50,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width - 50,
-                margin: const EdgeInsets.only(bottom: 17),
-                child: ElevatedButton(
-                  onPressed: () {
-                    widget.trip.setTransits(transit);
-                    Navigator.pushNamed(
-                        context, TripLodging.routeName, arguments: widget.trip);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    backgroundColor: CustomColors.primaryColor,
-                    foregroundColor: Colors.white,
-                  ),
-                  child: const Text('Next', style: TextStyle(fontSize: 22),),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Gap(20),
+            const Center(
+                child: Text(
+              "Select Transit",
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            )),
+            const Gap(20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                transitTile(Icons.train, 0),
+                Spacer(),
+                transitTile(Icons.car_crash, 1),
+                Spacer(),
+                transitTile(Icons.airplanemode_active_rounded, 2),
+              ],
+            ),
+            const Gap(15),
+            Row(
+              children: [
+                // const Gap(37),
+                transitTile(Icons.bus_alert, 3),
+              ],
+            ),
+            const Spacer(),
+            Container(
+              height: 50,
+              width: MediaQuery.of(context).size.width - 50,
+              margin: const EdgeInsets.only(bottom: 17),
+              child: ElevatedButton(
+                onPressed: () {
+                  widget.trip.setTransits(transit);
+                  Navigator.pushNamed(context, TripLodging.routeName,
+                      arguments: widget.trip);
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 5,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  backgroundColor: CustomColors.primaryColor,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text(
+                  'Next',
+                  style: TextStyle(fontSize: 22),
                 ),
               ),
-              const Gap(5)
-              // transitTile(Icons.bus_alert)
-            ],
-          ),
-        ));
+            ),
+            const Gap(5)
+            // transitTile(Icons.bus_alert)
+          ],
+        ),
+      ),
+    ));
   }
 
 

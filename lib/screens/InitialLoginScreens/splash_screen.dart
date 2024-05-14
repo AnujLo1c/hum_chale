@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    Timer(const Duration(seconds: 4), () {
+    Timer(const Duration(milliseconds: 3500), () {
       // Navigator.pushNamed(context, StartPage.routeName);
       SharedPref().isLoggedinSP(context);
     });

@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:gap/gap.dart';
 import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 
 class TripBookingStatus extends StatefulWidget {
   static var routeName = "booking-updates";
@@ -26,6 +24,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
   @override
   void initState() {
     // TODO: implement initState
+    print(widget.tripBookingStatus.toString());
     super.initState();
     fetchData();
   }
@@ -52,14 +51,17 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
     var currentUser = FirebaseAuth.instance.currentUser;
     var firestore = FirebaseFirestore.instance;
     List<String> tripIds = widget.tripBookingStatus.cast<String>();
-    // print(tripIds);
     for (var tripId in tripIds) {
       var tripData = await firestore.collection("trips").doc(tripId).get();
       var requestsData = tripData.data()?['requests'];
       if (requestsData != null && requestsData.isNotEmpty) {
-        var firstRequestData = requestsData[0];
-        if (firstRequestData['email'] == currentUser?.email) {
-          var request = TripJoinRequest(
+        ///////
+        print(requestsData.length);
+        for (int i = 0; i < requestsData.length; i++) {
+          var firstRequestData = requestsData[i];
+
+          if (firstRequestData['email'] == currentUser?.email) {
+            var request = TripJoinRequest(
             phone: firstRequestData['phone'],
             docId: firstRequestData['docId'],
             email: firstRequestData['email'],
@@ -72,13 +74,18 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
           setState(() {
             titleList.add(tripData['title']);
             requests.add(request);
-          });
-          // print(requests);
-        } else {
-          print("Email does not match for trip ID: $tripId");
+              print("object");
+            });
+          }
+          //////
+          else {
+            print("Email does not match for trip ID: $tripId");
+          }
         }
       } else {
-        print("No requests found for trip ID: $tripId");
+        ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+            .customSnackbar(2, "No Requests yet.",
+                "No requests found for trip ID: $tripId"));
       }
     }
   }
@@ -86,7 +93,6 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
   tripStatusTile(int index) {
     TripJoinRequest tjr = requests[index];
 
-    print("here${requests[index].members}");
     return Container(
       // height: 160,
       width: 400,
@@ -129,7 +135,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
                       child: Center(
                           child: Text(
                         tjr.members!.length.toString(),
-                        style: TextStyle(fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontWeight: FontWeight.w500),
                       )),
                     )
                   ],
@@ -167,7 +173,9 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
                 Navigator.pushNamed(context, Achome.routeName,
                     arguments: tjr.docId);
               } else {
-                print("Trip request yet to be confirmed.");
+                ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                    .customSnackbar(2, "Requests Still Pending.",
+                        "Trip request yet to be confirmed."));
               }
             },
             child: Container(
@@ -179,7 +187,7 @@ class _TripBookingStatusState extends State<TripBookingStatus> {
                   color: (tjr.status == 'C')
                       ? CustomColors.primaryColor
                       : Colors.grey,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(10),
                       bottomRight: Radius.circular(10))),
               child: const Icon(

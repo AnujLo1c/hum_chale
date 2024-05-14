@@ -50,7 +50,7 @@ class Explore extends StatelessWidget {
 
   Widget _buildHeaderText(Size size) {
     return Positioned(
-      left: (size.width / 2) - 138,
+      left: (size.width / 9),
       top: 70,
       child: SizedBox(
         width: 309,
@@ -75,7 +75,7 @@ class Explore extends StatelessWidget {
       left: (size.width / 2) - 135,
       top: size.height - 130,
       child: SizedBox(
-        height: 60,
+        height: 50,
         width: 280,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -93,7 +93,7 @@ class Explore extends StatelessWidget {
             'Explore',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 28,
+              fontSize: 26,
               fontWeight: FontWeight.w800,
             ),
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 
 class ToDo extends StatefulWidget {
   const ToDo({super.key});
@@ -24,30 +26,33 @@ class _ToDoState extends State<ToDo> {
           style: TextStyle(fontSize: 28, color: CustomColors.primaryColor),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Divider(
+          Divider(
             color: CustomColors.primaryColor,
           ),
+          Gap(100),
           Image(image: AssetImage("assets/images/todo.png")),
           Text(
-            "Empty To DO list",
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
+            "Add Tasks",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
           ),
-          Text(
-            "CLick the add button below to \nadd your first task",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),
-            textAlign: TextAlign.center,
-          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add,color: Colors.white, size: 40,),
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+              .customSnackbar(3, "Pending feature", "Feature coming soon.."));
+        },
         backgroundColor: CustomColors.primaryColor,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         heroTag: null,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 40,
+        ),
       ),
     );
   }

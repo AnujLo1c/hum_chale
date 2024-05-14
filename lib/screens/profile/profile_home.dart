@@ -1,9 +1,8 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hum_chale/authentication/GoogleLogin.dart';
 import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
@@ -11,8 +10,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hum_chale/screens/profile/hosted_trip_request.dart';
 import 'package:hum_chale/screens/profile/trip_history.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
-import 'package:hum_chale/screens/after_confirmation/ac_home.dart';
 import 'package:hum_chale/screens/profile/trip_booking_status.dart';
+import 'package:hum_chale/screens/profile/settings_screen.dart';
 
 class ProfileHome extends StatefulWidget {
   const ProfileHome({super.key});
@@ -36,7 +35,9 @@ class _ProfileHomeState extends State<ProfileHome> {
             color: CustomColors.primaryColor,
           ));
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text(
+            'Error: ${snapshot.error}',
+          );
         } else {
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
@@ -44,7 +45,11 @@ class _ProfileHomeState extends State<ProfileHome> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Gap(20),
-                const Text("Profile", style: TextStyle(fontSize: 34)),
+                Text("  Profile",
+                    style: GoogleFonts.playfairDisplay(
+                        fontSize: 34,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.w600)),
                 const Gap(10),
                 Center(
                   child: ClipOval(
@@ -82,38 +87,36 @@ class _ProfileHomeState extends State<ProfileHome> {
                         ///here///////////////////////////////
                         bool isValid =
                             // startDate.isAfter(today)
-                            startDate.isBefore(today) ||
+                            startDate.isAfter(today) ||
                                 startDate.isAtSameMomentAs(today);
                         if (isValid) {
                           validTripIds.add(trip['docId'].toString());
                         }
                         return isValid;
                       }).toList();
-                      // print(validTripIds);
+                      print(validTripIds.toString());
                       Navigator.pushNamed(context, TripBookingStatus.routeName,
                           arguments: validTripIds);
                     }, Icons.bookmark_add_outlined),
                     profileTile("Hosted Trip Requests", () {
                       var hostings = snapshot.data["hostings"];
-                      print(hostings);
                       Navigator.pushNamed(context, HostedTripRequest.routeName,
                           arguments: hostings);
                     }, Icons.bookmark_add_outlined),
                     profileTile("Trip History", () {
-                      print(snapshot.data["tripHistory"]);
                       Navigator.pushNamed(context, TripHistoryScreen.routeName,
                           arguments: snapshot.data["tripHistory"]);
                     }, Icons.history),
-                    profileTile("Help", () async {
-                      var data = await FirebaseFirestore.instance
-                          .collection("trips")
-                          .doc("anujlowanshi15@gmail.com9")
-                          .collection("requests")
-                          .doc("email")
-                          .get();
-                      print(data.get("data"));
-                    }, Icons.help_outline),
-                    profileTile("Settings", () {}, Icons.settings),
+                    profileTile("Help", () {}, Icons.help_outline),
+                    profileTile("Settings", () {
+                      Navigator.pushNamed(context, SettingsScreen.routeName,
+                          arguments: {
+                            "email": snapshot.data["Email"] != null
+                                ? snapshot.data["Email"] as String
+                                : null,
+                            "refreshData": prefresh,
+                          });
+                    }, Icons.settings),
                     profileTile("Log Out", () {
                       GoogleLogin().logOutFromGoogle(context);
                       SharedPref().LogoutSP();
@@ -140,8 +143,8 @@ class _ProfileHomeState extends State<ProfileHome> {
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(10),
             border: Border.all(width: 2, color: CustomColors.shadowColor),
-            boxShadow: [
-              const BoxShadow(
+            boxShadow: const [
+              BoxShadow(
                   color: CustomColors.shadowColor,
                   blurRadius: 50,
                   spreadRadius: 10),
@@ -159,5 +162,9 @@ class _ProfileHomeState extends State<ProfileHome> {
         ),
       ),
     );
+  }
+
+  void prefresh() {
+    setState(() {});
   }
 }

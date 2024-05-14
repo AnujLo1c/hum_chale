@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
-
+import 'package:hum_chale/widget/custom_snackbar.dart';
 
 class packingList extends StatefulWidget {
   const packingList({super.key});
@@ -25,24 +26,32 @@ class _packingListState extends State<packingList> {
           style: TextStyle(fontSize: 28, color: CustomColors.primaryColor),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Divider(
+          Divider(
             color: CustomColors.primaryColor,
           ),
+          Gap(100),
           Image(image: AssetImage("assets/images/packing_list.png")),
           Text(
             "Start Packing",
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add,color: Colors.white, size: 40,),
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+              .customSnackbar(3, "Pending feature", "Feature coming soon.."));
+        },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 40,
+        ),
         backgroundColor: CustomColors.primaryColor,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         heroTag: null,
       ),
     );

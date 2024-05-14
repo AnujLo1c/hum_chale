@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up_google.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/start_page.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
@@ -20,6 +21,7 @@ class GoogleLogin {
         LoadingDialog().loadingDialog(context);
         // print(googleUser.email);
         final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+        SharedPref().LoginGSP(googleUser.email);
 
         if(userCredential.additionalUserInfo!.isNewUser&& userCredential.user != null){
           Navigator.pushReplacementNamed(context, SignUpG.routeName);

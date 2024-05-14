@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hum_chale/authentication/email_verification_screen.dart';
 import 'package:hum_chale/firebase/firebase_options.dart';
 import 'package:hum_chale/models/trip.dart';
-// import 'package:hum_chale/models/TravelRoute.dart';
+import 'package:hum_chale/screens/profile/settings_screen.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/sign_up_google.dart';
@@ -70,6 +71,9 @@ class MyApp extends StatelessWidget {
                 ModalRoute.of(context)!.settings.arguments as TripJoinRequest),
         Achome.routeName: (context) =>
             Achome(docId: ModalRoute.of(context)!.settings.arguments as String),
+        SettingsScreen.routeName: (context) => SettingsScreen(
+              data: ModalRoute.of(context)!.settings.arguments as dynamic,
+            ),
         EmailVerificationScreen.routeName:(context) => const EmailVerificationScreen(),
         ForgotPassword.routeName:(context) => const ForgotPassword(),
       },

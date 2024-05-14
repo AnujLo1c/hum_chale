@@ -6,6 +6,8 @@ import 'package:hum_chale/screens/custom_bottom_nav.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
+
 class AddMembers extends StatefulWidget {
   static var routeName = "Add-members-screen";
   final TripJoinRequest tripReq;
@@ -54,10 +56,7 @@ class _AddMembersState extends State<AddMembers> {
                   outputList.add(output);
                 }
                 widget.tripReq.setMembers(outputList);
-                // widget.tripReq.changeStatus("P");
-                //add this request to trip new field requests
-                //add this to user trip history
-                tripFirestore().submitRequest(widget.tripReq);
+                tripFirestore().submitRequest(widget.tripReq, context);
                 Navigator.popUntil(
                     context,
                     (route) =>

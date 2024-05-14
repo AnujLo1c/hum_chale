@@ -14,6 +14,7 @@ import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomButton.dart';
 import 'package:hum_chale/widget/Custom_text_field_2.dart';
 import 'package:hum_chale/screens/trip_hosting/trip_itinary.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -119,6 +120,7 @@ class _TripHostingHomeState extends State<TripHostingHome> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
+                  width: size.width / 2.3,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     border: GradientBoxBorder(
@@ -136,6 +138,7 @@ class _TripHostingHomeState extends State<TripHostingHome> {
                         _startDateGet(context);
                       },
                       style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.all(1),
                           elevation: 0,
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.black87),
@@ -143,8 +146,9 @@ class _TripHostingHomeState extends State<TripHostingHome> {
                           ? const Text("Select Start Date")
                           : Text(starttext!.substring(0, 10))),
                 ),
-                Spacer(),
+                const Spacer(),
                 Container(
+                  width: size.width / 2.3,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     border: GradientBoxBorder(
@@ -162,6 +166,7 @@ class _TripHostingHomeState extends State<TripHostingHome> {
                         _endDateGet(context);
                       },
                       style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(1),
                           elevation: 0,
                           foregroundColor: Colors.black87,
                           backgroundColor: Colors.white),
@@ -181,53 +186,33 @@ class _TripHostingHomeState extends State<TripHostingHome> {
             CustomButton(
               onTap: () {
                 if (TECtitle.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(milliseconds: 1000),
-                      content: Text('Please fill title field'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                      .customSnackbar(
+                          3, "Empty Field", 'Please fill title field'));
                 } else if (TECpickUpPoint.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(milliseconds: 1000),
-                      content: Text('Please fill pick up point Location'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                      .customSnackbar(3, "Empty Field",
+                          'Please fill pick up point Location'));
                 } else if (TECprice.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(milliseconds: 1000),
-                      content: Text('Please set Trip price.'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                      .customSnackbar(
+                          3, "Empty Field", 'Please set Trip price.'));
                 } else if (TECactivities.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Please fill activities field.'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                      .customSnackbar(
+                          3, "Empty Field", 'Please fill activities field.'));
                 } else if (file == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(milliseconds: 1000),
-                      content: Text('Please select a trip Picture'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                      .customSnackbar(
+                          3, "Empty Field", 'Please select a trip Picture'));
                 } else if (_startDate == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(milliseconds: 1000),
-                      content: Text('Please select start date'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                      .customSnackbar(
+                          3, "Empty Field", 'Please select start date'));
                 } else if (_endDate == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      duration: Duration(milliseconds: 1000),
-                      content: Text('Please select end date'),
-                    ),
-                  );
+                  ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                      .customSnackbar(
+                          3, "Empty Field", 'Please select end date'));
                 } else {
                   Trip trip = Trip(
                       pickedImage: file,
@@ -287,6 +272,8 @@ class _TripHostingHomeState extends State<TripHostingHome> {
 
   Future<void> _endDateGet(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
+      // barrierColor: CustomColors.primaryColor,
+
       context: context,
       initialDate: _endDate ?? DateTime.now(),
       firstDate: DateTime.now(),

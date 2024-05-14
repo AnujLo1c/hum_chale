@@ -5,12 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/authentication/email_pass_login.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
 import 'package:hum_chale/models/tuser.dart';
 import 'package:hum_chale/screens/trip_booking/explore.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/ui/app_style.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 import 'package:hum_chale/widget/custom_text_field.dart';
 import 'package:hum_chale/widget/loading-dialog.dart';
 import 'package:image_picker/image_picker.dart';
@@ -142,13 +144,15 @@ class _SignUpGState extends State<SignUpG> {
               Navigator.pop(context);
               Navigator.pushReplacementNamed(context, Explore.routeName);
             } else {
-              print("Error while fatching user data");
+              ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                  .customSnackbar(
+                      0, "Error", "Error while fatching user data"));
             }
             // Navigator.pushReplacementNamed(context, Explore.routeName);
           } else if (pickedImage != null) {
-            print("Please fill all the details");
+            showSnackBarMessage("Please fill all the details");
           } else {
-            print("Please upload profile pic.");
+            showSnackBarMessage("Please upload profile pic.");
           }
         },
         style: ElevatedButton.styleFrom(
@@ -202,12 +206,12 @@ class _SignUpGState extends State<SignUpG> {
         pickedImage = tempImage;
       });
     } catch (ex) {
-      print(ex.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+          CustomSnackbar().customSnackbar(0, "Error", ex.toString()));
     }
   }
 
   showPhoneDialog(BuildContext context) {
-    print("object");
     return showDialog(
       context: context,
       builder: (context) {
@@ -228,5 +232,16 @@ class _SignUpGState extends State<SignUpG> {
         );
       },
     );
+  }
+
+  void showSnackBarMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        //     SnackBar(
+        //   content: Text(
+        //     message,
+        //     style: TextStyle(fontSize: 20.0),
+        //   ),
+        // ));
+        CustomSnackbar().customSnackbar(3, "Empty Field", message));
   }
 }

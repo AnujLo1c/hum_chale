@@ -8,6 +8,7 @@ import 'package:hum_chale/authentication/email_pass_login.dart';
 import 'package:hum_chale/firebase/user_firestore_storage.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/ui/app_style.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 import 'package:hum_chale/widget/custom_text_field.dart';
 import 'package:hum_chale/widget/loading-dialog.dart';
 import 'package:image_picker/image_picker.dart';
@@ -132,12 +133,8 @@ class _SignUpState extends State<SignUp> {
   }
 
   void showSnackBarMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(fontSize: 20.0),
-      ),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+        CustomSnackbar().customSnackbar(3, "Empty Field", message));
   }
 
   Widget SignUpButton() {
@@ -176,9 +173,9 @@ class _SignUpState extends State<SignUp> {
                 phoneNo: TECphoneNo.text,
                 email: email,
                 age: int.parse(TECage.text));
-            
+
             LoadingDialog().loadingDialog(context);
-            EmailPassLogin().registration(context, user, email, pickedImage!);
+            EmailPassLogin().registration(context, user, pass, pickedImage!);
           }
           // print(EmailValidator.validate(email));
         },

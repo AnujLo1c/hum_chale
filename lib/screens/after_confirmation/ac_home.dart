@@ -1,8 +1,6 @@
-import 'dart:io';
-import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 // import 'package:hum_chale/models/TravelRoute.dart';
@@ -248,43 +246,44 @@ precacheImage(const AssetImage("assets/images/aAfter-confirm.jpeg"), context);
             borderRadius: const BorderRadius.all(Radius.circular(20)),
               border: Border.all(color: CustomColors.primaryColor,width: 3)
           ),
-          child: Column(
-
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 200,
-                child: ListView.builder(
-                  itemCount: tempMember.length,
-                  itemBuilder: (context, index) => membertile(index),
-                ),
-              ),
-            ],
-          ),
-        ),
+            child: const Text(
+              "Coming soon..",
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+            )
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: [
+            //     SizedBox(
+            //       height: 200,
+            //       child: ListView.builder(
+            //         itemCount: tempMember.length,
+            //         itemBuilder: (context, index) => membertile(index),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            ),
       ),
     );
   }
 
-
-  membertile(int index) {
-return Container(
-  margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-  padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-  decoration: BoxDecoration(
-    borderRadius: const BorderRadius.all(Radius.circular(10),)
-        ,color: Colors.grey.shade300,
-      border: Border.all(color: Colors.black54,width: 3)
-  ),
-  // child: RichText(tempMember[index],style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20),),
-child: RichText(text: TextSpan(text:tempMember[index],style: const TextStyle(letterSpacing: 2,fontWeight: FontWeight.w700,fontSize: 20,color: Colors.black87),
-children: [const TextSpan(text: "\nAge: 21",style: TextStyle(letterSpacing:1,fontSize: 18,color: Colors.black54))]
-)),
-);
-  }
+//   membertile(int index) {
+// return Container(
+//   margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 5),
+//   padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+//   decoration: BoxDecoration(
+//     borderRadius: const BorderRadius.all(Radius.circular(10),)
+//         ,color: Colors.grey.shade300,
+//       border: Border.all(color: Colors.black54,width: 3)
+//   ),
+//   // child: RichText(tempMember[index],style: TextStyle(fontWeight: FontWeight.w700,fontSize: 20),),
+// child: RichText(text: TextSpan(text:tempMember[index],style: const TextStyle(letterSpacing: 2,fontWeight: FontWeight.w700,fontSize: 20,color: Colors.black87),
+// children: [const TextSpan(text: "\nAge: 21",style: TextStyle(letterSpacing:1,fontSize: 18,color: Colors.black54))]
+// )),
+// );
+//   }
 
   void fetchLodgings(tripLodging, tripTransit) {
-    print(tripTransit);
     List<IconData> blist = [
       Icons.home,
       Icons.house_siding_outlined,

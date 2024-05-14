@@ -11,7 +11,6 @@ class ACBooking extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int len = lodging.length;
-    // print(lodging[1].toString());
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

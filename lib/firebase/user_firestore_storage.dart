@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hum_chale/models/tuser.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 
 class UserFirestore{
 var ff=FirebaseFirestore.instance;
@@ -49,4 +50,31 @@ var fa=FirebaseAuth.instance;
     }
   }
 }
+
+  changeName(newName, uemail, context) {
+    print(uemail);
+    ff.collection("userData").doc(uemail).update({
+      "Name": newName,
+    }).then((value) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+          .customSnackbar(1, "Changed Successfully", "User Name changed.."));
+    });
+  }
+
+  changeProfile(image, uemail, context) async {
+    print("hello");
+    UploadTask uploadTask = fs.ref("Profile-pic").child(uemail).putFile(image);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    String imageurl = await taskSnapshot.ref.getDownloadURL();
+    ff.collection("userData").doc(uemail).update({
+      "ImageURL": imageurl,
+    }).then((value) {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+          .customSnackbar(
+              1, "Changed Successfully", "User Profile is changed.."));
+    });
+  }
 }

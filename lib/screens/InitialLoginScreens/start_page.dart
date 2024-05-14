@@ -1,12 +1,7 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:hum_chale/authentication/Shared_pref.dart';
 import 'package:hum_chale/screens/InitialLoginScreens/login_page.dart';
- import 'package:hum_chale/firebase/trip_firestore_storage.dart';
-import 'package:hum_chale/widget/loading-dialog.dart';
-import 'package:rive/rive.dart';
 
 class StartPage extends StatelessWidget {
   static String routeName="/start-page";
@@ -61,11 +56,9 @@ class StartPage extends StatelessWidget {
   Widget _buildHeaderText(Size size) {
 
     return  Positioned(
-      left: (size.width/2)-138,
+      left: (size.width / 5),
       top: 70,
-      child: const SizedBox(
-        width: 309,
-        height: 73,
+      child: const Center(
         child: Text(
           'HUM CHALE ',
           style: TextStyle(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
+
 class ExpenseList extends StatefulWidget {
   const ExpenseList({super.key});
 
@@ -24,32 +26,34 @@ class _ExpenseListState extends State<ExpenseList> {
           style: TextStyle(fontSize: 28, color: CustomColors.primaryColor),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: const Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Divider(
+          Divider(
             color: CustomColors.primaryColor,
           ),
+          Gap(100),
           Image(image: AssetImage("assets/images/expense.png")),
-          Gap(50),
           Text(
-            "No Personal trip\nExpenses",
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.w600),
+            "Start noting expenses",
+            style: TextStyle(fontSize: 28, fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           ),
-          Text(
-            "Expenses added here cannot\nbe seen by anyone else",
-            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 24),
-            textAlign: TextAlign.center,
-          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add,color: Colors.white, size: 40,),
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+              .customSnackbar(3, "Pending feature", "Feature coming soon.."));
+        },
         backgroundColor: CustomColors.primaryColor,
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         heroTag: null,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 40,
+        ),
       ),
     );
   }

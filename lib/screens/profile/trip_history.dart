@@ -20,9 +20,6 @@ class _TripHistoryState extends State<TripHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // List<TripHistory>? triphistorylist =
-    //     widget.tripHistoryList.cast<TripHistory>();
-    // List<dynamic> triphistorylist = widget.tripHistoryList;
     triphistorylist = widget.tripHistoryList
         .map<TripHistory>((map) => TripHistory(
               docId: map['docId'],
@@ -38,7 +35,7 @@ class _TripHistoryState extends State<TripHistoryScreen> {
             appBar: CustomAppBar(text: "Trip History"),
             body: Column(
               children: [
-                Gap(20),
+                const Gap(20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -49,21 +46,21 @@ class _TripHistoryState extends State<TripHistoryScreen> {
                       child: Center(
                           child: Text(
                         triphistorylist.length.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
                             fontSize: 22,
                             fontWeight: FontWeight.w900),
                       )),
                     ),
-                    Gap(20),
-                    Text(
+                    const Gap(20),
+                    const Text(
                       "Trips Completed",
                       style:
                           TextStyle(fontSize: 26, fontWeight: FontWeight.w800),
                     )
                   ],
                 ),
-                Gap(15),
+                const Gap(15),
                 Expanded(
                     child: ListView.builder(
                   itemBuilder: (context, index) {
@@ -79,8 +76,8 @@ class _TripHistoryState extends State<TripHistoryScreen> {
     return Container(
       height: 130,
       width: 300,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           border: Border.all(width: 2, color: CustomColors.primaryColor)),
@@ -89,24 +86,24 @@ class _TripHistoryState extends State<TripHistoryScreen> {
         children: [
           Text(
             triphistorylist[index].title,
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
           ),
-          Gap(10),
+          const Gap(10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Your Companions Count:",
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
               ),
               Text(triphistorylist[index].membersCount.toString())
             ],
           ),
-          Gap(10),
+          const Gap(10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Trip Date: ",
                 style: TextStyle(fontSize: 18),
               ),
@@ -121,12 +118,12 @@ class _TripHistoryState extends State<TripHistoryScreen> {
                     DateFormat('dd-MM-yyyy')
                         .format(triphistorylist[index].startDate.toDate())
                         .toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
-              Gap(5),
+              const Gap(5),
               Container(
                 height: 35,
                 width: 100,

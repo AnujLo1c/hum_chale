@@ -12,7 +12,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 centerTitle: true
       ,title: Text(
         (text == null) ? "Hum Chale" : text!,
-        style: GoogleFonts.freehand(
+        style: GoogleFonts.acme(
           letterSpacing: 2,
           color: Colors.white,
           fontSize: 32,

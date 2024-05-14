@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hum_chale/models/trip.dart';
 import 'package:hum_chale/ui/CustomColors.dart';
 import 'package:hum_chale/widget/CustomAppBar.dart';
+import 'package:hum_chale/widget/custom_snackbar.dart';
 
 class HostedTRSelection extends StatefulWidget {
   static String routeName = "hosted-trip-request-selection";
@@ -18,7 +20,6 @@ class HostedTRSelection extends StatefulWidget {
 class _HostedTRSelectionState extends State<HostedTRSelection> {
   @override
   Widget build(BuildContext context) {
-    // print(widget.id);
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(text: "Requests"),
@@ -41,8 +42,6 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
               ); // Handle the case where the document does not exist
             }
             final data = snapshot.data!.data();
-            print(data);
-            // print("asdf");
             if (data!['requests'] == null) {
               return const Center(child: Text("No-one requested to join"));
             }
@@ -66,7 +65,6 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
   }
 
   requestTile(index, request) {
-    // print(request);
     var status = request["status"];
     // double a = 18.0, b = 20;
     return Container(
@@ -114,9 +112,12 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
                     const Text("Email: ",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.w400)),
-                    Text(request["email"],
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w600))
+                    Expanded(
+                      child: Text(request["email"],
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w600)),
+                    )
                   ],
                 )
               : const Gap(1),
@@ -200,28 +201,28 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
                         barrierDismissible: false,
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: Text(
+                          title: const Text(
                             "Contacted?",
                             style: TextStyle(fontSize: 22),
                           ),
-                          content: Text(
+                          content: const Text(
                             "Have you contacted by email or Phone no.",
                           ),
-                          contentTextStyle:
-                              TextStyle(fontSize: 18, color: Colors.black),
+                          contentTextStyle: const TextStyle(
+                              fontSize: 18, color: Colors.black),
                           actions: [
                             TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: Text("No")),
+                                child: const Text("No")),
                             TextButton(
                                 onPressed: () {
                                   updateRequestStatus(
                                       request["docId"], request["email"], 'C');
                                   Navigator.pop(context);
                                 },
-                                child: Text("Yes")),
+                                child: const Text("Yes")),
                           ],
                         ),
                       );
@@ -279,12 +280,16 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
               documentRef.update({
                 'requests': requests,
               }).then((_) {
-                print("Request status updated successfully!");
+                ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                    .customSnackbar(
+                        1, "Status changed", "User new status set"));
               }).catchError((error) {
-                print("Failed to update request status: $error");
+                ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                    .customSnackbar(3, "Empty Field",
+                        "Failed to update request status: $error"));
               });
               updateTripHistoryStatus(email, tripDocumentId, newStatus);
-              break; // Break the loop after updating the status of the matched request
+              break;
             }
           }
         } else {
@@ -294,7 +299,6 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
         print("Document does not exist.");
       }
 
-      // Check if the email was not found
       if (!check) {
         print("Email not found in requests list.");
       }
@@ -305,42 +309,31 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
 
   Future<void> updateTripHistoryStatus(
       String email, String tripId, String newStatus) async {
-    // Reference to the document containing the user data
     DocumentReference userDocRef =
         FirebaseFirestore.instance.collection('userData').doc(email);
 
-    // Fetch the document
     await userDocRef.get().then((documentSnapshot) {
       if (documentSnapshot.exists) {
-        // Extract the tripHistory list from the document
         List<dynamic>? tripHistory =
             (documentSnapshot.data() as Map<String, dynamic>)['tripHistory'];
-// print(tripHistory);
-        // Ensure tripHistory is not null
         if (tripHistory != null) {
-          // Iterate through the tripHistory list to find the trip with the matching tripId
           for (int i = 0; i < tripHistory.length; i++) {
             Map<String, dynamic> trip =
                 (tripHistory[i] as Map<String, dynamic>);
-            // Check if the trip object matches the provided tripId
             if (trip['docId'] == tripId) {
-              // Update the status field of the matched trip object
               trip['status'] = newStatus;
 
-              // Update the tripHistory list in the document
               tripHistory[i] = trip;
-
-              // print("here");
-              // Update the document in Firestore with the modified tripHistory list
               userDocRef.update({
                 'tripHistory': tripHistory,
               }).then((_) {
                 print("Trip history status updated successfully!");
               }).catchError((error) {
-                print("Failed to update trip history status: $error");
+                ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+                    .customSnackbar(3, "Empty Field",
+                        "Failed to update trip history status: $error"));
               });
 
-              // Exit the loop after updating the trip history status
               break;
             } else {
               print("not equal");
@@ -353,7 +346,10 @@ class _HostedTRSelectionState extends State<HostedTRSelection> {
         print("Document does not exist for email: $email");
       }
     }).catchError((error) {
-      print("Failed to fetch document: $error");
+      ScaffoldMessenger.of(context).showSnackBar(CustomSnackbar()
+          .customSnackbar(
+              3, "Empty Field", "Failed to fetch document: $error"));
+      // print("Failed to fetch document: $error");
     });
   }
 }
